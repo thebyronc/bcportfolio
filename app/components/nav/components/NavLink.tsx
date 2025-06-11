@@ -9,7 +9,7 @@ export function NavLink({
     <li>
       <a
         href={href}
-        className="block p-4 transition-all duration-400 ease-in-out hover:bg-zinc-800 hover:text-teal-500"
+        className="focus:ring-volt-400 hover:shadow-volt-400/50 hover:bg-volt-400 block rounded-xl px-4 py-2 font-semibold transition-all duration-400 ease-in-out hover:text-zinc-950 hover:shadow-lg"
       >
         {children}
       </a>

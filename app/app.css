@@ -4,6 +4,18 @@
   --font-sans:
     "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  --color-volt-50: #faffe6;
+  --color-volt-100: #f5ffcc;
+  --color-volt-200: #ebff99;
+  --color-volt-300: #e0ff66;
+  --color-volt-400: #d6ff33;
+  --color-volt-500: #ceff00;
+  --color-volt-600: #b8e600;
+  --color-volt-700: #a3cc00;
+  --color-volt-800: #8fb300;
+  --color-volt-900: #7a9900;
+  --color-volt-950: #668000;
 }
 
 html,
