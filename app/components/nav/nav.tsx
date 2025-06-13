@@ -4,13 +4,15 @@ import type { MouseEvent } from "react";
 
 const links = [
   { href: "/", label: "Home" },
-  { href: "/projects", label: "Projects" },
+  {
+    href: "/projects",
+    label: "Projects",
+    children: [
+      { href: "/random-question", label: "Random Question" },
+      { href: "/text-compare", label: "Text Compare" },
+    ],
+  },
   { href: "/contact", label: "Contact" },
-];
-
-const toolLinks = [
-  { href: "/random-question", label: "Random Question" },
-  { href: "/text-compare", label: "Text Compare" },
 ];
 
 export function Nav() {
@@ -44,14 +46,14 @@ export function Nav() {
       <ul className="flex justify-end gap-2">
         {links.map((link) => (
           <li key={link.href} className="relative">
-            {link.label === "Projects" ? (
+            {link.children ? (
               <div ref={dropdownRef}>
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   className={`focus:ring-volt-400 hover:shadow-volt-400/50 hover:bg-volt-400 hover:pointer block cursor-pointer rounded-md px-4 py-2 font-semibold transition-all duration-400 ease-in-out hover:text-zinc-950 hover:shadow-lg ${
                     isDropdownOpen ? "bg-volt-400 text-zinc-950" : ""
                   }`}
-                  aria-label="Projects"
+                  aria-label={link.label}
                   aria-expanded={isDropdownOpen}
                 >
                   {link.label}
@@ -59,15 +61,17 @@ export function Nav() {
                 {isDropdownOpen && (
                   <div className="ring-opacity-5 absolute right-0 mt-2 w-48 rounded-md bg-white shadow-lg ring-1 ring-black dark:bg-gray-800">
                     <div className="py-1" role="menu">
-                      {toolLinks.map((toolLink) => (
-                        <NavLink
-                          key={toolLink.href}
-                          href={toolLink.href}
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
-                        >
-                          {toolLink.label}
-                        </NavLink>
-                      ))}
+                      <ul>
+                        {link.children.map((childLink) => (
+                          <NavLink
+                            key={childLink.href}
+                            href={childLink.href}
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+                          >
+                            {childLink.label}
+                          </NavLink>
+                        ))}
+                      </ul>
                     </div>
                   </div>
                 )}
