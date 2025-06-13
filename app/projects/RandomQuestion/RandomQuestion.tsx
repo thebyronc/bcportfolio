@@ -73,7 +73,9 @@ export function RandomQuestion() {
   }, [windowDimensions]);
 
   return (
-    <main className={`animated-grid ${isToggled ? "toggled" : ""} z-1`}>
+    <main
+      className={`animated-grid ${isToggled ? "toggled" : ""} z-1 bg-linear-45 from-indigo-400 via-sky-400 to-emerald-400`}
+    >
       <div
         id="tiles"
         style={{ "--columns": columns, "--rows": rows } as React.CSSProperties}
@@ -89,7 +91,9 @@ export function RandomQuestion() {
           className="pointer-events-none container m-0 text-center font-sans text-4xl font-bold text-white text-shadow-md text-shadow-zinc-950 sm:text-[4vw]"
         >
           {question}
-          <span className="fancy text-[5vw]/[0px] text-teal-300">?</span>
+          <span className="fancy text-5xl/[0px] text-teal-300 sm:text-[5vw]/[0px]">
+            ?
+          </span>
         </h1>
       </div>
       <div

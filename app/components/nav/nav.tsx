@@ -43,14 +43,14 @@ export function Nav() {
 
   return (
     <nav className="absolute z-10 w-full p-2">
-      <ul className="flex justify-end gap-2">
+      <ul className="flex justify-start gap-2">
         {links.map((link) => (
           <li key={link.href} className="relative">
             {link.children ? (
               <div ref={dropdownRef}>
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className={`focus:ring-volt-400 hover:shadow-volt-400/50 hover:bg-volt-400 hover:pointer block cursor-pointer rounded-md px-4 py-2 font-semibold transition-all duration-400 ease-in-out hover:text-zinc-950 hover:shadow-lg ${
+                  className={`focus:ring-volt-400 hover:shadow-volt-400/50 hover:bg-volt-400 hover:pointer block cursor-pointer rounded-md px-4 py-2 font-semibold transition-all duration-400 ease-in-out text-shadow-lg hover:text-zinc-950 hover:shadow-lg ${
                     isDropdownOpen ? "bg-volt-400 text-zinc-950" : ""
                   }`}
                   aria-label={link.label}
@@ -59,7 +59,7 @@ export function Nav() {
                   {link.label}
                 </button>
                 {isDropdownOpen && (
-                  <div className="ring-opacity-5 absolute right-0 mt-2 w-48 rounded-md bg-white shadow-lg ring-1 ring-black dark:bg-gray-800">
+                  <div className="ring-opacity-5 absolute left-0 mt-2 w-48 rounded-md bg-white shadow-lg ring-1 ring-black dark:bg-gray-800">
                     <div className="py-1" role="menu">
                       <ul>
                         {link.children.map((childLink) => (

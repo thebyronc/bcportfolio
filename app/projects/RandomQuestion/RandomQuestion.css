@@ -21,7 +21,6 @@
   padding: 1px;
   overflow: hidden;
   animation: background-gradient 10s linear infinite;
-  background: linear-gradient(to right, var(--g1), var(--g2), var(--g1));
   background-size: 200%;
   height: 100vh;
   overflow: hidden;
