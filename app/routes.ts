@@ -5,4 +5,9 @@ export default [
   route("projects", "routes/projects.tsx"),
   route("random-question", "routes/randomQuestion.tsx"),
   route("contact", "routes/contact.tsx"),
+  route("text-compare", "routes/textCompare.tsx"),
+  route(
+    ".well-known/appspecific/com.chrome.devtools.json",
+    "routes/devtools.tsx",
+  ),
 ] satisfies RouteConfig;
