@@ -73,7 +73,7 @@ export function RandomQuestion() {
   }, [windowDimensions]);
 
   return (
-    <div className={`animated-grid ${isToggled ? "toggled" : ""} z-1`}>
+    <main className={`animated-grid ${isToggled ? "toggled" : ""} z-1`}>
       <div
         id="tiles"
         style={{ "--columns": columns, "--rows": rows } as React.CSSProperties}
@@ -106,6 +106,6 @@ export function RandomQuestion() {
           </span>
         </h1>
       </div>
-    </div>
+    </main>
   );
 }
