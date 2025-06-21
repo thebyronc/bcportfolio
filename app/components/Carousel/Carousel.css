@@ -1,0 +1,129 @@
+:root {
+  --link: #d6ff33;
+  --bg-volt: #668000;
+  --ease-spring-4: linear(
+    0,
+    0.009,
+    0.037 1.7%,
+    0.153 3.6%,
+    0.776 10.3%,
+    1.001,
+    1.142 16%,
+    1.185,
+    1.209 19%,
+    1.215 19.9% 20.8%,
+    1.199,
+    1.165 25%,
+    1.056 30.3%,
+    1.008 33%,
+    0.973,
+    0.955 39.2%,
+    0.953 41.1%,
+    0.957 43.3%,
+    0.998 53.3%,
+    1.009 59.1% 63.7%,
+    0.998 78.9%,
+    1
+  );
+}
+
+.carousel {
+  block-size: 100svh;
+  inline-size: 100cqi;
+  overflow-x: hidden;
+
+  display: grid;
+  grid-auto-flow: row;
+  justify-content: end;
+  place-self: center end;
+  gap: 5vmin;
+  padding-inline-end: max(5vw, 1rem);
+
+  &::scroll-marker-group {
+    position-area: center span-left;
+    margin: 0;
+  }
+
+  &::before,
+  &::after {
+    content: "";
+    display: block;
+    block-size: 85cqb;
+  }
+
+  .carousel__slide {
+    padding: 0;
+    scroll-snap-align: center;
+    text-align: end;
+    block-size: 10svb;
+    container-type: scroll-state;
+
+    &:nth-of-type(9) {
+      scroll-initial-target: nearest;
+    }
+
+    > h3 {
+      white-space: nowrap;
+      font-size: 6svh;
+      font-weight: 600;
+      transition: scale 1s var(--ease-spring-4);
+
+      transform-origin: right center;
+      animation: wheel-rotate linear both;
+      animation-timeline: view();
+      animation-range: contain 0% contain 106%;
+    }
+
+    @container scroll-state(snapped: block) {
+      > h3 {
+        color: var(--link);
+        scale: 3;
+      }
+    }
+
+    /* todo: maybe remove? */
+    &:focus {
+      outline: 2px solid var(--link);
+      outline-offset: -2px;
+    }
+  }
+}
+
+.carousel-section {
+  padding: 0;
+
+  > * {
+    grid-area: 1 / 1;
+  }
+
+  .carousel-section-header {
+    place-self: start;
+  }
+}
+
+@keyframes wheel-rotate {
+  0% {
+    transform: translateX(150px) rotate(-30deg);
+  }
+  50% {
+    transform: translateX(0px) rotate(0deg);
+  }
+  100% {
+    transform: translateX(150px) rotate(30deg);
+  }
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  max-inline-size: 100%;
+
+  > * {
+    border: 0.5px solid #000000;
+    background: var(--bg-volt);
+    padding: 0.5rem 1rem;
+    border-radius: calc(infinity * 1px);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  }
+}
