@@ -1,7 +1,55 @@
+import { useState, useEffect, useRef } from "react";
 import "./UtilCarousel.css";
 import "./Carousel.css";
 
 export default function Carousel() {
+  const [activeSlide, setActiveSlide] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const slides = [
+    "Super Mario Bros.",
+    "The Legend of Zelda",
+    "Metroid",
+    "Castlevania",
+    "Mega Man 2",
+    "Final Fantasy",
+    "Contra",
+    "Ninja Gaiden",
+    "Tecmo Bowl",
+    "Punch-Out",
+    "Excitebike",
+    "Kid Icarus",
+    "Double Dragon",
+    "Bubble Bobble",
+    "Kirby's Adventure",
+    "Tetris",
+  ];
+
+  useEffect(() => {
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+
+    const handleScroll = () => {
+      const scrollTop = carousel.scrollTop;
+      const slideHeight = carousel.scrollHeight / slides.length;
+      const currentSlide = Math.round(scrollTop / slideHeight);
+      setActiveSlide(Math.max(0, Math.min(currentSlide, slides.length - 1)));
+    };
+
+    carousel.addEventListener("scroll", handleScroll);
+    return () => carousel.removeEventListener("scroll", handleScroll);
+  }, [slides.length]);
+
+  const scrollToSlide = (index: number) => {
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+
+    const slideHeight = carousel.scrollHeight / slides.length;
+    carousel.scrollTo({
+      top: index * slideHeight,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <section className="carousel-section">
       <div className="carousel-section-header pt-16">
@@ -14,61 +62,34 @@ export default function Carousel() {
           <span>Anchor</span>
         </div>
         <p>A classic vertical wheel of choices carousel.</p>
+        <div className="slide-indicator">
+          <span>
+            Active Slide: {activeSlide + 1} of {slides.length}
+          </span>
+          <div className="slide-dots">
+            {slides.map((_, index) => (
+              <button
+                key={index}
+                className={`slide-dot ${index === activeSlide ? "active" : ""}`}
+                onClick={() => scrollToSlide(index)}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+        </div>
       </div>
 
       <div role="region" aria-label="Wheel carousel demo">
         <div
+          ref={carouselRef}
           className="carousel carousel--vertical carousel--scroll-markers carousel--offscreen-inert"
           aria-live="polite"
         >
-          <div className="carousel__slide" data-label="Super Mario Bros">
-            <h3>Super Mario Bros.</h3>
-          </div>
-          <div className="carousel__slide" data-label="The Legend of Zelda">
-            <h3>The Legend of Zelda</h3>
-          </div>
-          <div className="carousel__slide" data-label="Metroid">
-            <h3>Metroid</h3>
-          </div>
-          <div className="carousel__slide" data-label="Castlevania">
-            <h3>Castlevania</h3>
-          </div>
-          <div className="carousel__slide" data-label="Mega Man 2">
-            <h3>Mega Man 2</h3>
-          </div>
-          <div className="carousel__slide" data-label="Final Fantasy">
-            <h3>Final Fantasy</h3>
-          </div>
-          <div className="carousel__slide" data-label="Contra">
-            <h3>Contra</h3>
-          </div>
-          <div className="carousel__slide" data-label="Ninja Gaiden">
-            <h3>Ninja Gaiden</h3>
-          </div>
-          <div className="carousel__slide" data-label="Tecmo Bowl">
-            <h3>Tecmo Bowl</h3>
-          </div>
-          <div className="carousel__slide" data-label="Punch-Out">
-            <h3>Punch-Out</h3>
-          </div>
-          <div className="carousel__slide" data-label="Excitebike">
-            <h3>Excitebike</h3>
-          </div>
-          <div className="carousel__slide" data-label="Kid Icarus">
-            <h3>Kid Icarus</h3>
-          </div>
-          <div className="carousel__slide" data-label="Double Dragon">
-            <h3>Double Dragon</h3>
-          </div>
-          <div className="carousel__slide" data-label="Bubble Bobble">
-            <h3>Bubble Bobble</h3>
-          </div>
-          <div className="carousel__slide" data-label="Kirby's Adventure">
-            <h3>Kirby's Adventure</h3>
-          </div>
-          <div className="carousel__slide" data-label="Tetris">
-            <h3>Tetris</h3>
-          </div>
+          {slides.map((game, index) => (
+            <div key={index} className="carousel__slide" data-label={game}>
+              <h3>{game}</h3>
+            </div>
+          ))}
         </div>
       </div>
     </section>
