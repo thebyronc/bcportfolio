@@ -1,12 +1,12 @@
-import Carousel from "../components/Carousel/Carousel";
+// import Carousel from "../components/Carousel/Carousel";
 
-export function Welcome() {
+export default function Welcome() {
   return (
     <main className="flex items-center justify-center pb-4">
       <div className="flex min-h-0 flex-1 flex-col items-center gap-16">
-        <header className="flex flex-col items-center gap-9">
+        {/* <header className="flex flex-col items-center gap-9">
           <Carousel />
-        </header>
+        </header> */}
         <div className="w-full max-w-[800px] space-y-6 px-4">
           <nav className="space-y-4 rounded-3xl border border-gray-200 p-6 dark:border-gray-700">
             <p className="text-center text-2xl leading-6 font-bold text-gray-700 dark:text-gray-200">
@@ -40,12 +40,14 @@ export function Welcome() {
                 Specializing in Front-End Development, Automation, and Scalable
                 Architectures. I thrive in complex and ambiguous environments,
                 taking initiative to optimize workflows, innovate solutions, and
-                deliver high-impact results. A track record of success at Nike
-                and Ansira, delivering custom solutions for internal teams and
-                high-profile clients including Petco, Portland Trail Blazers,
-                and GoHealth Urgent Care. Driven by a passion for continuous
-                learning and growth, coupled with a commitment to mentoring and
-                collaborating across teams.
+                deliver high-impact results. Adept at developing modular React
+                applications, optimizing developer workflows, and mentoring
+                teammates to deliver cohesive, high-performance products. Known
+                for streamlining CI/CD pipelines, automating legacy processes,
+                and collaborating across UX, backend, and QA teams in Agile
+                environments. I care deeply about the developer experience by
+                crafting intuitive workflows and tooling that remove friction so
+                developers can do what they do best: create.
               </p>
             </section>
 
@@ -60,7 +62,7 @@ export function Welcome() {
                     Software Engineer III (Contractor)
                   </h3>
                   <p className="text-gray-600 dark:text-gray-300">
-                    Nike, Inc. • Portland, Oregon • March 2020 - Present
+                    Nike, Inc. • Portland, Oregon • March 2020 - June 2025
                   </p>
                   <ul className="mt-2 list-inside list-disc space-y-1 text-gray-600 dark:text-gray-300">
                     <li>
