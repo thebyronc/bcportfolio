@@ -14,15 +14,14 @@
 }
 
 .animated-grid {
+  width: 100%;
   height: 100svh;
-  width: 100svw;
   position: absolute;
   top: 0;
   padding: 1px;
   overflow: hidden;
   animation: background-gradient 10s linear infinite;
   background-size: 200%;
-  height: 100svh;
   overflow: hidden;
   margin: 0px;
 }

@@ -1,11 +1,16 @@
-import type { Route } from "./+types/home";
-import { RandomQuestion } from "../projects/RandomQuestion/RandomQuestion";
+import type { Route } from "./+types/randomQuestion";
+import { RandomQuestion } from "../projects/randomQuestion/RandomQuestion";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "RandomQuestion" },
-    { name: "description", content: "Random Question" },
+    { title: "Random Question - Byron Chang" },
+    { name: "description", content: "Random Question Generator" },
   ];
+}
+
+export function hydrateFallback() {
+  return <LoadingSpinner />;
 }
 
 export default function RandomQuestionPage() {

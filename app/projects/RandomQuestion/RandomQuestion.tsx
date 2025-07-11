@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./RandomQuestion.css";
 import { animate, stagger } from "animejs";
-import ListOfQuestions from "./ListOfQuestions";
+import ListOfQuestions from "./listOfQuestions";
 
 export function RandomQuestion() {
   const [columns, setColumns] = useState(3);
@@ -73,7 +73,7 @@ export function RandomQuestion() {
   }, [windowDimensions]);
 
   return (
-    <main
+    <section
       className={`animated-grid ${isToggled ? "toggled" : ""} z-1 bg-linear-45 from-indigo-400 via-sky-400 to-emerald-400`}
     >
       <div
@@ -110,6 +110,6 @@ export function RandomQuestion() {
           </span>
         </h1>
       </div>
-    </main>
+    </section>
   );
 }
