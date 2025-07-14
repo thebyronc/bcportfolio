@@ -56,6 +56,8 @@
     padding: 0;
     scroll-snap-align: center;
     text-align: end;
+    /* width: 100vw; */
+    /* height: 100vh; */
     block-size: 10svb;
     container-type: scroll-state;
 

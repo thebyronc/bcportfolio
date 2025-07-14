@@ -10,6 +10,7 @@ const links = [
     children: [
       { href: "/random-question", label: "Random Question" },
       { href: "/text-compare", label: "Text Compare" },
+      { href: "/carousel", label: "Carousel" },
     ],
   },
   { href: "/contact", label: "Contact" },

@@ -8,8 +8,8 @@ export function RandomQuestion() {
   const [rows, setRows] = useState(3);
   const [isToggled, setIsToggled] = useState(false);
   const [windowDimensions, setWindowDimensions] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
+    width: typeof window !== "undefined" ? window.innerWidth : 0,
+    height: typeof window !== "undefined" ? window.innerHeight : 0,
   });
   const [question, setQuestion] = useState<string>("");
 
@@ -48,12 +48,17 @@ export function RandomQuestion() {
   };
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
     const handleResize = () => {
       setWindowDimensions({
         width: window.innerWidth,
         height: window.innerHeight,
       });
     };
+
+    // Set initial dimensions
+    handleResize();
 
     window.addEventListener("resize", handleResize);
 

@@ -5,31 +5,48 @@ import "./Carousel.css";
 export default function Carousel() {
   const [activeSlide, setActiveSlide] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
-  const slides = ["Random Question", "Text Compare", "Tree Diagram"];
+  const slides = [
+    "Random Question",
+    "Text Compare",
+    "Tree Diagram",
+    "Carousel",
+  ];
 
-  // useEffect(() => {
-  //   const carousel = carouselRef.current;
-  //   if (!carousel) return;
+  useEffect(() => {
+    const carousel = carouselRef.current;
+    if (!carousel) return;
 
-  //   const handleScroll = () => {
-  //     const scrollTop = carousel.scrollTop;
-  //     const slideHeight = carousel.scrollHeight / slides.length;
-  //     const currentSlide = Math.round(scrollTop / slideHeight);
-  //     setActiveSlide(Math.max(0, Math.min(currentSlide, slides.length - 1)));
-  //     const test = Math.max(0, Math.min(currentSlide, slides.length - 1));
-  //     console.log(test);
-  //   };
+    const handleScroll = () => {
+      const scrollTop = carousel.scrollTop;
+      const clientHeight = carousel.clientHeight;
+      const slideHeight = clientHeight; // Each slide takes full viewport height
 
-  //   carousel.addEventListener("scroll", handleScroll);
-  //   return () => carousel.removeEventListener("scroll", handleScroll);
-  // }, [slides.length]);
+      // Calculate which slide is currently most visible
+      const currentSlide = Math.round(scrollTop / slideHeight);
+      const newActiveSlide = Math.max(
+        0,
+        Math.min(currentSlide, slides.length - 1),
+      );
+
+      setActiveSlide(newActiveSlide);
+      console.log("scroll", {
+        scrollTop,
+        clientHeight,
+        slideHeight,
+        currentSlide,
+        activeSlide: newActiveSlide,
+      });
+    };
+
+    carousel.addEventListener("scroll", handleScroll);
+    return () => carousel.removeEventListener("scroll", handleScroll);
+  }, [slides.length]);
 
   const scrollToSlide = (index: number) => {
     const carousel = carouselRef.current;
     if (!carousel) return;
 
-    const slideHeight = carousel.scrollHeight / slides.length;
-    console.log("slideHeight", slideHeight);
+    const slideHeight = carousel.clientHeight; // Each slide takes full viewport height
     carousel.scrollTo({
       top: index * slideHeight,
       behavior: "smooth",
@@ -37,8 +54,8 @@ export default function Carousel() {
   };
 
   return (
-    <section className="carousel-section">
-      <div className="carousel-section-header pt-16">
+    <section className="carousel-section absolute top-0 left-0 h-full w-full">
+      {/* <div className="carousel-section-header pt-16">
         <h2 className="text-2xl font-bold">Wheel</h2>
         <div className="tags">
           <span className="bg-zinc-600">Scroll Buttons</span>
@@ -63,7 +80,7 @@ export default function Carousel() {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div role="region" aria-label="Wheel carousel demo">
         <div
@@ -74,11 +91,10 @@ export default function Carousel() {
           {slides.map((game, index) => (
             <div
               key={index}
-              className="carousel__slide w-full bg-zinc-600"
+              className="carousel__slide bg-zinc-500"
               data-label={game}
             >
               <h3>{game}</h3>
-              <div className="bg-volt-300 h-full w-full">Content</div>
             </div>
           ))}
         </div>
