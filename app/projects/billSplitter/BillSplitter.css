@@ -1,0 +1,87 @@
+.bill-splitter {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+  padding-top: 80px;
+}
+
+.bill-splitter input:focus {
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.5);
+}
+
+.bill-splitter button {
+  transition: all 0.2s ease-in-out;
+}
+
+.bill-splitter button:hover {
+  transform: translateY(-1px);
+}
+
+.bill-splitter .bg-zinc-800 {
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bill-splitter .bg-zinc-700 {
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Animation for new items */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.bill-splitter .space-y-2 > div,
+.bill-splitter .space-y-3 > div {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Range slider styling */
+.bill-splitter input[type="range"] {
+  background: linear-gradient(
+    to right,
+    #8b5cf6 0%,
+    #8b5cf6 50%,
+    #52525b 50%,
+    #52525b 100%
+  );
+}
+
+.bill-splitter input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #8b5cf6;
+  cursor: pointer;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.bill-splitter input[type="range"]::-moz-range-thumb {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #8b5cf6;
+  cursor: pointer;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .bill-splitter {
+    padding: 60px 16px 16px;
+  }
+
+  .bill-splitter .max-w-6xl {
+    max-width: 100%;
+  }
+}
