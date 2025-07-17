@@ -6,6 +6,7 @@ export default [
   route("random-question", "routes/randomQuestion.tsx"),
   route("contact", "routes/contact.tsx"),
   route("text-compare", "routes/textCompare.tsx"),
+  route("bill-splitter", "routes/billSplitter.tsx"),
   route(
     ".well-known/appspecific/com.chrome.devtools.json",
     "routes/devtools.tsx",

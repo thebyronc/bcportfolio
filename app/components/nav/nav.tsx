@@ -11,6 +11,7 @@ const links = [
     children: [
       { href: "/random-question", label: "Random Question" },
       { href: "/text-compare", label: "Text Compare" },
+      { href: "/bill-splitter", label: "Bill Splitter" },
     ],
   },
   { href: "/contact", label: "Contact" },
