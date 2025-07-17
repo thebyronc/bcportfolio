@@ -35,17 +35,17 @@ export default function Welcome() {
                 Professional Summary
               </h2>
               <p className="text-gray-600 dark:text-gray-300">
-                Specializing in Front-End Development, Automation, and Scalable
-                Architectures. I thrive in complex and ambiguous environments,
-                taking initiative to optimize workflows, innovate solutions, and
-                deliver high-impact results. Adept at developing modular React
-                applications, optimizing developer workflows, and mentoring
-                teammates to deliver cohesive, high-performance products. Known
-                for streamlining CI/CD pipelines, automating legacy processes,
-                and collaborating across UX, backend, and QA teams in Agile
-                environments. I care deeply about the developer experience by
-                crafting intuitive workflows and tooling that remove friction so
-                developers can do what they do best: create.
+                Specializing in scalable architectures, process automation, and
+                modern UI frameworks. I thrive in complex and ambiguous
+                environments, taking initiative to optimize workflows, innovate
+                solutions, and deliver high-impact results. Adept at developing
+                modular React applications, optimizing developer workflows, and
+                mentoring teammates to deliver cohesive, high-performance
+                products. Known for streamlining CI/CD pipelines, automating
+                legacy processes, and collaborating across UX, backend, and QA
+                teams in Agile environments. I care deeply about the developer
+                experience by crafting intuitive workflows and tooling that
+                remove friction so developers can do what they do best: create.
               </p>
             </section>
 
@@ -57,7 +57,7 @@ export default function Welcome() {
               <div className="space-y-6">
                 <div>
                   <h3 className="font-medium text-gray-700 dark:text-gray-200">
-                    Software Engineer III (Contractor)
+                    Software Engineer III
                   </h3>
                   <p className="text-gray-600 dark:text-gray-300">
                     Nike, Inc. • Portland, Oregon • March 2020 - June 2025
