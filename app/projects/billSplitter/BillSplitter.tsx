@@ -209,8 +209,8 @@ export function BillSplitter() {
       )
     ) {
       setPeople([
-        { id: "1", name: "Alice", color: COLORS[0] },
-        { id: "2", name: "Bob", color: COLORS[1] },
+        { id: "1", name: "Misa", color: COLORS[0] },
+        { id: "2", name: "Bento", color: COLORS[1] },
       ]);
       setLineItems([
         { id: "1", description: "Pizza", amount: 25.5, assignedTo: ["1"] },
