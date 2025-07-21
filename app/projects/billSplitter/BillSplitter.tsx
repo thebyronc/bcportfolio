@@ -7,6 +7,7 @@ import {
   LineItemsSection,
   TipSection,
   TotalsSection,
+  ReceiptScanner,
 } from "./components";
 
 function BillSplitterContent() {
@@ -47,6 +48,7 @@ function BillSplitterContent() {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
           <PeopleSection />
           <LineItemsSection />
+          <ReceiptScanner />
         </div>
 
         <TipSection />
