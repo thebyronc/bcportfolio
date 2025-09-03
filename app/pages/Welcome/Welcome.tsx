@@ -1,4 +1,12 @@
+import { useState } from "react";
+import "./welcome.css";
+
 export default function Welcome() {
+  const [activeTab, setActiveTab] = useState<"keyword" | "suggested">(
+    "suggested",
+  );
+  const [selectedOption, setSelectedOption] = useState("");
+
   return (
     <main className="flex items-center justify-center pt-16 pb-4">
       <div className="flex min-h-0 flex-1 flex-col items-center gap-16">
@@ -225,6 +233,50 @@ export default function Welcome() {
                     <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
                       SOLID Principles
                     </span>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section className="mt-8">
+              {/* Search Box Component */}
+              <div className="search-box-container">
+                {/* Tab Section */}
+                <div className="search-tabs">
+                  <button
+                    onClick={() => setActiveTab("keyword")}
+                    className={`search-tab ${activeTab === "keyword" ? "active" : ""}`}
+                  >
+                    Keyword Search
+                  </button>
+                  <button
+                    onClick={() => setActiveTab("suggested")}
+                    className={`search-tab ${activeTab === "suggested" ? "active" : ""}`}
+                  >
+                    Suggested Search
+                  </button>
+                </div>
+
+                {/* Dropdown Section */}
+                <div className="search-dropdown-container">
+                  <select
+                    value={selectedOption}
+                    onChange={(e) => setSelectedOption(e.target.value)}
+                    className="search-dropdown"
+                  >
+                    <option value="">Select Suggested Search</option>
+                    <option value="option1">Option 1</option>
+                    <option value="option2">Option 2</option>
+                    <option value="option3">Option 3</option>
+                  </select>
+                  <div className="search-dropdown-arrow">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
                   </div>
                 </div>
               </div>
