@@ -47,7 +47,12 @@ export function Nav() {
     <nav className="absolute z-10 w-full p-2">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <img src={logo} alt="BYRN Logo" className="mr-4 h-8 w-auto" />
+          <img 
+            src={logo} 
+            alt="BYRON Logo" 
+            className="mr-4 h-8 w-auto object-contain" 
+            style={{ minWidth: 'auto', maxWidth: 'none' }}
+          />
         </div>
         <ul className="flex justify-start gap-2">
           {links.map((link) => (
