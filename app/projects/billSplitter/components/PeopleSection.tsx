@@ -26,7 +26,7 @@ export function PeopleSection() {
   };
 
   return (
-    <div className="rounded-lg bg-zinc-800 p-6">
+    <div className="rounded-lg bg-zinc-800 p-4 sm:p-6">
       <h2 className="text-volt-400 mb-4 text-xl font-semibold">People</h2>
 
       <div className="mb-4 flex flex-col gap-2 sm:flex-row">
