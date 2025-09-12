@@ -19,7 +19,9 @@ const links = [
 
 export function Nav() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -28,6 +30,12 @@ export function Nav() {
         !dropdownRef.current.contains(event.target as Node)
       ) {
         setIsDropdownOpen(false);
+      }
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target as Node)
+      ) {
+        setIsMobileMenuOpen(false);
       }
     };
 
@@ -43,13 +51,45 @@ export function Nav() {
     };
   }, []);
 
+  // Hamburger menu icon component
+  const HamburgerIcon = () => (
+    <button
+      onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+      className="md:hidden flex flex-col justify-center items-center w-8 h-8 space-y-1"
+      aria-label="Toggle mobile menu"
+    >
+      <span
+        className={`block w-6 h-0.5 bg-white transition-all duration-300 ${
+          isMobileMenuOpen ? "rotate-45 translate-y-1.5" : ""
+        }`}
+      />
+      <span
+        className={`block w-6 h-0.5 bg-white transition-all duration-300 ${
+          isMobileMenuOpen ? "opacity-0" : ""
+        }`}
+      />
+      <span
+        className={`block w-6 h-0.5 bg-white transition-all duration-300 ${
+          isMobileMenuOpen ? "-rotate-45 -translate-y-1.5" : ""
+        }`}
+      />
+    </button>
+  );
+
   return (
     <nav className="absolute z-10 w-full p-2">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <img src={logo} alt="BYRN Logo" className="mr-4 h-8 w-auto" />
+          <img 
+            src={logo} 
+            alt="BYRON Logo" 
+            className="mr-4 h-8 w-auto object-contain" 
+            style={{ minWidth: 'auto', maxWidth: 'none' }}
+          />
         </div>
-        <ul className="flex justify-start gap-2">
+        
+        {/* Desktop Navigation */}
+        <ul className="hidden md:flex justify-start gap-2">
           {links.map((link) => (
             <li key={link.href} className="relative">
               {link.children ? (
@@ -88,7 +128,57 @@ export function Nav() {
             </li>
           ))}
         </ul>
+        
+        {/* Mobile Menu Button */}
+        <HamburgerIcon />
       </div>
+      
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          ref={mobileMenuRef}
+          className="md:hidden absolute top-full left-0 right-0 bg-white dark:bg-gray-800 shadow-lg border-t border-gray-200 dark:border-gray-700"
+        >
+          <div className="px-4 py-2 space-y-1">
+            {links.map((link) => (
+              <div key={link.href}>
+                {link.children ? (
+                  <div>
+                    <button
+                      onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                      className="w-full text-left px-4 py-3 text-lg font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
+                    >
+                      {link.label}
+                    </button>
+                    {isDropdownOpen && (
+                      <div className="ml-4 space-y-1">
+                        {link.children.map((childLink) => (
+                          <a
+                            key={childLink.href}
+                            href={childLink.href}
+                            className="block px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                          >
+                            {childLink.label}
+                          </a>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <a
+                    href={link.href}
+                    className="block px-4 py-3 text-lg font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {link.label}
+                  </a>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </nav>
   );
 }
