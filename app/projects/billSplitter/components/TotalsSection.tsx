@@ -4,7 +4,7 @@ export function TotalsSection() {
   const { state, calculations } = useBillSplitter();
 
   return (
-    <div className="mt-8 rounded-lg bg-zinc-800 p-6">
+    <div className="mt-8 rounded-lg bg-zinc-800 p-4 sm:p-6">
       <h2 className="text-volt-400 mb-4 text-xl font-semibold">Totals</h2>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">

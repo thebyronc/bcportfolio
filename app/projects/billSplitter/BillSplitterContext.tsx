@@ -30,6 +30,8 @@ interface BillSplitterState {
   people: Person[];
   lineItems: LineItem[];
   tipPercentage: number;
+  tipAmount: number;
+  isTipAmountMode: boolean;
   isDataLoaded: boolean;
 }
 
@@ -84,18 +86,20 @@ export function BillSplitterProvider({
     calculatePersonTotal: (personId: string) =>
       calculatePersonTotal(state.lineItems, personId),
     calculatePersonTip: (personId: string) =>
-      calculatePersonTip(state.lineItems, state.tipPercentage, personId),
+      calculatePersonTip(state.lineItems, state.tipPercentage, personId, state.tipAmount, state.isTipAmountMode),
     calculatePersonTotalWithTip: (personId: string) =>
       calculatePersonTotalWithTip(
         state.lineItems,
         state.tipPercentage,
         personId,
+        state.tipAmount,
+        state.isTipAmountMode,
       ),
     calculateTotal: () => calculateTotal(state.lineItems),
     calculateTotalTip: () =>
-      calculateTotalTip(state.lineItems, state.tipPercentage),
+      calculateTotalTip(state.lineItems, state.tipPercentage, state.tipAmount, state.isTipAmountMode),
     calculateGrandTotal: () =>
-      calculateGrandTotal(state.lineItems, state.tipPercentage),
+      calculateGrandTotal(state.lineItems, state.tipPercentage, state.tipAmount, state.isTipAmountMode),
     countItemsAssignedToPerson: (personId: string) =>
       countItemsAssignedToPerson(state.lineItems, personId),
     getPersonById: (id: string) => getPersonById(state.people, id),

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import CloseIcon from "../../../assets/CloseIcon";
 import { useBillSplitter } from "../BillSplitterContext";
 import {
   addLineItem as addLineItemAction,
@@ -10,20 +11,28 @@ export function LineItemsSection() {
   const { state, dispatch } = useBillSplitter();
   const [newItemDescription, setNewItemDescription] = useState("");
   const [newItemAmount, setNewItemAmount] = useState("");
+  const [newItemQuantity, setNewItemQuantity] = useState("1");
 
   const addLineItem = () => {
     if (newItemDescription.trim() && newItemAmount) {
       const amount = parseFloat(newItemAmount);
-      if (!isNaN(amount) && amount > 0) {
-        const newItem = {
-          id: Date.now().toString(),
-          description: newItemDescription.trim(),
-          amount,
-          assignedTo: [],
-        };
-        dispatch(addLineItemAction(newItem));
+      const quantity = parseInt(newItemQuantity) || 1;
+      
+      if (!isNaN(amount) && amount > 0 && quantity > 0) {
+        // Create multiple items based on quantity
+        for (let i = 0; i < quantity; i++) {
+          const newItem = {
+            id: `${Date.now()}-${i}`, // Unique ID for each item
+            description: newItemDescription.trim(),
+            amount,
+            assignedTo: [],
+          };
+          dispatch(addLineItemAction(newItem));
+        }
+        
         setNewItemDescription("");
         setNewItemAmount("");
+        setNewItemQuantity("1");
       }
     }
   };
@@ -37,12 +46,12 @@ export function LineItemsSection() {
   };
 
   return (
-    <div className="rounded-lg bg-zinc-800 p-6">
+    <div className="rounded-lg bg-zinc-800 p-4 sm:p-6">
       <h2 className="text-volt-400 mb-4 text-xl font-semibold">
         Line Items ({state.lineItems.length})
       </h2>
 
-      <div className="mb-4 flex flex-col gap-2 sm:flex-row">
+      <div className="mb-4 flex flex-col gap-2">
         <input
           type="text"
           value={newItemDescription}
@@ -58,7 +67,17 @@ export function LineItemsSection() {
             placeholder="Amount"
             step="0.01"
             min="0"
-            className="focus:ring-volt-400 w-24 rounded-md border border-zinc-600 bg-zinc-700 px-3 py-2 text-white placeholder-zinc-400 focus:ring-2 focus:outline-none"
+            className="focus:ring-volt-400 w-32 rounded-md border border-zinc-600 bg-zinc-700 px-3 py-2 text-white placeholder-zinc-400 focus:ring-2 focus:outline-none"
+            onKeyPress={(e) => e.key === "Enter" && addLineItem()}
+          />
+          <input
+            type="number"
+            value={newItemQuantity}
+            onChange={(e) => setNewItemQuantity(e.target.value)}
+            placeholder="Qty"
+            min="1"
+            max="99"
+            className="focus:ring-volt-400 w-16 rounded-md border border-zinc-600 bg-zinc-700 px-3 py-2 text-white placeholder-zinc-400 focus:ring-2 focus:outline-none"
             onKeyPress={(e) => e.key === "Enter" && addLineItem()}
           />
           <button
@@ -72,23 +91,22 @@ export function LineItemsSection() {
 
       <div className="space-y-3">
         {state.lineItems.map((item) => (
-          <div key={item.id} className="rounded-md bg-zinc-700 p-4">
-            <div className="mb-3 flex items-center justify-between">
-              <div>
-                <h3 className="font-medium">{item.description}</h3>
-                <p className="text-volt-400 font-semibold">
-                  ${item.amount.toFixed(2)}
-                </p>
-              </div>
-              <button
-                onClick={() => removeLineItem(item.id)}
-                className="text-red-400 transition-colors hover:text-red-300"
-              >
-                ×
-              </button>
+          <div key={item.id} className="relative rounded-md bg-zinc-700 p-4">
+            <button
+              onClick={() => removeLineItem(item.id)}
+              className="absolute top-2 right-2 text-zinc-300 transition-colors hover:text-white p-1 rounded-full"
+              aria-label="Remove line item"
+            >
+              <CloseIcon size={20} color="currentColor" />
+            </button>
+            <div>
+              <h3 className="font-medium">{item.description}</h3>
+              <p className="text-volt-400 font-semibold">
+                ${item.amount.toFixed(2)}
+              </p>
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 mt-3">
               {state.people.map((person) => (
                 <button
                   key={person.id}

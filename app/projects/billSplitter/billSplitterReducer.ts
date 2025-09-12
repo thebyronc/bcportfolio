@@ -29,6 +29,8 @@ export const defaultState: BillSplitterState = {
     { id: "2", description: "Drinks", amount: 12.0, assignedTo: ["1", "2"] },
   ],
   tipPercentage: 15,
+  tipAmount: 0,
+  isTipAmountMode: false,
   isDataLoaded: false,
 };
 
@@ -96,6 +98,20 @@ export function billSplitterReducer(
       return {
         ...state,
         tipPercentage: action.payload,
+        isTipAmountMode: false,
+      };
+
+    case BILL_SPLITTER_ACTIONS.SET_TIP_AMOUNT:
+      return {
+        ...state,
+        tipAmount: action.payload,
+        isTipAmountMode: true,
+      };
+
+    case BILL_SPLITTER_ACTIONS.SET_TIP_MODE:
+      return {
+        ...state,
+        isTipAmountMode: action.payload,
       };
 
     case BILL_SPLITTER_ACTIONS.CLEAR_ALL_DATA:
