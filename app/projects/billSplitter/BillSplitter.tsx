@@ -6,6 +6,7 @@ import {
   PeopleSection,
   LineItemsSection,
   TipSection,
+  TaxSection,
   TotalsSection,
   ReceiptScanner,
 } from "./components";
@@ -60,6 +61,7 @@ function BillSplitterContent() {
         </div>
 
         <TipSection />
+        <TaxSection />
         <TotalsSection />
       </div>
     </div>

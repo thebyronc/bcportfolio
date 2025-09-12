@@ -34,6 +34,14 @@ export function TotalsSection() {
                   ${calculations.calculatePersonTip(person.id).toFixed(2)}
                 </span>
               </div>
+              {calculations.calculateTotalTax() > 0 && (
+                <div className="text-volt-400 flex justify-between">
+                  <span>Tax:</span>
+                  <span>
+                    ${calculations.calculatePersonTax(person.id).toFixed(2)}
+                  </span>
+                </div>
+              )}
             </div>
 
             <div className="mt-3 border-t border-zinc-600 pt-2">
@@ -47,11 +55,33 @@ export function TotalsSection() {
       </div>
 
       <div className="mt-6 border-t border-zinc-600 pt-6">
-        <div className="flex items-center justify-between">
-          <span className="text-lg font-semibold">Grand Total (with tip):</span>
-          <span className="text-volt-400 text-2xl font-bold">
-            ${calculations.calculateGrandTotal().toFixed(2)}
-          </span>
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-lg font-semibold">Subtotal:</span>
+            <span className="text-xl font-semibold">
+              ${calculations.calculateTotal().toFixed(2)}
+            </span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-lg font-semibold">Tip:</span>
+            <span className="text-xl font-semibold">
+              ${calculations.calculateTotalTip().toFixed(2)}
+            </span>
+          </div>
+          {calculations.calculateTotalTax() > 0 && (
+            <div className="flex items-center justify-between">
+              <span className="text-lg font-semibold">Tax:</span>
+              <span className="text-xl font-semibold">
+                ${calculations.calculateTotalTax().toFixed(2)}
+              </span>
+            </div>
+          )}
+          <div className="flex items-center justify-between border-t border-zinc-600 pt-2">
+            <span className="text-lg font-semibold">Grand Total:</span>
+            <span className="text-volt-400 text-2xl font-bold">
+              ${calculations.calculateGrandTotal().toFixed(2)}
+            </span>
+          </div>
         </div>
       </div>
     </div>

@@ -72,14 +72,61 @@ export const calculatePersonTotalWithTip = (
   );
 };
 
+export const calculateTotalTax = (
+  lineItems: LineItem[],
+  taxPercentage: number,
+  taxAmount?: number,
+  isTaxAmountMode?: boolean,
+): number => {
+  if (isTaxAmountMode && taxAmount !== undefined) {
+    return taxAmount;
+  }
+  return (calculateTotal(lineItems) * taxPercentage) / 100;
+};
+
+export const calculatePersonTax = (
+  lineItems: LineItem[],
+  taxPercentage: number,
+  personId: string,
+  taxAmount?: number,
+  isTaxAmountMode?: boolean,
+): number => {
+  const personTotal = calculatePersonTotal(lineItems, personId);
+  const totalBill = calculateTotal(lineItems);
+  if (totalBill === 0) return 0;
+
+  // Calculate tax proportionally based on person's share of the bill
+  const personShare = personTotal / totalBill;
+  const totalTax = calculateTotalTax(lineItems, taxPercentage, taxAmount, isTaxAmountMode);
+  return personShare * totalTax;
+};
+
+export const calculatePersonTotalWithTax = (
+  lineItems: LineItem[],
+  taxPercentage: number,
+  personId: string,
+  taxAmount?: number,
+  isTaxAmountMode?: boolean,
+): number => {
+  return (
+    calculatePersonTotal(lineItems, personId) +
+    calculatePersonTax(lineItems, taxPercentage, personId, taxAmount, isTaxAmountMode)
+  );
+};
+
 export const calculateGrandTotal = (
   lineItems: LineItem[],
   tipPercentage: number,
   tipAmount?: number,
   isTipAmountMode?: boolean,
+  taxPercentage?: number,
+  taxAmount?: number,
+  isTaxAmountMode?: boolean,
 ): number => {
   return (
-    calculateTotal(lineItems) + calculateTotalTip(lineItems, tipPercentage, tipAmount, isTipAmountMode)
+    calculateTotal(lineItems) + 
+    calculateTotalTip(lineItems, tipPercentage, tipAmount, isTipAmountMode) +
+    calculateTotalTax(lineItems, taxPercentage || 0, taxAmount, isTaxAmountMode)
   );
 };
 

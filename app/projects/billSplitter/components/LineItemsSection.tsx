@@ -4,6 +4,7 @@ import { useBillSplitter } from "../BillSplitterContext";
 import {
   addLineItem as addLineItemAction,
   removeLineItem as removeLineItemAction,
+  clearLineItems as clearLineItemsAction,
   toggleAssignment as toggleAssignmentAction,
 } from "../billSplitterActions";
 
@@ -45,11 +46,26 @@ export function LineItemsSection() {
     dispatch(toggleAssignmentAction(itemId, personId));
   };
 
+  const clearAllLineItems = () => {
+    dispatch(clearLineItemsAction());
+  };
+
   return (
     <div className="rounded-lg bg-zinc-800 p-4 sm:p-6">
-      <h2 className="text-volt-400 mb-4 text-xl font-semibold">
-        Line Items ({state.lineItems.length})
-      </h2>
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-volt-400 text-xl font-semibold">
+          Line Items ({state.lineItems.length})
+        </h2>
+        {state.lineItems.length > 0 && (
+          <button
+            onClick={clearAllLineItems}
+            className="rounded-md bg-red-600 px-3 py-1 text-sm font-semibold text-white transition-colors hover:bg-red-700"
+            title="Clear all line items"
+          >
+            Clear All
+          </button>
+        )}
+      </div>
 
       <div className="mb-4 flex flex-col gap-2">
         <input

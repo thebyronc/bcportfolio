@@ -31,6 +31,9 @@ export const defaultState: BillSplitterState = {
   tipPercentage: 15,
   tipAmount: 0,
   isTipAmountMode: false,
+  taxPercentage: 0,
+  taxAmount: 0,
+  isTaxAmountMode: false,
   isDataLoaded: false,
 };
 
@@ -75,6 +78,12 @@ export function billSplitterReducer(
         lineItems: state.lineItems.filter((item) => item.id !== action.payload),
       };
 
+    case BILL_SPLITTER_ACTIONS.CLEAR_LINE_ITEMS:
+      return {
+        ...state,
+        lineItems: [],
+      };
+
     case BILL_SPLITTER_ACTIONS.TOGGLE_ASSIGNMENT:
       return {
         ...state,
@@ -112,6 +121,26 @@ export function billSplitterReducer(
       return {
         ...state,
         isTipAmountMode: action.payload,
+      };
+
+    case BILL_SPLITTER_ACTIONS.SET_TAX_PERCENTAGE:
+      return {
+        ...state,
+        taxPercentage: action.payload,
+        isTaxAmountMode: false,
+      };
+
+    case BILL_SPLITTER_ACTIONS.SET_TAX_AMOUNT:
+      return {
+        ...state,
+        taxAmount: action.payload,
+        isTaxAmountMode: true,
+      };
+
+    case BILL_SPLITTER_ACTIONS.SET_TAX_MODE:
+      return {
+        ...state,
+        isTaxAmountMode: action.payload,
       };
 
     case BILL_SPLITTER_ACTIONS.CLEAR_ALL_DATA:
