@@ -5,8 +5,11 @@ import {
   calculatePersonTotal,
   calculatePersonTip,
   calculatePersonTotalWithTip,
+  calculatePersonTax,
+  calculatePersonTotalWithTax,
   calculateTotal,
   calculateTotalTip,
+  calculateTotalTax,
   calculateGrandTotal,
   countItemsAssignedToPerson,
   getPersonById,
@@ -32,6 +35,9 @@ interface BillSplitterState {
   tipPercentage: number;
   tipAmount: number;
   isTipAmountMode: boolean;
+  taxPercentage: number;
+  taxAmount: number;
+  isTaxAmountMode: boolean;
   isDataLoaded: boolean;
 }
 
@@ -43,8 +49,11 @@ const BillSplitterContext = createContext<{
     calculatePersonTotal: (personId: string) => number;
     calculatePersonTip: (personId: string) => number;
     calculatePersonTotalWithTip: (personId: string) => number;
+    calculatePersonTax: (personId: string) => number;
+    calculatePersonTotalWithTax: (personId: string) => number;
     calculateTotal: () => number;
     calculateTotalTip: () => number;
+    calculateTotalTax: () => number;
     calculateGrandTotal: () => number;
     countItemsAssignedToPerson: (personId: string) => number;
     getPersonById: (id: string) => Person | undefined;
@@ -95,11 +104,31 @@ export function BillSplitterProvider({
         state.tipAmount,
         state.isTipAmountMode,
       ),
+    calculatePersonTax: (personId: string) =>
+      calculatePersonTax(state.lineItems, state.taxPercentage, personId, state.taxAmount, state.isTaxAmountMode),
+    calculatePersonTotalWithTax: (personId: string) =>
+      calculatePersonTotalWithTax(
+        state.lineItems,
+        state.taxPercentage,
+        personId,
+        state.taxAmount,
+        state.isTaxAmountMode,
+      ),
     calculateTotal: () => calculateTotal(state.lineItems),
     calculateTotalTip: () =>
       calculateTotalTip(state.lineItems, state.tipPercentage, state.tipAmount, state.isTipAmountMode),
+    calculateTotalTax: () =>
+      calculateTotalTax(state.lineItems, state.taxPercentage, state.taxAmount, state.isTaxAmountMode),
     calculateGrandTotal: () =>
-      calculateGrandTotal(state.lineItems, state.tipPercentage, state.tipAmount, state.isTipAmountMode),
+      calculateGrandTotal(
+        state.lineItems, 
+        state.tipPercentage, 
+        state.tipAmount, 
+        state.isTipAmountMode,
+        state.taxPercentage,
+        state.taxAmount,
+        state.isTaxAmountMode
+      ),
     countItemsAssignedToPerson: (personId: string) =>
       countItemsAssignedToPerson(state.lineItems, personId),
     getPersonById: (id: string) => getPersonById(state.people, id),

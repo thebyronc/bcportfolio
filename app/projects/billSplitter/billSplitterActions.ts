@@ -7,10 +7,14 @@ export const BILL_SPLITTER_ACTIONS = {
   REMOVE_PERSON: "REMOVE_PERSON",
   ADD_LINE_ITEM: "ADD_LINE_ITEM",
   REMOVE_LINE_ITEM: "REMOVE_LINE_ITEM",
+  CLEAR_LINE_ITEMS: "CLEAR_LINE_ITEMS",
   TOGGLE_ASSIGNMENT: "TOGGLE_ASSIGNMENT",
   SET_TIP_PERCENTAGE: "SET_TIP_PERCENTAGE",
   SET_TIP_AMOUNT: "SET_TIP_AMOUNT",
   SET_TIP_MODE: "SET_TIP_MODE",
+  SET_TAX_PERCENTAGE: "SET_TAX_PERCENTAGE",
+  SET_TAX_AMOUNT: "SET_TAX_AMOUNT",
+  SET_TAX_MODE: "SET_TAX_MODE",
   CLEAR_ALL_DATA: "CLEAR_ALL_DATA",
   SET_DATA_LOADED: "SET_DATA_LOADED",
 } as const;
@@ -29,6 +33,7 @@ export type BillSplitterAction =
   | { type: typeof BILL_SPLITTER_ACTIONS.REMOVE_PERSON; payload: string }
   | { type: typeof BILL_SPLITTER_ACTIONS.ADD_LINE_ITEM; payload: LineItem }
   | { type: typeof BILL_SPLITTER_ACTIONS.REMOVE_LINE_ITEM; payload: string }
+  | { type: typeof BILL_SPLITTER_ACTIONS.CLEAR_LINE_ITEMS }
   | {
       type: typeof BILL_SPLITTER_ACTIONS.TOGGLE_ASSIGNMENT;
       payload: { itemId: string; personId: string };
@@ -36,6 +41,9 @@ export type BillSplitterAction =
   | { type: typeof BILL_SPLITTER_ACTIONS.SET_TIP_PERCENTAGE; payload: number }
   | { type: typeof BILL_SPLITTER_ACTIONS.SET_TIP_AMOUNT; payload: number }
   | { type: typeof BILL_SPLITTER_ACTIONS.SET_TIP_MODE; payload: boolean }
+  | { type: typeof BILL_SPLITTER_ACTIONS.SET_TAX_PERCENTAGE; payload: number }
+  | { type: typeof BILL_SPLITTER_ACTIONS.SET_TAX_AMOUNT; payload: number }
+  | { type: typeof BILL_SPLITTER_ACTIONS.SET_TAX_MODE; payload: boolean }
   | { type: typeof BILL_SPLITTER_ACTIONS.CLEAR_ALL_DATA }
   | { type: typeof BILL_SPLITTER_ACTIONS.SET_DATA_LOADED; payload: boolean };
 
@@ -69,6 +77,10 @@ export const removeLineItem = (itemId: string): BillSplitterAction => ({
   payload: itemId,
 });
 
+export const clearLineItems = (): BillSplitterAction => ({
+  type: BILL_SPLITTER_ACTIONS.CLEAR_LINE_ITEMS,
+});
+
 export const toggleAssignment = (
   itemId: string,
   personId: string,
@@ -89,6 +101,21 @@ export const setTipAmount = (amount: number): BillSplitterAction => ({
 
 export const setTipMode = (isAmountMode: boolean): BillSplitterAction => ({
   type: BILL_SPLITTER_ACTIONS.SET_TIP_MODE,
+  payload: isAmountMode,
+});
+
+export const setTaxPercentage = (percentage: number): BillSplitterAction => ({
+  type: BILL_SPLITTER_ACTIONS.SET_TAX_PERCENTAGE,
+  payload: percentage,
+});
+
+export const setTaxAmount = (amount: number): BillSplitterAction => ({
+  type: BILL_SPLITTER_ACTIONS.SET_TAX_AMOUNT,
+  payload: amount,
+});
+
+export const setTaxMode = (isAmountMode: boolean): BillSplitterAction => ({
+  type: BILL_SPLITTER_ACTIONS.SET_TAX_MODE,
   payload: isAmountMode,
 });
 
