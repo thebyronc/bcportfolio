@@ -9,23 +9,31 @@ import {
   TotalsSection,
   ReceiptScanner,
 } from "./components";
+import ConfirmPopup from "../../components/ConfirmPopup";
+
+import { useState } from "react";
 
 function BillSplitterContent() {
   const { state, dispatch } = useBillSplitter();
+  const [showConfirm, setShowConfirm] = useState(false);
 
-  const clearAllData = () => {
-    if (
-      window.confirm(
-        "Are you sure you want to clear all data? This cannot be undone.",
-      )
-    ) {
-      dispatch(clearAllDataAction());
-      clearStorage();
-    }
+  const handleClearAll = () => setShowConfirm(true);
+  const handleConfirm = () => {
+    dispatch(clearAllDataAction());
+    clearStorage();
+    setShowConfirm(false);
   };
+  const handleCancel = () => setShowConfirm(false);
 
   return (
     <div className="bill-splitter">
+      <ConfirmPopup
+        open={showConfirm}
+        title="Clear All Data"
+        message="Are you sure you want to clear all data? This cannot be undone."
+        onConfirm={handleConfirm}
+        onCancel={handleCancel}
+      />
       <div className="mx-auto max-w-6xl p-4 sm:p-6">
         <div className="mb-8 flex items-center justify-between">
           <div>
@@ -37,7 +45,7 @@ function BillSplitterContent() {
             )}
           </div>
           <button
-            onClick={clearAllData}
+            onClick={handleClearAll}
             className="rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-red-700"
             title="Clear all data and reset to defaults"
           >

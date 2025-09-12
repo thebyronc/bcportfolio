@@ -9,6 +9,8 @@ export const BILL_SPLITTER_ACTIONS = {
   REMOVE_LINE_ITEM: "REMOVE_LINE_ITEM",
   TOGGLE_ASSIGNMENT: "TOGGLE_ASSIGNMENT",
   SET_TIP_PERCENTAGE: "SET_TIP_PERCENTAGE",
+  SET_TIP_AMOUNT: "SET_TIP_AMOUNT",
+  SET_TIP_MODE: "SET_TIP_MODE",
   CLEAR_ALL_DATA: "CLEAR_ALL_DATA",
   SET_DATA_LOADED: "SET_DATA_LOADED",
 } as const;
@@ -32,6 +34,8 @@ export type BillSplitterAction =
       payload: { itemId: string; personId: string };
     }
   | { type: typeof BILL_SPLITTER_ACTIONS.SET_TIP_PERCENTAGE; payload: number }
+  | { type: typeof BILL_SPLITTER_ACTIONS.SET_TIP_AMOUNT; payload: number }
+  | { type: typeof BILL_SPLITTER_ACTIONS.SET_TIP_MODE; payload: boolean }
   | { type: typeof BILL_SPLITTER_ACTIONS.CLEAR_ALL_DATA }
   | { type: typeof BILL_SPLITTER_ACTIONS.SET_DATA_LOADED; payload: boolean };
 
@@ -76,6 +80,16 @@ export const toggleAssignment = (
 export const setTipPercentage = (percentage: number): BillSplitterAction => ({
   type: BILL_SPLITTER_ACTIONS.SET_TIP_PERCENTAGE,
   payload: percentage,
+});
+
+export const setTipAmount = (amount: number): BillSplitterAction => ({
+  type: BILL_SPLITTER_ACTIONS.SET_TIP_AMOUNT,
+  payload: amount,
+});
+
+export const setTipMode = (isAmountMode: boolean): BillSplitterAction => ({
+  type: BILL_SPLITTER_ACTIONS.SET_TIP_MODE,
+  payload: isAmountMode,
 });
 
 export const clearAllData = (): BillSplitterAction => ({

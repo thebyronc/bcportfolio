@@ -1,4 +1,5 @@
 import { useState } from "react";
+import CloseIcon from "../../../assets/CloseIcon";
 import { useBillSplitter } from "../BillSplitterContext";
 import {
   addPerson as addPersonAction,
@@ -58,9 +59,10 @@ export function PeopleSection() {
             </div>
             <button
               onClick={() => removePerson(person.id)}
-              className="text-red-400 transition-colors hover:text-red-300"
+              className="text-zinc-300 transition-colors hover:text-white p-1 rounded-full"
+              aria-label="Remove person"
             >
-              ×
+              <CloseIcon size={18} color="currentColor" />
             </button>
           </div>
         ))}

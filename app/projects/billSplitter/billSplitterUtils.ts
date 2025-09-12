@@ -33,7 +33,12 @@ export const calculateTotal = (lineItems: LineItem[]): number => {
 export const calculateTotalTip = (
   lineItems: LineItem[],
   tipPercentage: number,
+  tipAmount?: number,
+  isTipAmountMode?: boolean,
 ): number => {
+  if (isTipAmountMode && tipAmount !== undefined) {
+    return tipAmount;
+  }
   return (calculateTotal(lineItems) * tipPercentage) / 100;
 };
 
@@ -41,6 +46,8 @@ export const calculatePersonTip = (
   lineItems: LineItem[],
   tipPercentage: number,
   personId: string,
+  tipAmount?: number,
+  isTipAmountMode?: boolean,
 ): number => {
   const personTotal = calculatePersonTotal(lineItems, personId);
   const totalBill = calculateTotal(lineItems);
@@ -48,7 +55,7 @@ export const calculatePersonTip = (
 
   // Calculate tip proportionally based on person's share of the bill
   const personShare = personTotal / totalBill;
-  const totalTip = (totalBill * tipPercentage) / 100;
+  const totalTip = calculateTotalTip(lineItems, tipPercentage, tipAmount, isTipAmountMode);
   return personShare * totalTip;
 };
 
@@ -56,19 +63,23 @@ export const calculatePersonTotalWithTip = (
   lineItems: LineItem[],
   tipPercentage: number,
   personId: string,
+  tipAmount?: number,
+  isTipAmountMode?: boolean,
 ): number => {
   return (
     calculatePersonTotal(lineItems, personId) +
-    calculatePersonTip(lineItems, tipPercentage, personId)
+    calculatePersonTip(lineItems, tipPercentage, personId, tipAmount, isTipAmountMode)
   );
 };
 
 export const calculateGrandTotal = (
   lineItems: LineItem[],
   tipPercentage: number,
+  tipAmount?: number,
+  isTipAmountMode?: boolean,
 ): number => {
   return (
-    calculateTotal(lineItems) + calculateTotalTip(lineItems, tipPercentage)
+    calculateTotal(lineItems) + calculateTotalTip(lineItems, tipPercentage, tipAmount, isTipAmountMode)
   );
 };
 
