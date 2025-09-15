@@ -84,6 +84,16 @@ export function billSplitterReducer(
         lineItems: [],
       };
 
+    case BILL_SPLITTER_ACTIONS.CLEAR_PEOPLE:
+      return {
+        ...state,
+        people: [],
+        lineItems: state.lineItems.map((item) => ({
+          ...item,
+          assignedTo: [],
+        })),
+      };
+
     case BILL_SPLITTER_ACTIONS.TOGGLE_ASSIGNMENT:
       return {
         ...state,
