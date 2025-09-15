@@ -59,7 +59,7 @@ export function LineItemsSection() {
         {state.lineItems.length > 0 && (
           <button
             onClick={clearAllLineItems}
-            className="rounded-md bg-red-600 px-3 py-1 text-sm font-semibold text-white transition-colors hover:bg-red-700"
+            className="rounded-md bg-zinc-600 px-3 py-1 text-sm font-semibold text-white transition-colors hover:bg-red-700"
             title="Clear all line items"
           >
             Clear All
@@ -75,27 +75,29 @@ export function LineItemsSection() {
           placeholder="Description"
           className="focus:ring-volt-400 flex-1 rounded-md border border-zinc-600 bg-zinc-700 px-3 py-2 text-white placeholder-zinc-400 focus:ring-2 focus:outline-none"
         />
-        <div className="flex gap-2">
-          <input
-            type="number"
-            value={newItemAmount}
-            onChange={(e) => setNewItemAmount(e.target.value)}
-            placeholder="Amount"
-            step="0.01"
-            min="0"
-            className="focus:ring-volt-400 w-32 rounded-md border border-zinc-600 bg-zinc-700 px-3 py-2 text-white placeholder-zinc-400 focus:ring-2 focus:outline-none"
-            onKeyPress={(e) => e.key === "Enter" && addLineItem()}
-          />
-          <input
-            type="number"
-            value={newItemQuantity}
-            onChange={(e) => setNewItemQuantity(e.target.value)}
-            placeholder="Qty"
-            min="1"
-            max="99"
-            className="focus:ring-volt-400 w-16 rounded-md border border-zinc-600 bg-zinc-700 px-3 py-2 text-white placeholder-zinc-400 focus:ring-2 focus:outline-none"
-            onKeyPress={(e) => e.key === "Enter" && addLineItem()}
-          />
+        <div className="flex flex-col sm:flex-row gap-2 sm:items-center">
+          <div className="flex gap-2 w-full sm:w-auto">
+            <input
+              type="number"
+              value={newItemAmount}
+              onChange={(e) => setNewItemAmount(e.target.value)}
+              placeholder="Amount"
+              step="0.01"
+              min="0"
+              className="focus:ring-volt-400 w-32 rounded-md border border-zinc-600 bg-zinc-700 px-3 py-2 text-white placeholder-zinc-400 focus:ring-2 focus:outline-none"
+              onKeyPress={(e) => e.key === "Enter" && addLineItem()}
+            />
+            <input
+              type="number"
+              value={newItemQuantity}
+              onChange={(e) => setNewItemQuantity(e.target.value)}
+              placeholder="Qty"
+              min="1"
+              max="99"
+              className="focus:ring-volt-400 w-16 rounded-md border border-zinc-600 bg-zinc-700 px-3 py-2 text-white placeholder-zinc-400 focus:ring-2 focus:outline-none"
+              onKeyPress={(e) => e.key === "Enter" && addLineItem()}
+            />
+          </div>
           <button
             onClick={addLineItem}
             className="bg-volt-400 hover:bg-volt-300 w-full rounded-md px-4 py-2 font-semibold text-zinc-950 transition-colors sm:w-auto"

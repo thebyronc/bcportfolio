@@ -4,6 +4,7 @@ import { useBillSplitter } from "../BillSplitterContext";
 import {
   addPerson as addPersonAction,
   removePerson as removePersonAction,
+  clearPeople as clearPeopleAction,
 } from "../billSplitterActions";
 
 export function PeopleSection() {
@@ -28,7 +29,18 @@ export function PeopleSection() {
 
   return (
     <div className="rounded-lg bg-zinc-800 p-4 sm:p-6">
-      <h2 className="text-volt-400 mb-4 text-xl font-semibold">People</h2>
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-volt-400 text-xl font-semibold">People</h2>
+        {state.people.length > 0 && (
+            <button
+              onClick={() => dispatch(clearPeopleAction())}
+              className="rounded-md bg-zinc-600 px-3 py-1 text-sm font-semibold text-white transition-colors hover:bg-red-700"
+              title="Clear all people"
+            >
+              Clear All
+            </button>
+        )}
+      </div>
 
       <div className="mb-4 flex flex-col gap-2 sm:flex-row">
         <input

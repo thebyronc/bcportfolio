@@ -8,6 +8,7 @@ export const BILL_SPLITTER_ACTIONS = {
   ADD_LINE_ITEM: "ADD_LINE_ITEM",
   REMOVE_LINE_ITEM: "REMOVE_LINE_ITEM",
   CLEAR_LINE_ITEMS: "CLEAR_LINE_ITEMS",
+  CLEAR_PEOPLE: "CLEAR_PEOPLE",
   TOGGLE_ASSIGNMENT: "TOGGLE_ASSIGNMENT",
   SET_TIP_PERCENTAGE: "SET_TIP_PERCENTAGE",
   SET_TIP_AMOUNT: "SET_TIP_AMOUNT",
@@ -34,6 +35,7 @@ export type BillSplitterAction =
   | { type: typeof BILL_SPLITTER_ACTIONS.ADD_LINE_ITEM; payload: LineItem }
   | { type: typeof BILL_SPLITTER_ACTIONS.REMOVE_LINE_ITEM; payload: string }
   | { type: typeof BILL_SPLITTER_ACTIONS.CLEAR_LINE_ITEMS }
+  | { type: typeof BILL_SPLITTER_ACTIONS.CLEAR_PEOPLE }
   | {
       type: typeof BILL_SPLITTER_ACTIONS.TOGGLE_ASSIGNMENT;
       payload: { itemId: string; personId: string };
@@ -79,6 +81,10 @@ export const removeLineItem = (itemId: string): BillSplitterAction => ({
 
 export const clearLineItems = (): BillSplitterAction => ({
   type: BILL_SPLITTER_ACTIONS.CLEAR_LINE_ITEMS,
+});
+
+export const clearPeople = (): BillSplitterAction => ({
+  type: BILL_SPLITTER_ACTIONS.CLEAR_PEOPLE,
 });
 
 export const toggleAssignment = (
