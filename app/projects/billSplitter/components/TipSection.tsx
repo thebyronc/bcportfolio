@@ -26,7 +26,7 @@ export function TipSection() {
                   setShowCustomInput(false);
                   dispatch(setTipModeAction(false));
                 }}
-                className={`px-3 py-1 text-xs font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-volt-400 ${
+                className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
                   !state.isTipAmountMode
                     ? "bg-volt-400 text-black"
                     : "bg-zinc-700 text-zinc-300 hover:bg-zinc-600"
@@ -40,7 +40,7 @@ export function TipSection() {
                   setShowCustomInput(false);
                   dispatch(setTipModeAction(true));
                 }}
-                className={`px-3 py-1 text-xs font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-volt-400 ${
+                className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
                   state.isTipAmountMode
                     ? "bg-volt-400 text-black"
                     : "bg-zinc-700 text-zinc-300 hover:bg-zinc-600"
@@ -56,7 +56,7 @@ export function TipSection() {
         <div className="flex flex-col gap-3">
           {!state.isTipAmountMode ? (
             <>
-              <div className="w-full rounded-lg overflow-hidden border border-zinc-600">
+              <div className="rounded-lg overflow-hidden border border-zinc-600">
                 <div className="overflow-x-auto no-scrollbar">
                   <div className="inline-flex whitespace-nowrap">
                     {[0, 15, 18, 20].map((percent, idx) => (
@@ -66,23 +66,12 @@ export function TipSection() {
                           setShowCustomInput(false);
                           dispatch(setTipPercentageAction(percent));
                         }}
-                        className={`px-4 py-2 font-semibold uppercase focus:outline-none transition-colors border-r border-zinc-600 border-t border-b last:border-r-0
+                        className={`px-4 py-2 font-semibold uppercase transition-colors border
                           ${state.tipPercentage === percent && !showCustomInput
-                            ? "text-volt-400 bg-zinc-800"
-                            : "text-zinc-300 bg-zinc-900 hover:bg-zinc-800"}
+                            ? "text-volt-400 bg-zinc-800 border-zinc-800"
+                            : "text-zinc-300 bg-zinc-900 border-zinc-900 hover:bg-zinc-800 hover:border-zinc-800"}
                           ${idx === 0 ? "rounded-l-lg" : ""}
                         `}
-                        style={{
-                          border: "none",
-                          borderRadius: 0,
-                          boxShadow: state.tipPercentage === percent && !showCustomInput ? "inset 0 0 0 2px #fbbf24" : "none"
-                        }}
-                        onFocus={(e) => {
-                          (e.target as HTMLElement).style.boxShadow = "inset 0 0 0 2px #fbbf24";
-                        }}
-                        onBlur={(e) => {
-                          (e.target as HTMLElement).style.boxShadow = state.tipPercentage === percent && !showCustomInput ? "inset 0 0 0 2px #fbbf24" : "none";
-                        }}
                       >
                         {percent}%
                       </button>
@@ -92,22 +81,11 @@ export function TipSection() {
                         setShowCustomInput(true);
                         dispatch(setTipPercentageAction(-1));
                       }}
-                      className={`px-4 py-2 font-semibold uppercase focus:outline-none transition-colors rounded-r-lg
+                      className={`px-4 py-2 font-semibold uppercase transition-colors rounded-r-lg border
                         ${showCustomInput
-                          ? "text-volt-400 bg-zinc-800"
-                          : "text-zinc-300 bg-zinc-900 hover:bg-zinc-800"}
+                          ? "text-volt-400 bg-zinc-800 border-zinc-800"
+                          : "text-zinc-300 bg-zinc-900 border-zinc-900 hover:bg-zinc-800 hover:border-zinc-800"}
                       `}
-                      style={{
-                        border: "none",
-                        borderRadius: 0,
-                        boxShadow: showCustomInput ? "inset 0 0 0 2px #fbbf24" : "none"
-                      }}
-                      onFocus={(e) => {
-                        (e.target as HTMLElement).style.boxShadow = "inset 0 0 0 2px #fbbf24";
-                      }}
-                      onBlur={(e) => {
-                        (e.target as HTMLElement).style.boxShadow = showCustomInput ? "inset 0 0 0 2px #fbbf24" : "none";
-                      }}
                     >
                       Custom
                     </button>
@@ -132,7 +110,7 @@ export function TipSection() {
                         dispatch(setTipPercentageAction(0));
                       }
                     }}
-                    className="w-24 border border-zinc-600 bg-zinc-700 px-3 py-2 text-white text-center rounded-lg focus:ring-volt-400 focus:ring-2 focus:outline-none focus:border-volt-400"
+                    className="w-24 border border-zinc-600 bg-zinc-700 px-3 py-2 text-white text-center rounded-lg "
                     placeholder="0.0"
                   />
                   <span className="text-sm text-zinc-400">%</span>
@@ -157,7 +135,7 @@ export function TipSection() {
                     dispatch(setTipAmountAction(0));
                   }
                 }}
-                className="w-32 border border-zinc-600 bg-zinc-700 px-3 py-2 text-white text-center rounded-lg focus:ring-volt-400 focus:ring-2 focus:outline-none focus:border-volt-400"
+                className="w-32 border border-zinc-600 bg-zinc-700 px-3 py-2 text-white text-center rounded-lg"
                 placeholder="0"
               />
             </div>
