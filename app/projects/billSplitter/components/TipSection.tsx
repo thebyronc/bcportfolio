@@ -56,7 +56,7 @@ export function TipSection() {
         <div className="flex flex-col gap-3">
           {!state.isTipAmountMode ? (
             <>
-              <div className="rounded-lg overflow-hidden border border-zinc-600">
+              <div className="rounded-lg overflow-hidden border border-zinc-600 w-fit max-w-full">
                 <div className="overflow-x-auto no-scrollbar">
                   <div className="inline-flex whitespace-nowrap">
                     {[0, 15, 18, 20].map((percent, idx) => (
