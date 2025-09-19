@@ -26,7 +26,10 @@ export default function Welcome() {
 
             {/* Title */}
             <div className="text-center font-semibold text-gray-700 dark:text-gray-200">
-              SOFTWARE ENGINEER III
+              SOFTWARE ENGINEER
+            </div>
+            <div className="text-center text-sm text-gray-600 dark:text-gray-300">
+              React & TypeScript Focus | Developer Experience Advocate | Mission-Driven Builder
             </div>
 
             {/* Summary */}
@@ -35,17 +38,7 @@ export default function Welcome() {
                 Professional Summary
               </h2>
               <p className="text-gray-600 dark:text-gray-300">
-                Specializing in scalable architectures, process automation, and
-                modern UI frameworks. I thrive in complex and ambiguous
-                environments, taking initiative to optimize workflows, innovate
-                solutions, and deliver high-impact results. Adept at developing
-                modular React applications, optimizing developer workflows, and
-                mentoring teammates to deliver cohesive, high-performance
-                products. Known for streamlining CI/CD pipelines, automating
-                legacy processes, and collaborating across UX, backend, and QA
-                teams in Agile environments. I care deeply about the developer
-                experience by crafting intuitive workflows and tooling that
-                remove friction so developers can do what they do best: create.
+                Creative and impact-oriented engineer with 8+ years of experience crafting scalable web platforms and internal tools. Expert in React, TypeScript, and developer experience strategy. Passionate about developer experience, mentorship, and building polished interfaces that empower users and teams alike.
               </p>
             </section>
 
@@ -57,36 +50,35 @@ export default function Welcome() {
               <div className="space-y-6">
                 <div>
                   <h3 className="font-medium text-gray-700 dark:text-gray-200">
-                    Software Engineer III
+                    Software Engineer III (Contractor)
                   </h3>
                   <p className="text-gray-600 dark:text-gray-300">
-                    Nike, Inc. • Portland, Oregon • March 2020 - June 2025
+                    Nike, Inc. • Portland, Oregon • March 2020 – June 2025
                   </p>
                   <ul className="mt-2 list-inside list-disc space-y-1 text-gray-600 dark:text-gray-300">
                     <li>
-                      Designed and implemented a scalable front-end
-                      architecture, streamlining development and maintenance
-                      across multiple projects.
+                      Led pixel-perfect UI development for global diagnostics platforms used across Nike's internal teams
                     </li>
                     <li>
-                      Automated tech support workflows with custom scripts in
-                      PowerShell, Bash, and Node.js, reducing errors and freeing
-                      up valuable team resources.
+                      Architected scalable front-end systems using React, TypeScript, and modular UI principles, ARIA roles, improving maintainability across multiple internal platforms.
                     </li>
                     <li>
-                      Implemented a CI/CD pipeline with Azure and GitHub
-                      Actions, reducing complexity and deployment time from
-                      hours to just minutes.
+                      Developed C#/.NET backend features to efficiently shape and deliver diagnostic data, contributing to system reliability and performance.
                     </li>
                     <li>
-                      Developed a Node.js server for remote script execution,
-                      enhancing efficient system monitoring and proactive
-                      troubleshooting.
+                      Deployed diagnostic services and internal tools to Azure, leveraging cloud infrastructure for scalability, security, and streamlined operations.
                     </li>
                     <li>
-                      Converted a myriad of deeply nested documentation
-                      structures into an easy to search and easy to maintain web
-                      based training and documentation repository.
+                      Built a Node.js diagnostic server to remotely manage system health and modernize legacy workflow
+                    </li>
+                    <li>
+                      Collaborated cross-functionally with designers and PMs to deliver user-centric features with measurable impact on engagement and retention
+                    </li>
+                    <li>
+                      Spearheaded DX initiatives including GitHub Actions pipelines and OAuth integrations, reducing deployment friction and onboarding time.
+                    </li>
+                    <li>
+                      Drove cross-team collaboration and elevated code quality through mentoring, peer reviews, and Agile ceremonies.
                     </li>
                   </ul>
                 </div>
@@ -95,25 +87,20 @@ export default function Welcome() {
                     Software Engineer
                   </h3>
                   <p className="text-gray-600 dark:text-gray-300">
-                    ANSIRA • Portland, Oregon • August 2018 - March 2020
+                    Ansira • Portland, Oregon • August 2018 – March 2020
                   </p>
                   <ul className="mt-2 list-inside list-disc space-y-1 text-gray-600 dark:text-gray-300">
                     <li>
-                      Collaborated with cross-functional teams to deliver
-                      scalable multi-site solutions using a core template.
+                      Delivered multi-site front-end solutions using a shared template model and React-based architecture.
                     </li>
                     <li>
-                      Standardized site migration processes with .bash_profiles,
-                      Git pipelines, SSL certificates, and detailed
-                      documentation.
+                      Streamlined onboarding with standardized Git workflows, bash environments, and SSL configurations.
                     </li>
                     <li>
-                      Improved intern hiring workflows, boosting candidate
-                      quality and mentoring new team members.
+                      Mentored interns and juniors while improving hiring assessments and documentation.
                     </li>
                     <li>
-                      Created technical documentation for clients, enhancing
-                      user experience and expediting onboarding.
+                      Authored client-facing documentation to clarify technical processes and reduce support escalations.
                     </li>
                   </ul>
                 </div>
@@ -128,13 +115,10 @@ export default function Welcome() {
               <div className="space-y-4">
                 <div>
                   <h3 className="font-medium text-gray-700 dark:text-gray-200">
-                    Bachelor of Science in Arts (Multimedia Focus)
+                    Bachelor of Science in Arts
                   </h3>
                   <p className="text-gray-600 dark:text-gray-300">
-                    University of Oregon • Graduated 2009
-                  </p>
-                  <p className="text-gray-600 dark:text-gray-300">
-                    Coursework emphasizing technical design and development
+                    University of Oregon (Multimedia & Technical Design)
                   </p>
                 </div>
               </div>
@@ -143,50 +127,53 @@ export default function Welcome() {
             {/* Skills */}
             <section className="mt-8">
               <h2 className="mb-2 text-xl font-semibold text-gray-800 dark:text-gray-100">
-                Skills
+                Technical Skills
               </h2>
               <div className="space-y-4">
                 <div>
                   <h3 className="mb-2 font-medium text-gray-700 dark:text-gray-200">
-                    Frontend Development
+                    Frontend
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
-                      HTML
-                    </span>
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
-                      CSS
-                    </span>
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
-                      JavaScript
+                      React
                     </span>
                     <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
                       TypeScript
                     </span>
                     <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
-                      React.js
+                      HTML5
+                    </span>
+                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                      CSS3
                     </span>
                     <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
                       Redux
                     </span>
                     <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
-                      Angular.js
+                      Figma
+                    </span>
+                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                      AngularJS
+                    </span>
+                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                      Jest
+                    </span>
+                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                      TailwindCSS
+                    </span>
+                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                      Next.js
                     </span>
                   </div>
                 </div>
                 <div>
                   <h3 className="mb-2 font-medium text-gray-700 dark:text-gray-200">
-                    Backend/Automation
+                    Backend & Scripting
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
                       Node.js
-                    </span>
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
-                      PowerShell
-                    </span>
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
-                      Bash
                     </span>
                     <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
                       C#
@@ -195,35 +182,48 @@ export default function Welcome() {
                       .NET
                     </span>
                     <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
-                      Java
+                      Bash
                     </span>
                     <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
-                      SQL
+                      PowerShell
                     </span>
                     <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
-                      NoSQL
+                      SQL/NoSQL
+                    </span>
+                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                      Azure
                     </span>
                   </div>
                 </div>
                 <div>
                   <h3 className="mb-2 font-medium text-gray-700 dark:text-gray-200">
-                    Development Practices
+                    Dev Practices
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
                       CI/CD
                     </span>
                     <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
-                      Git pipelines
+                      GitHub Actions
                     </span>
                     <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
-                      Troubleshooting
+                      SOLID
                     </span>
                     <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
-                      Scalable Architecture
+                      Agile/Scrum
+                    </span>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="mb-2 font-medium text-gray-700 dark:text-gray-200">
+                    Monitoring & Optimization
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                      System diagnostics tooling
                     </span>
                     <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
-                      SOLID Principles
+                      Performance troubleshooting
                     </span>
                   </div>
                 </div>
@@ -235,3 +235,4 @@ export default function Welcome() {
     </main>
   );
 }
+
