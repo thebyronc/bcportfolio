@@ -20,6 +20,7 @@ const links = [
 export function Nav() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 
@@ -145,34 +146,34 @@ export function Nav() {
                 {link.children ? (
                   <div>
                     <button
-                      onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                      onClick={() => setIsMobileDropdownOpen(!isMobileDropdownOpen)}
                       className="w-full text-left px-4 py-3 text-lg font-semibold text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-md transition-colors"
                     >
                       {link.label}
                     </button>
-                    {isDropdownOpen && (
+                    {isMobileDropdownOpen && (
                       <div className="ml-4 space-y-1">
                         {link.children.map((childLink) => (
-                          <a
+                          <NavLink
                             key={childLink.href}
                             href={childLink.href}
                             className="block px-4 py-2 text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-md transition-colors"
                             onClick={() => setIsMobileMenuOpen(false)}
                           >
                             {childLink.label}
-                          </a>
+                          </NavLink>
                         ))}
                       </div>
                     )}
                   </div>
                 ) : (
-                  <a
+                  <NavLink
                     href={link.href}
                     className="block px-4 py-3 text-lg font-semibold text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-md transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {link.label}
-                  </a>
+                  </NavLink>
                 )}
               </div>
             ))}
