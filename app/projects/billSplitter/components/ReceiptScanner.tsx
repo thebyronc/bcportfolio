@@ -134,9 +134,6 @@ export function ReceiptScanner() {
   // Handle fetcher response
   useEffect(() => {
     if (fetcher.data) {
-      console.log('Fetcher data:', fetcher.data);
-      console.log('Text type:', typeof fetcher.data.text);
-      console.log('Text value:', fetcher.data.text);
       if (fetcher.data.error) {
         setScanProgress(`Error: ${fetcher.data.error}`);
         setIsScanning(false);
