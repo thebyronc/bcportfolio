@@ -174,7 +174,7 @@ export function ReceiptScanner() {
 
     try {
       let fileToProcess = file;
-      
+      console.log('fileToProcess', fileToProcess);
       // Preprocess the image if enabled
       if (enablePreprocessing) {
         const processedFile = await preprocessImage(file);
@@ -193,10 +193,10 @@ export function ReceiptScanner() {
       
       const formData = new FormData();
       formData.append('image', fileToProcess);
-      
+      console.log('formData', formData);
       fetcher.submit(formData, {
         method: 'POST',
-        action: '/api/ocr'
+        action: 'api/ocr'
       });
 
     } catch (error) {

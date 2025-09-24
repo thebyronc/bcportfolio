@@ -7,7 +7,9 @@ export default [
   route("contact", "routes/contact.tsx"),
   route("text-compare", "routes/textCompare.tsx"),
   route("bill-splitter", "routes/billSplitter.tsx"),
-  route("api/ocr", "routes/api.ocr.tsx"),
+  route("image-to-base64", "routes/imageToBase64.tsx"),
+  route("api/ocr", "routes/api.ocr.ts"),
+  route("api/ocr/test", "routes/api.ocr.test.ts"),
   route(
     ".well-known/appspecific/com.chrome.devtools.json",
     "routes/devtools.tsx",

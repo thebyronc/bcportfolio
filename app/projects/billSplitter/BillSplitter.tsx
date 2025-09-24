@@ -9,6 +9,7 @@ import {
   TaxSection,
   TotalsSection,
   ReceiptScanner,
+  SimpleImageTest,
 } from "./components";
 import ConfirmPopup from "../../components/ConfirmPopup";
 
@@ -60,6 +61,7 @@ function BillSplitterContent() {
           <PeopleSection />
           <LineItemsSection />
           <ReceiptScanner />
+          <SimpleImageTest />
         </div>
 
         <TipSection />
