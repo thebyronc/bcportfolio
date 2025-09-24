@@ -24,36 +24,19 @@ export async function action({ request }: { request: Request }) {
     const genAI = new GoogleGenerativeAI(apiKey);
     const formData = await request.formData();
     
-    // Debug: Log all FormData entries
-    console.log('FormData entries:');
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}:`, {
-        type: typeof value,
-        constructor: value?.constructor?.name,
-        isFile: value instanceof File,
-        hasArrayBuffer: value instanceof File ? typeof value.arrayBuffer === 'function' : false
-      });
-    }
-    
-    const imageFile = formData.get('image') as File;
+    // Get base64 image and MIME type from form data
+    const base64Image = formData.get('base64Image') as string;
+    const mimeType = formData.get('mimeType') as string;
 
-    if (!imageFile) {
-      console.error('No image file found in form data');
+    if (!base64Image) {
+      console.error('No base64 image found in form data');
       return { error: 'No image provided' };
     }
 
-    console.log('Processing image file:', {
-      name: imageFile.name,
-      type: imageFile.type,
-      size: imageFile.size,
-      constructor: imageFile.constructor.name
+    console.log('Processing base64 image:', {
+      base64Length: base64Image.length,
+      mimeType: mimeType || 'not provided'
     });
-
-    // Validate file type
-    // if (!imageFile.type || !imageFile.type.startsWith('image/')) {
-    //   console.error('Invalid file type:', imageFile.type);
-    //   return { error: 'Please upload a valid image file' };
-    // }
 
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     
@@ -69,110 +52,33 @@ export async function action({ request }: { request: Request }) {
       ]
     }`;
 
-    // Convert file to base64 with proper type checking
-    let base64Image: string;
-    try {
-      console.log('File object methods available:', {
-        hasArrayBuffer: typeof imageFile.arrayBuffer === 'function',
-        hasStream: typeof imageFile.stream === 'function',
-        hasText: typeof imageFile.text === 'function',
-        isFile: imageFile instanceof File,
-        constructor: imageFile.constructor.name
-      });
-
-      if (typeof imageFile.arrayBuffer === 'function') {
-        // Standard File object
-        const arrayBuffer = await imageFile.arrayBuffer();
-        const buffer = Buffer.from(arrayBuffer);
-        base64Image = buffer.toString('base64');
-        console.log('Converted image to base64 using arrayBuffer, length:', base64Image.length);
-      } else if (typeof imageFile.stream === 'function') {
-        // File object with stream method
-        const stream = imageFile.stream();
-        const reader = stream.getReader();
-        const chunks: Uint8Array[] = [];
-        
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          chunks.push(value);
-        }
-        
-        const totalLength = chunks.reduce((acc, chunk) => acc + chunk.length, 0);
-        const combined = new Uint8Array(totalLength);
-        let offset = 0;
-        for (const chunk of chunks) {
-          combined.set(chunk, offset);
-          offset += chunk.length;
-        }
-        
-        const buffer = Buffer.from(combined);
-        base64Image = buffer.toString('base64');
-        console.log('Converted image to base64 using stream, length:', base64Image.length);
-      } else {
-        // Fallback: try to access data directly
-        console.log('Trying direct data access...');
-        console.log('File object keys:', Object.keys(imageFile));
-        
-        if ((imageFile as any).data) {
-          const buffer = Buffer.from((imageFile as any).data);
-          base64Image = buffer.toString('base64');
-          console.log('Converted image to base64 using .data property, length:', base64Image.length);
-        } else if ((imageFile as any).buffer) {
-          const buffer = Buffer.from((imageFile as any).buffer);
-          base64Image = buffer.toString('base64');
-          console.log('Converted image to base64 using .buffer property, length:', base64Image.length);
-        } else if (typeof imageFile === 'string') {
-          const buffer = Buffer.from(imageFile, 'binary');
-          base64Image = buffer.toString('base64');
-          console.log('Converted image to base64 from string, length:', base64Image.length);
-        } else {
-          throw new Error('Unable to extract file data - no supported methods found');
-        }
-      }
-    } catch (error) {
-      console.error('Error converting image to base64:', error);
-      console.error('File object details:', {
-        type: typeof imageFile,
-        constructor: imageFile?.constructor?.name,
-        keys: imageFile ? Object.keys(imageFile) : 'null/undefined'
-      });
-      return { error: 'Failed to process image file - could not extract file data' };
-    }
+    // Determine MIME type - use provided or detect from base64
+    let finalMimeType = mimeType;
     
-    // Determine MIME type - if file is a string, we need to detect it
-    let mimeType = imageFile.type;
-    
-    if (!mimeType || typeof imageFile === 'string') {
-      // Try to detect MIME type from base64 data or default to JPEG
+    if (!finalMimeType || finalMimeType.trim() === '') {
+      // Try to detect MIME type from base64 data
       if (base64Image.startsWith('/9j/') || base64Image.startsWith('/9j4AAQ')) {
-        mimeType = 'image/jpeg';
+        finalMimeType = 'image/jpeg';
       } else if (base64Image.startsWith('iVBORw0KGgo')) {
-        mimeType = 'image/png';
+        finalMimeType = 'image/png';
       } else if (base64Image.startsWith('R0lGOD')) {
-        mimeType = 'image/gif';
+        finalMimeType = 'image/gif';
       } else if (base64Image.startsWith('UklGR')) {
-        mimeType = 'image/webp';
+        finalMimeType = 'image/webp';
       } else {
-        mimeType = 'image/jpeg'; // Default fallback
+        finalMimeType = 'image/jpeg'; // Default fallback
       }
-      console.log('Detected/assigned MIME type:', mimeType);
+      console.log('Detected MIME type:', finalMimeType);
     }
     
-    // Final validation - ensure MIME type is never empty
-    if (!mimeType || mimeType.trim() === '') {
-      console.error('MIME type is empty, defaulting to image/jpeg');
-      mimeType = 'image/jpeg';
-    }
-    
-    console.log('Sending request to Gemini API with MIME type:', mimeType);
+    console.log('Sending request to Gemini API with MIME type:', finalMimeType);
     
     const result = await model.generateContent([
       prompt,
       {
         inlineData: {
           data: base64Image,
-          mimeType: mimeType
+          mimeType: finalMimeType
         }
       }
     ]);

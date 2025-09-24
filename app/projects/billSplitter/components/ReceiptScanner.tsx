@@ -9,6 +9,21 @@ interface ExtractedItem {
   confidence: number;
 }
 
+// Helper function to convert file to base64
+const fileToBase64 = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result as string;
+      // Remove data URL prefix if present (data:image/type;base64,)
+      const base64 = result.includes(',') ? result.split(',')[1] : result;
+      resolve(base64);
+    };
+    reader.onerror = () => reject(new Error('Failed to read file'));
+    reader.readAsDataURL(file);
+  });
+};
+
 // Image preprocessing helper functions
 const preprocessImage = (file: File): Promise<File> => {
   return new Promise((resolve, reject) => {
@@ -125,7 +140,8 @@ export function ReceiptScanner() {
   const [extractedItems, setExtractedItems] = useState<ExtractedItem[]>([]);
   const [scanProgress, setScanProgress] = useState("");
   const [rawText, setRawText] = useState("");
-  const [showRawText, setShowRawText] = useState(false);
+  const [showJsonResponse, setShowJsonResponse] = useState(false);
+  const [jsonResponse, setJsonResponse] = useState<any>(null);
   const [showPreprocessedImage, setShowPreprocessedImage] = useState(false);
   const [preprocessedImageUrl, setPreprocessedImageUrl] = useState<string>("");
   const [enablePreprocessing, setEnablePreprocessing] = useState(true);
@@ -141,6 +157,7 @@ export function ReceiptScanner() {
         // Ensure text is a string before setting it
         const textValue = typeof fetcher.data.text === 'string' ? fetcher.data.text : String(fetcher.data.text || '');
         setRawText(textValue);
+        setJsonResponse(fetcher.data);
         setScanProgress("Processing extracted data...");
         
         // Convert Gemini results to our format
@@ -168,35 +185,42 @@ export function ReceiptScanner() {
 
   const scanReceipt = async (file: File) => {
     setIsScanning(true);
-    setScanProgress("Preprocessing image...");
+    setScanProgress("Converting image to base64...");
     setExtractedItems([]);
     setPreprocessedImageUrl("");
 
     try {
       let fileToProcess = file;
       console.log('fileToProcess', fileToProcess);
+      
       // Preprocess the image if enabled
       if (enablePreprocessing) {
+        setScanProgress("Preprocessing image...");
         const processedFile = await preprocessImage(file);
         fileToProcess = processedFile;
         
         // Create URL for preview
         const url = URL.createObjectURL(processedFile);
         setPreprocessedImageUrl(url);
-        setScanProgress("Image preprocessed, processing with AI...");
+        setScanProgress("Image preprocessed, converting to base64...");
       } else {
-        setScanProgress("Processing with AI...");
+        setScanProgress("Converting image to base64...");
       }
 
-      // Use Gemini for OCR via React Router fetcher (SSR)
+      // Convert file to base64 on client side
+      const base64String = await fileToBase64(fileToProcess);
+      console.log('Base64 conversion successful, length:', base64String.length);
+      
       setScanProgress("Analyzing receipt with Gemini AI...");
       
+      // Send base64 string instead of file
       const formData = new FormData();
-      formData.append('image', fileToProcess);
-      console.log('formData', formData);
+      formData.append('base64Image', base64String);
+      formData.append('mimeType', fileToProcess.type || 'image/jpeg');
+      
       fetcher.submit(formData, {
         method: 'POST',
-        action: 'api/ocr'
+        action: '/api/ocr'
       });
 
     } catch (error) {
@@ -214,9 +238,9 @@ export function ReceiptScanner() {
     }
   };
 
-  const addExtractedItem = (item: ExtractedItem) => {
+  const addExtractedItem = (item: ExtractedItem, customId?: string) => {
     const newItem = {
-      id: Date.now().toString(),
+      id: customId || Date.now().toString(),
       description: item.description,
       amount: item.amount,
       assignedTo: [],
@@ -225,8 +249,11 @@ export function ReceiptScanner() {
   };
 
   const addAllItems = () => {
-    extractedItems.forEach((item) => {
-      addExtractedItem(item);
+    const baseTime = Date.now();
+    extractedItems.forEach((item, index) => {
+      // Generate unique ID by adding index to base time
+      const uniqueId = (baseTime + index).toString();
+      addExtractedItem(item, uniqueId);
     });
     setExtractedItems([]);
   };
@@ -282,17 +309,17 @@ export function ReceiptScanner() {
         <div className="mb-4 text-sm text-zinc-400">{scanProgress}</div>
       )}
 
-      {rawText && (
+      {jsonResponse && (
         <div className="mb-4">
           <button
-            onClick={() => setShowRawText(!showRawText)}
+            onClick={() => setShowJsonResponse(!showJsonResponse)}
             className="text-volt-400 hover:text-volt-300 text-sm underline"
           >
-            {showRawText ? "Hide" : "Show"} Raw OCR Text
+            {showJsonResponse ? "Hide" : "Show"} JSON Response
           </button>
-          {showRawText && (
-            <div className="mt-2 max-h-32 overflow-y-auto rounded-md bg-zinc-700 p-3 text-xs text-zinc-300">
-              <pre className="whitespace-pre-wrap">{typeof rawText === 'string' ? rawText : String(rawText)}</pre>
+          {showJsonResponse && (
+            <div className="mt-2 max-h-64 overflow-y-auto rounded-md bg-zinc-700 p-3 text-xs text-zinc-300">
+              <pre className="whitespace-pre-wrap">{JSON.stringify(jsonResponse, null, 2)}</pre>
             </div>
           )}
         </div>
