@@ -24,114 +24,6 @@ const fileToBase64 = (file: File): Promise<string> => {
   });
 };
 
-// Image preprocessing helper functions
-const preprocessImage = (file: File): Promise<File> => {
-  return new Promise((resolve, reject) => {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    const img = new Image();
-    
-    img.onload = () => {
-      try {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx?.drawImage(img, 0, 0);
-        
-        const imageData = ctx?.getImageData(0, 0, canvas.width, canvas.height);
-        if (!imageData) {
-          reject(new Error('Could not get image data'));
-          return;
-        }
-        
-        const data = imageData.data;
-        preprocessImageData(data, canvas.width, canvas.height);
-        ctx?.putImageData(imageData, 0, 0);
-        
-        canvas.toBlob((blob) => {
-          if (blob) {
-            const processedFile = new File([blob], file.name, { type: file.type });
-            resolve(processedFile);
-          } else {
-            reject(new Error('Could not create processed image'));
-          }
-        }, file.type, 0.95);
-        
-        URL.revokeObjectURL(img.src);
-      } catch (error) {
-        reject(error);
-      }
-    };
-    
-    img.onerror = () => reject(new Error('Could not load image'));
-    img.src = URL.createObjectURL(file);
-  });
-};
-
-const preprocessImageData = (data: Uint8ClampedArray, width: number, height: number) => {
-  for (let i = 0; i < data.length; i += 4) {
-    const r = data[i];
-    const g = data[i + 1];
-    const b = data[i + 2];
-    const gray = Math.round(0.299 * r + 0.587 * g + 0.114 * b);
-    const enhanced = enhanceContrast(gray);
-    data[i] = enhanced;
-    data[i + 1] = enhanced;
-    data[i + 2] = enhanced;
-  }
-  applyNoiseReduction(data, width, height);
-  applyEdgeSharpening(data, width, height);
-};
-
-const enhanceContrast = (value: number): number => {
-  const gamma = 1.2;
-  const contrast = 1.3;
-  let enhanced = Math.pow(value / 255, 1 / gamma) * 255;
-  enhanced = (enhanced - 128) * contrast + 128;
-  return Math.max(0, Math.min(255, Math.round(enhanced)));
-};
-
-const applyNoiseReduction = (data: Uint8ClampedArray, width: number, height: number) => {
-  const temp = new Uint8ClampedArray(data);
-  for (let y = 1; y < height - 1; y++) {
-    for (let x = 1; x < width - 1; x++) {
-      const idx = (y * width + x) * 4;
-      const neighbors = [];
-      for (let dy = -1; dy <= 1; dy++) {
-        for (let dx = -1; dx <= 1; dx++) {
-          const nIdx = ((y + dy) * width + (x + dx)) * 4;
-          neighbors.push(temp[nIdx]);
-        }
-      }
-      neighbors.sort((a, b) => a - b);
-      const median = neighbors[4];
-      data[idx] = median;
-      data[idx + 1] = median;
-      data[idx + 2] = median;
-    }
-  }
-};
-
-const applyEdgeSharpening = (data: Uint8ClampedArray, width: number, height: number) => {
-  const temp = new Uint8ClampedArray(data);
-  const kernel = [[0, -1, 0], [-1, 5, -1], [0, -1, 0]];
-  
-  for (let y = 1; y < height - 1; y++) {
-    for (let x = 1; x < width - 1; x++) {
-      const idx = (y * width + x) * 4;
-      let sum = 0;
-      for (let ky = 0; ky < 3; ky++) {
-        for (let kx = 0; kx < 3; kx++) {
-          const nIdx = ((y + ky - 1) * width + (x + kx - 1)) * 4;
-          sum += temp[nIdx] * kernel[ky][kx];
-        }
-      }
-      const sharpened = Math.max(0, Math.min(255, sum));
-      data[idx] = sharpened;
-      data[idx + 1] = sharpened;
-      data[idx + 2] = sharpened;
-    }
-  }
-};
 
 export function ReceiptScanner() {
   const { dispatch } = useBillSplitter();
@@ -142,9 +34,6 @@ export function ReceiptScanner() {
   const [rawText, setRawText] = useState("");
   const [showJsonResponse, setShowJsonResponse] = useState(false);
   const [jsonResponse, setJsonResponse] = useState<any>(null);
-  const [showPreprocessedImage, setShowPreprocessedImage] = useState(false);
-  const [preprocessedImageUrl, setPreprocessedImageUrl] = useState<string>("");
-  const [enablePreprocessing, setEnablePreprocessing] = useState(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Handle fetcher response
@@ -187,28 +76,12 @@ export function ReceiptScanner() {
     setIsScanning(true);
     setScanProgress("Converting image to base64...");
     setExtractedItems([]);
-    setPreprocessedImageUrl("");
 
     try {
-      let fileToProcess = file;
-      console.log('fileToProcess', fileToProcess);
+      console.log('Processing file:', file);
       
-      // Preprocess the image if enabled
-      if (enablePreprocessing) {
-        setScanProgress("Preprocessing image...");
-        const processedFile = await preprocessImage(file);
-        fileToProcess = processedFile;
-        
-        // Create URL for preview
-        const url = URL.createObjectURL(processedFile);
-        setPreprocessedImageUrl(url);
-        setScanProgress("Image preprocessed, converting to base64...");
-      } else {
-        setScanProgress("Converting image to base64...");
-      }
-
       // Convert file to base64 on client side
-      const base64String = await fileToBase64(fileToProcess);
+      const base64String = await fileToBase64(file);
       console.log('Base64 conversion successful, length:', base64String.length);
       
       setScanProgress("Analyzing receipt with Gemini AI...");
@@ -216,7 +89,7 @@ export function ReceiptScanner() {
       // Send base64 string instead of file
       const formData = new FormData();
       formData.append('base64Image', base64String);
-      formData.append('mimeType', fileToProcess.type || 'image/jpeg');
+      formData.append('mimeType', file.type || 'image/jpeg');
       
       fetcher.submit(formData, {
         method: 'POST',
@@ -269,19 +142,6 @@ export function ReceiptScanner() {
       </h2>
 
       <div className="mb-4 space-y-3">
-        {/* Preprocessing Options */}
-        <div className="flex items-center gap-3">
-          <label className="flex items-center gap-2 text-sm text-zinc-300">
-            <input
-              type="checkbox"
-              checked={enablePreprocessing}
-              onChange={(e) => setEnablePreprocessing(e.target.checked)}
-              className="rounded border-zinc-600 bg-zinc-700 text-volt-400 focus:ring-volt-400"
-            />
-            Enable image preprocessing
-          </label>
-        </div>
-
         <input
           ref={fileInputRef}
           type="file"
