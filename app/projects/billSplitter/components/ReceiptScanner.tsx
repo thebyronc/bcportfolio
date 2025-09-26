@@ -82,7 +82,6 @@ export function ReceiptScanner() {
       
       // Convert file to base64 on client side
       const base64String = await fileToBase64(file);
-      console.log('Base64 conversion successful, length:', base64String.length);
       
       setScanProgress("Analyzing receipt with Gemini AI...");
       
