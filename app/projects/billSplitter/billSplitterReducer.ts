@@ -20,14 +20,8 @@ const COLORS = [
 ];
 
 export const defaultState: BillSplitterState = {
-  people: [
-    { id: "1", name: "Misa", color: COLORS[0] },
-    { id: "2", name: "Bento", color: COLORS[1] },
-  ],
-  lineItems: [
-    { id: "1", description: "Pizza", amount: 25.5, assignedTo: ["1"] },
-    { id: "2", description: "Drinks", amount: 12.0, assignedTo: ["1", "2"] },
-  ],
+  people: [],
+  lineItems: [],
   tipPercentage: 15,
   tipAmount: 0,
   isTipAmountMode: false,
