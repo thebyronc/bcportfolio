@@ -1,5 +1,4 @@
-import { useState, useRef, useEffect } from "react";
-import { useFetcher } from "react-router";
+import { useState, useRef } from "react";
 import { useBillSplitter } from "../BillSplitterContext";
 import { addLineItem as addLineItemAction } from "../billSplitterActions";
 
@@ -27,7 +26,6 @@ const fileToBase64 = (file: File): Promise<string> => {
 
 export function ReceiptScanner() {
   const { dispatch } = useBillSplitter();
-  const fetcher = useFetcher();
   const [isScanning, setIsScanning] = useState(false);
   const [extractedItems, setExtractedItems] = useState<ExtractedItem[]>([]);
   const [scanProgress, setScanProgress] = useState("");
@@ -35,41 +33,6 @@ export function ReceiptScanner() {
   const [showJsonResponse, setShowJsonResponse] = useState(false);
   const [jsonResponse, setJsonResponse] = useState<any>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  // Handle fetcher response
-  useEffect(() => {
-    if (fetcher.data) {
-      if (fetcher.data.error) {
-        setScanProgress(`Error: ${fetcher.data.error}`);
-        setIsScanning(false);
-      } else {
-        // Ensure text is a string before setting it
-        const textValue = typeof fetcher.data.text === 'string' ? fetcher.data.text : String(fetcher.data.text || '');
-        setRawText(textValue);
-        setJsonResponse(fetcher.data);
-        setScanProgress("Processing extracted data...");
-        
-        // Convert Gemini results to our format
-        const items: ExtractedItem[] = (fetcher.data.items || []).map((item: any) => ({
-          description: item.description,
-          amount: item.amount,
-          confidence: item.confidence
-        }));
-        
-        setExtractedItems(items);
-        setScanProgress(`Found ${items.length} line items using Gemini AI`);
-        setIsScanning(false);
-      }
-    }
-  }, [fetcher.data]);
-
-  // Handle fetcher errors
-  useEffect(() => {
-    if (fetcher.state === 'idle' && fetcher.data === undefined && isScanning) {
-      setScanProgress("Error: Failed to process image");
-      setIsScanning(false);
-    }
-  }, [fetcher.state, fetcher.data, isScanning]);
 
 
   const scanReceipt = async (file: File) => {
@@ -85,15 +48,45 @@ export function ReceiptScanner() {
       
       setScanProgress("Analyzing receipt with Gemini AI...");
       
-      // Send base64 string instead of file
-      const formData = new FormData();
-      formData.append('base64Image', base64String);
-      formData.append('mimeType', file.type || 'image/jpeg');
-      
-      fetcher.submit(formData, {
+      // Call Firebase Function directly
+      const response = await fetch('https://us-central1-bcportfolio-9dcc7.cloudfunctions.net/ocr', {
         method: 'POST',
-        action: '/api/ocr'
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          base64Image: base64String,
+          mimeType: file.type || 'image/jpeg'
+        })
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      if (data.error) {
+        setScanProgress(`Error: ${data.error}`);
+        setIsScanning(false);
+      } else {
+        // Ensure text is a string before setting it
+        const textValue = typeof data.text === 'string' ? data.text : String(data.text || '');
+        setRawText(textValue);
+        setJsonResponse(data);
+        setScanProgress("Processing extracted data...");
+        
+        // Convert Gemini results to our format
+        const items: ExtractedItem[] = (data.items || []).map((item: any) => ({
+          description: item.description,
+          amount: item.amount,
+          confidence: item.confidence
+        }));
+        
+        setExtractedItems(items);
+        setScanProgress(`Found ${items.length} line items using Gemini AI`);
+        setIsScanning(false);
+      }
 
     } catch (error) {
       console.error("OCR Error:", error);
