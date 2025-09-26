@@ -1,5 +1,4 @@
 import { useState, useRef } from "react";
-import { createWorker } from "tesseract.js";
 import { useBillSplitter } from "../BillSplitterContext";
 import { addLineItem as addLineItemAction } from "../billSplitterActions";
 
@@ -9,230 +8,90 @@ interface ExtractedItem {
   confidence: number;
 }
 
+// Helper function to convert file to base64
+const fileToBase64 = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result as string;
+      // Remove data URL prefix if present (data:image/type;base64,)
+      const base64 = result.includes(',') ? result.split(',')[1] : result;
+      resolve(base64);
+    };
+    reader.onerror = () => reject(new Error('Failed to read file'));
+    reader.readAsDataURL(file);
+  });
+};
+
+
 export function ReceiptScanner() {
   const { dispatch } = useBillSplitter();
   const [isScanning, setIsScanning] = useState(false);
   const [extractedItems, setExtractedItems] = useState<ExtractedItem[]>([]);
   const [scanProgress, setScanProgress] = useState("");
   const [rawText, setRawText] = useState("");
-  const [showRawText, setShowRawText] = useState(false);
+  const [showJsonResponse, setShowJsonResponse] = useState(false);
+  const [jsonResponse, setJsonResponse] = useState<any>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const parseReceiptText = (text: string): ExtractedItem[] => {
-    const lines = text.split("\n").filter((line) => line.trim());
-    const items: ExtractedItem[] = [];
-
-    // Enhanced patterns for receipt line items with better coverage
-    const patterns = [
-      // Standard patterns
-      /^(.+?)\s+\$?(\d+\.\d{2})$/,
-      /^(.+?)\s+\$(\d+\.\d{2})$/,
-      /^(.+?)\s+(\d+\.\d{2})$/,
-      /^(.+?)\s+(\d+\.\d{2})\s*\$$/,
-      /^(.+?)\s+\$?(\d+\.\d{2})$/,
-
-      // Patterns with quantity
-      /^(.+?)\s+\d+\s+\$?(\d+\.\d{2})$/,
-      /^\d+\s+(.+?)\s+\$?(\d+\.\d{2})$/,
-
-      // Patterns with spaces in amounts (common OCR issue)
-      /^(.+?)\s+\$?(\d+)\s*\.\s*(\d{2})$/,
-      /^(.+?)\s+(\d+)\s*\.\s*(\d{2})$/,
-
-      // Patterns with missing decimal points
-      /^(.+?)\s+\$?(\d{3,4})$/,
-      /^(.+?)\s+(\d{3,4})$/,
-
-      // Patterns with extra spaces
-      /^(.+?)\s+\$?\s*(\d+\.\d{2})$/,
-      /^(.+?)\s+\s+\$?(\d+\.\d{2})$/,
-
-      // Patterns with different price formats
-      /^(.+?)\s+\$?(\d+)\.(\d{2})$/,
-      /^(.+?)\s+(\d+)\.(\d{2})$/,
-
-      // Patterns for items without dollar signs
-      /^(.+?)\s+(\d+\.\d{2})\s*$/,
-
-      // Patterns with parentheses (common in receipts)
-      /^(.+?)\s*\([^)]*\)\s+\$?(\d+\.\d{2})$/,
-      /^(.+?)\s+\$?(\d+\.\d{2})\s*\([^)]*\)$/,
-
-      // Patterns for items with asterisks or special characters
-      /^(.+?)\s*\*\s+\$?(\d+\.\d{2})$/,
-      /^(.+?)\s+\$?(\d+\.\d{2})\s*\*$/,
-
-      // Patterns for items with dashes or hyphens
-      /^(.+?)\s*-\s+\$?(\d+\.\d{2})$/,
-      /^(.+?)\s+\$?(\d+\.\d{2})\s*-$/,
-
-      // Patterns for items with @ symbol (common in receipts)
-      /^(.+?)\s*@\s+\$?(\d+\.\d{2})$/,
-      /^(.+?)\s+\$?(\d+\.\d{2})\s*@$/,
-    ];
-
-    for (const line of lines) {
-      const trimmedLine = line.trim();
-
-      // Stop processing after encountering "Total" (case insensitive)
-      if (trimmedLine.toLowerCase().includes("total")) {
-        break;
-      }
-
-      // Skip common receipt headers/footers
-      if (
-        trimmedLine.toLowerCase().includes("subtotal") ||
-        trimmedLine.toLowerCase().includes("tax") ||
-        trimmedLine.toLowerCase().includes("tip") ||
-        trimmedLine.toLowerCase().includes("change") ||
-        trimmedLine.toLowerCase().includes("cash") ||
-        trimmedLine.toLowerCase().includes("card") ||
-        trimmedLine.toLowerCase().includes("receipt") ||
-        trimmedLine.toLowerCase().includes("thank") ||
-        trimmedLine.toLowerCase().includes("date") ||
-        trimmedLine.toLowerCase().includes("time") ||
-        trimmedLine.toLowerCase().includes("store") ||
-        trimmedLine.toLowerCase().includes("address") ||
-        trimmedLine.toLowerCase().includes("phone") ||
-        trimmedLine.toLowerCase().includes("www") ||
-        trimmedLine.toLowerCase().includes("http") ||
-        trimmedLine.toLowerCase().includes("visa") ||
-        trimmedLine.toLowerCase().includes("mastercard") ||
-        trimmedLine.toLowerCase().includes("amex") ||
-        trimmedLine.toLowerCase().includes("discover") ||
-        trimmedLine.toLowerCase().includes("balance") ||
-        trimmedLine.toLowerCase().includes("due") ||
-        trimmedLine.toLowerCase().includes("amount") ||
-        trimmedLine.toLowerCase().includes("payment") ||
-        trimmedLine.length < 3
-      ) {
-        continue;
-      }
-
-      for (const pattern of patterns) {
-        const match = trimmedLine.match(pattern);
-        if (match) {
-          let description = match[1].trim();
-          let amount: number;
-
-          // Handle patterns with split decimal points
-          if (match[3]) {
-            amount = parseFloat(`${match[2]}.${match[3]}`);
-          } else {
-            amount = parseFloat(match[2]);
-          }
-
-          // Handle patterns where amount might be missing decimal point
-          if (amount > 100 && amount < 10000) {
-            // Likely missing decimal point, convert to cents
-            amount = amount / 100;
-          }
-
-          // Validate the amount
-          if (amount > 0 && amount < 10000) {
-            // Clean up description
-            description = description
-              .replace(/[^\w\s\-\.]/g, " ")
-              .replace(/\s+/g, " ")
-              .trim();
-
-            // Skip if description is too short
-            if (description.length < 2) continue;
-
-            items.push({
-              description,
-              amount,
-              confidence: 0.8, // Default confidence for pattern matches
-            });
-            break;
-          }
-        }
-      }
-    }
-
-    // Remove duplicates based on description and amount
-    const uniqueItems = items.filter(
-      (item, index, self) =>
-        index ===
-        self.findIndex(
-          (t) =>
-            t.description.toLowerCase() === item.description.toLowerCase() &&
-            Math.abs(t.amount - item.amount) < 0.01,
-        ),
-    );
-
-    return uniqueItems;
-  };
 
   const scanReceipt = async (file: File) => {
     setIsScanning(true);
-    setScanProgress("Initializing OCR...");
+    setScanProgress("Converting image to base64...");
     setExtractedItems([]);
 
     try {
-      // Create worker with enhanced configuration for receipts
-      const worker = await createWorker("eng");
-
-      // Configure Tesseract for receipt scanning
-      await worker.setParameters({
-        tessedit_char_whitelist:
-          "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz$.,()- ",
-        preserve_interword_spaces: "1",
-        textord_heavy_nr: "1", // Better handling of noise
-        textord_min_linesize: "2.5", // Minimum line size
-        tessedit_do_invert: "0", // Don't invert colors
-        tessedit_image_border: "20", // Add border for better recognition
-        textord_old_baselines: "0", // Use new baseline detection
-        textord_force_make_prop_words: "F", // Don't force proportional words
-        textord_old_xheight: "0", // Use new x-height calculation
-        textord_min_xheight: "8", // Minimum x-height
-        textord_old_metrics: "0", // Use new metrics
+      console.log('Processing file:', file);
+      
+      // Convert file to base64 on client side
+      const base64String = await fileToBase64(file);
+      
+      setScanProgress("Analyzing receipt with Gemini AI...");
+      
+      // Call Firebase Function directly
+      const response = await fetch('https://us-central1-bcportfolio-9dcc7.cloudfunctions.net/ocr', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          base64Image: base64String,
+          mimeType: file.type || 'image/jpeg'
+        })
       });
 
-      setScanProgress("Processing image with enhanced OCR...");
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
-      // First pass with default settings
-      const {
-        data: { text: text1 },
-      } = await worker.recognize(file);
+      const data = await response.json();
+      
+      if (data.error) {
+        setScanProgress(`Error: ${data.error}`);
+        setIsScanning(false);
+      } else {
+        // Ensure text is a string before setting it
+        const textValue = typeof data.text === 'string' ? data.text : String(data.text || '');
+        setRawText(textValue);
+        setJsonResponse(data);
+        setScanProgress("Processing extracted data...");
+        
+        // Convert Gemini results to our format
+        const items: ExtractedItem[] = (data.items || []).map((item: any) => ({
+          description: item.description,
+          amount: item.amount,
+          confidence: item.confidence
+        }));
+        
+        setExtractedItems(items);
+        setScanProgress(`Found ${items.length} line items using Gemini AI`);
+        setIsScanning(false);
+      }
 
-      // Second pass with different configuration for better line detection
-      await worker.setParameters({
-        preserve_interword_spaces: "1",
-        textord_heavy_nr: "1",
-        textord_min_linesize: "1.5", // Smaller line size for better detection
-      });
-
-      const {
-        data: { text: text2 },
-      } = await worker.recognize(file);
-
-      // Third pass with different configuration for sparse text
-      await worker.setParameters({
-        preserve_interword_spaces: "1",
-        textord_heavy_nr: "0", // Less noise removal for sparse text
-        textord_min_linesize: "1.0", // Even smaller line size
-      });
-
-      const {
-        data: { text: text3 },
-      } = await worker.recognize(file);
-
-      // Combine all OCR results
-      const combinedText = `${text1}\n${text2}\n${text3}`;
-      setRawText(combinedText);
-
-      setScanProgress("Parsing line items...");
-      const items = parseReceiptText(combinedText);
-
-      setExtractedItems(items);
-      setScanProgress(`Found ${items.length} potential line items`);
-
-      await worker.terminate();
     } catch (error) {
       console.error("OCR Error:", error);
-      setScanProgress("Error processing image. Please try again.");
-    } finally {
+      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+      setScanProgress(`Error: ${errorMessage}`);
       setIsScanning(false);
     }
   };
@@ -244,9 +103,9 @@ export function ReceiptScanner() {
     }
   };
 
-  const addExtractedItem = (item: ExtractedItem) => {
+  const addExtractedItem = (item: ExtractedItem, customId?: string) => {
     const newItem = {
-      id: Date.now().toString(),
+      id: customId || Date.now().toString(),
       description: item.description,
       amount: item.amount,
       assignedTo: [],
@@ -255,8 +114,11 @@ export function ReceiptScanner() {
   };
 
   const addAllItems = () => {
-    extractedItems.forEach((item) => {
-      addExtractedItem(item);
+    const baseTime = Date.now();
+    extractedItems.forEach((item, index) => {
+      // Generate unique ID by adding index to base time
+      const uniqueId = (baseTime + index).toString();
+      addExtractedItem(item, uniqueId);
     });
     setExtractedItems([]);
   };
@@ -271,7 +133,7 @@ export function ReceiptScanner() {
         Receipt Scanner
       </h2>
 
-      <div className="mb-4">
+      <div className="mb-4 space-y-3">
         <input
           ref={fileInputRef}
           type="file"
@@ -299,17 +161,17 @@ export function ReceiptScanner() {
         <div className="mb-4 text-sm text-zinc-400">{scanProgress}</div>
       )}
 
-      {rawText && (
+      {jsonResponse && (
         <div className="mb-4">
           <button
-            onClick={() => setShowRawText(!showRawText)}
+            onClick={() => setShowJsonResponse(!showJsonResponse)}
             className="text-volt-400 hover:text-volt-300 text-sm underline"
           >
-            {showRawText ? "Hide" : "Show"} Raw OCR Text
+            {showJsonResponse ? "Hide" : "Show"} JSON Response
           </button>
-          {showRawText && (
-            <div className="mt-2 max-h-32 overflow-y-auto rounded-md bg-zinc-700 p-3 text-xs text-zinc-300">
-              <pre className="whitespace-pre-wrap">{rawText}</pre>
+          {showJsonResponse && (
+            <div className="mt-2 max-h-64 overflow-y-auto rounded-md bg-zinc-700 p-3 text-xs text-zinc-300">
+              <pre className="whitespace-pre-wrap">{JSON.stringify(jsonResponse, null, 2)}</pre>
             </div>
           )}
         </div>
