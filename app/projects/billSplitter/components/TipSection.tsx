@@ -11,7 +11,7 @@ export function TipSection() {
   const [showCustomInput, setShowCustomInput] = useState(false);
   
   return (
-    <div className="mt-8 rounded-lg bg-zinc-800 p-4 sm:p-6 shadow-lg">
+    <div className="rounded-lg bg-zinc-800 p-4 sm:p-6">
       <h2 className="text-volt-400 mb-4 text-xl font-semibold">Tip Calculator</h2>
 
       <div className="flex flex-col gap-4">
