@@ -46,7 +46,7 @@ export function ReceiptScanner() {
       // Convert file to base64 on client side
       const base64String = await fileToBase64(file);
       
-      setScanProgress("Analyzing receipt with Gemini AI...");
+      setScanProgress("Analyzing receipt...");
       
       // Call Firebase Function directly
       const response = await fetch('https://us-central1-bcportfolio-9dcc7.cloudfunctions.net/ocr', {
@@ -76,7 +76,7 @@ export function ReceiptScanner() {
         setJsonResponse(data);
         setScanProgress("Processing extracted data...");
         
-        // Convert Gemini results to our format
+        // Convert results to our format
         const items: ExtractedItem[] = (data.items || []).map((item: any) => ({
           description: item.description,
           amount: item.amount,
@@ -84,7 +84,7 @@ export function ReceiptScanner() {
         }));
         
         setExtractedItems(items);
-        setScanProgress(`Found ${items.length} line items using Gemini AI`);
+        setScanProgress(`Found ${items.length} line items`);
         setIsScanning(false);
       }
 
