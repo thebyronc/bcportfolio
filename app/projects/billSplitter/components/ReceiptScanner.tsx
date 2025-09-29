@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { useBillSplitter } from "../BillSplitterContext";
 import { addLineItem as addLineItemAction } from "../billSplitterActions";
+import PhotoIcon from "~/assets/PhotoIcon";
 
 interface ExtractedItem {
   description: string;
@@ -152,7 +153,10 @@ export function ReceiptScanner() {
               Scanning...
             </>
           ) : (
-            <>📷 Upload Receipt Image</>
+            <>
+              <PhotoIcon />
+              Upload Receipt Image
+            </>
           )}
         </button>
       </div>
