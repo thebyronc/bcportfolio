@@ -35,33 +35,36 @@ function BillSplitterContent() {
         onConfirm={handleConfirm}
         onCancel={handleCancel}
       />
-      <div className="mx-auto max-w-6xl p-4 sm:p-6">
-        <div className="mb-8 flex items-center justify-between">
+      <div className="mx-auto max-w-6xl p-2 sm:p-4">
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
             <h1 className="text-volt-400 text-3xl font-bold">Bill Splitter</h1>
             {state.isDataLoaded && (
-              <p className="mt-2 text-center text-zinc-400">
+              <p className="mt-2 text-zinc-400">
                 Data automatically saved to your browser
               </p>
             )}
           </div>
-          <button
-            onClick={handleClearAll}
-            className="rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-red-700"
-            title="Clear all data and reset to defaults"
-          >
-            Clear All
-          </button>
+          <div className="w-full sm:w-auto">
+            <button
+              onClick={handleClearAll}
+              className="rounded-md bg-zinc-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-red-700"
+              title="Clear all data and reset to defaults"
+            >
+              Clear All
+            </button>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+        <div className="mb-8 grid grid-cols-1 gap-8 lg:grid-cols-2">
           <PeopleSection />
           <LineItemsSection />
           <ReceiptScanner />
         </div>
-
-        <TipSection />
-        <TaxSection />
+        <div className="mb-8 grid grid-cols-1 gap-8 lg:grid-cols-2">
+          <TipSection />
+          <TaxSection />
+        </div>
         <TotalsSection />
       </div>
     </div>

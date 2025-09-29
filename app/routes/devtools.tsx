@@ -8,15 +8,10 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function DevToolsConfig() {
-  return new Response(
-    JSON.stringify({
-      version: 1,
-      rules: [],
-    }),
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    },
+  return (
+    <div>
+      <h1>Chrome DevTools Configuration</h1>
+      <p>This endpoint provides Chrome DevTools configuration.</p>
+    </div>
   );
 }

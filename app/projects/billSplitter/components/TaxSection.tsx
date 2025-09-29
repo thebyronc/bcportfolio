@@ -11,7 +11,7 @@ export function TaxSection() {
   const [showCustomInput, setShowCustomInput] = useState(false);
   
   return (
-    <div className="mt-8 rounded-lg bg-zinc-800 p-4 sm:p-6 shadow-lg">
+    <div className="rounded-lg bg-zinc-800 p-4 sm:p-6">
       <h2 className="text-volt-400 mb-4 text-xl font-semibold">Tax Calculator</h2>
 
       <div className="flex flex-col gap-4">
@@ -55,86 +55,28 @@ export function TaxSection() {
         </div>
         <div className="flex flex-col gap-3">
           {!state.isTaxAmountMode ? (
-            <>
-              <div className="flex w-fit rounded-lg overflow-hidden border border-zinc-600">
-                {[0, 6, 8.5, 10, 12].map((percent, idx) => (
-                  <button
-                    key={percent}
-                    onClick={() => {
-                      setShowCustomInput(false);
-                      dispatch(setTaxPercentageAction(percent));
-                    }}
-                    className={`px-4 py-2 font-semibold uppercase focus:outline-none transition-colors border-r border-zinc-600 border-t border-b last:border-r-0
-                      ${state.taxPercentage === percent && !showCustomInput
-                        ? "text-volt-400 bg-zinc-800"
-                        : "text-zinc-300 bg-zinc-900 hover:bg-zinc-800"}
-                      ${idx === 0 ? "rounded-l-lg" : ""}
-                    `}
-                    style={{ 
-                      border: "none", 
-                      borderRadius: 0,
-                      boxShadow: state.taxPercentage === percent && !showCustomInput ? "inset 0 0 0 2px #fbbf24" : "none"
-                    }}
-                    onFocus={(e) => {
-                      e.target.style.boxShadow = "inset 0 0 0 2px #fbbf24";
-                    }}
-                    onBlur={(e) => {
-                      e.target.style.boxShadow = state.taxPercentage === percent && !showCustomInput ? "inset 0 0 0 2px #fbbf24" : "none";
-                    }}
-                  >
-                    {percent}%
-                  </button>
-                ))}
-                <button
-                  onClick={() => {
-                    setShowCustomInput(true);
-                    dispatch(setTaxPercentageAction(-1));
-                  }}
-                  className={`px-4 py-2 font-semibold uppercase focus:outline-none transition-colors rounded-r-lg
-                    ${showCustomInput
-                      ? "text-volt-400 bg-zinc-800"
-                      : "text-zinc-300 bg-zinc-900 hover:bg-zinc-800"}
-                  `}
-                  style={{ 
-                    border: "none", 
-                    borderRadius: 0,
-                    boxShadow: showCustomInput ? "inset 0 0 0 2px #fbbf24" : "none"
-                  }}
-                  onFocus={(e) => {
-                    e.target.style.boxShadow = "inset 0 0 0 2px #fbbf24";
-                  }}
-                  onBlur={(e) => {
-                    e.target.style.boxShadow = showCustomInput ? "inset 0 0 0 2px #fbbf24" : "none";
-                  }}
-                >
-                  Custom
-                </button>
-              </div>
-              {showCustomInput && (
-                <div className="flex items-center gap-2">
-                  <input
-                    type="number"
-                    min="0"
-                    max="100"
-                    step="0.1"
-                    autoFocus
-                    onFocus={e => e.target.select()}
-                    value={state.taxPercentage > 0 ? state.taxPercentage : ''}
-                    onChange={(e) => {
-                      const val = parseFloat(e.target.value);
-                      if (!isNaN(val) && val >= 0 && val <= 100) {
-                        dispatch(setTaxPercentageAction(val));
-                      } else if (e.target.value === '') {
-                        dispatch(setTaxPercentageAction(0));
-                      }
-                    }}
-                    className="w-24 border border-zinc-600 bg-zinc-700 px-3 py-2 text-white text-center rounded-lg focus:ring-volt-400 focus:ring-2 focus:outline-none focus:border-volt-400"
-                    placeholder="0.0"
-                  />
-                  <span className="text-sm text-zinc-400">%</span>
-                </div>
-              )}
-            </>
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                min="0"
+                max="100"
+                step="0.1"
+                autoFocus
+                onFocus={e => (e.target as HTMLInputElement).select()}
+                value={state.taxPercentage > 0 ? state.taxPercentage : ''}
+                onChange={(e) => {
+                  const val = parseFloat(e.target.value);
+                  if (!isNaN(val) && val >= 0 && val <= 100) {
+                    dispatch(setTaxPercentageAction(val));
+                  } else if (e.target.value === '') {
+                    dispatch(setTaxPercentageAction(0));
+                  }
+                }}
+                className="w-32 border border-zinc-600 bg-zinc-700 px-3 py-2 text-white text-center rounded-lg focus:ring-volt-400 focus:ring-2 focus:outline-none focus:border-volt-400"
+                placeholder="0.0"
+              />
+              <span className="text-sm text-zinc-400">%</span>
+            </div>
           ) : (
             <div className="flex items-center gap-2">
               <span className="text-sm text-zinc-400">$</span>
