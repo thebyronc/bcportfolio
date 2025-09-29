@@ -1,4 +1,5 @@
 import React from "react";
+import { calculatePersonShares } from "../billSplitterUtils";
 
 interface LineItem {
   id: string;
@@ -20,13 +21,16 @@ const PersonItemsList: React.FC<PersonItemsListProps> = ({
   lineItems,
   className = "",
 }) => {
-  // Filter items assigned to this person and calculate their share
+  // Filter items assigned to this person and calculate their share using smart rounding
   const personItems = lineItems
     .filter(item => item.assignedTo.includes(personId))
-    .map(item => ({
-      ...item,
-      personShare: item.amount / item.assignedTo.length
-    }));
+    .map(item => {
+      const shares = calculatePersonShares(item);
+      return {
+        ...item,
+        personShare: shares[personId] || 0
+      };
+    });
 
   if (personItems.length === 0) {
     return (

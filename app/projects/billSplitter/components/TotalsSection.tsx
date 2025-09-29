@@ -2,6 +2,7 @@ import { useBillSplitter } from "../BillSplitterContext";
 import Accordion from "~/projects/billSplitter/components/Accordian";
 import PersonItemsList from "~/projects/billSplitter/components/PersonItemsList";
 import ContentCopyIcon from "~/assets/ContentCopyIcon";
+import { calculatePersonShares } from "../billSplitterUtils";
 import { useState } from "react";
 
 export function TotalsSection() {
@@ -20,13 +21,16 @@ export function TotalsSection() {
       const personTotalWithTip = calculations.calculatePersonTotalWithTip(person.id);
       const itemCount = calculations.countItemsAssignedToPerson(person.id);
 
-      // Get items assigned to this person
+      // Get items assigned to this person using smart rounding
       const personItems = state.lineItems
         .filter(item => item.assignedTo.includes(person.id))
-        .map(item => ({
-          ...item,
-          personShare: item.amount / item.assignedTo.length
-        }));
+        .map(item => {
+          const shares = calculatePersonShares(item);
+          return {
+            ...item,
+            personShare: shares[person.id] || 0
+          };
+        });
 
       text += `${person.name}\n`;
       text += `   Subtotal: $${personTotal.toFixed(2)}\n`;

@@ -13,6 +13,42 @@ const COLORS = [
 
 const STORAGE_KEY = "billSplitterData";
 
+// Smart rounding utility to handle cent distribution
+export const calculatePersonShares = (item: LineItem): { [personId: string]: number } => {
+  const totalAmount = item.amount;
+  const shareCount = item.assignedTo.length;
+  
+  if (shareCount === 0) return {};
+  if (shareCount === 1) return { [item.assignedTo[0]]: totalAmount };
+  
+  const baseShare = totalAmount / shareCount;
+  
+  // Calculate base shares (rounded down to 2 decimal places)
+  const shares: { [personId: string]: number } = {};
+  let totalRounded = 0;
+  
+  item.assignedTo.forEach((personId, index) => {
+    if (index === 0) {
+      // First person gets the base share
+      shares[personId] = Math.floor(baseShare * 100) / 100;
+    } else {
+      // Other people get the base share
+      shares[personId] = Math.floor(baseShare * 100) / 100;
+    }
+    totalRounded += shares[personId];
+  });
+  
+  // Calculate the difference (rounding error)
+  const difference = Math.round((totalAmount - totalRounded) * 100) / 100;
+  
+  // Add the difference to the first person
+  if (difference !== 0 && item.assignedTo.length > 0) {
+    shares[item.assignedTo[0]] = Math.round((shares[item.assignedTo[0]] + difference) * 100) / 100;
+  }
+  
+  return shares;
+};
+
 // Calculation functions
 export const calculatePersonTotal = (
   lineItems: LineItem[],
@@ -21,8 +57,8 @@ export const calculatePersonTotal = (
   return lineItems
     .filter((item) => item.assignedTo.includes(personId))
     .reduce((total, item) => {
-      const share = item.amount / item.assignedTo.length;
-      return total + share;
+      const shares = calculatePersonShares(item);
+      return total + (shares[personId] || 0);
     }, 0);
 };
 
