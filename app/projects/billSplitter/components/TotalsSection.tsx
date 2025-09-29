@@ -28,12 +28,14 @@ export function TotalsSection() {
                   ${calculations.calculatePersonTotal(person.id).toFixed(2)}
                 </span>
               </div>
-              <div className="text-volt-400 flex justify-between">
-                <span>Tip:</span>
-                <span>
-                  ${calculations.calculatePersonTip(person.id).toFixed(2)}
-                </span>
-              </div>
+              {calculations.calculateTotalTip() > 0 && (
+                <div className="text-volt-400 flex justify-between">
+                  <span>Tip:</span>
+                  <span>
+                    ${calculations.calculatePersonTip(person.id).toFixed(2)}
+                  </span>
+                </div>
+              )}
               {calculations.calculateTotalTax() > 0 && (
                 <div className="text-volt-400 flex justify-between">
                   <span>Tax:</span>
@@ -62,12 +64,14 @@ export function TotalsSection() {
               ${calculations.calculateTotal().toFixed(2)}
             </span>
           </div>
-          <div className="flex items-center justify-between">
-            <span className="text-lg font-semibold">Tip:</span>
-            <span className="text-xl font-semibold">
-              ${calculations.calculateTotalTip().toFixed(2)}
-            </span>
-          </div>
+          {calculations.calculateTotalTip() > 0 && (
+            <div className="flex items-center justify-between">
+              <span className="text-lg font-semibold">Tip:</span>
+              <span className="text-xl font-semibold">
+                ${calculations.calculateTotalTip().toFixed(2)}
+              </span>
+            </div>
+          )}
           {calculations.calculateTotalTax() > 0 && (
             <div className="flex items-center justify-between">
               <span className="text-lg font-semibold">Tax:</span>
