@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { useBillSplitter } from "../BillSplitterContext";
 import { addLineItem as addLineItemAction } from "../billSplitterActions";
 import PhotoIcon from "~/assets/PhotoIcon";
+import CloseIcon from "~/assets/CloseIcon";
 
 interface ExtractedItem {
   description: string;
@@ -214,9 +215,9 @@ export function ReceiptScanner() {
                   </button>
                   <button
                     onClick={() => removeItem(index)}
-                    className="text-red-400 transition-colors hover:text-red-300"
+                    className="text-zinc-300 transition-colors hover:text-white"
                   >
-                    ×
+                    <CloseIcon size={16} color="currentColor" />
                   </button>
                 </div>
               </div>
