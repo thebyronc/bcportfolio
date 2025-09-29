@@ -56,14 +56,15 @@ function BillSplitterContent() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+        <div className="mb-8 grid grid-cols-1 gap-8 lg:grid-cols-2">
           <PeopleSection />
           <LineItemsSection />
           <ReceiptScanner />
         </div>
-
-        <TipSection />
-        <TaxSection />
+        <div className="mb-8 grid grid-cols-1 gap-8 lg:grid-cols-2">
+          <TipSection />
+          <TaxSection />
+        </div>
         <TotalsSection />
       </div>
     </div>
