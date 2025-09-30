@@ -53,7 +53,7 @@ export type BillSplitterAction =
 export const loadData = (
   people: Person[],
   lineItems: LineItem[],
-  tipPercentage: number,
+  tipPercentage: number
 ): BillSplitterAction => ({
   type: BILL_SPLITTER_ACTIONS.LOAD_DATA,
   payload: { people, lineItems, tipPercentage },
@@ -89,7 +89,7 @@ export const clearPeople = (): BillSplitterAction => ({
 
 export const toggleAssignment = (
   itemId: string,
-  personId: string,
+  personId: string
 ): BillSplitterAction => ({
   type: BILL_SPLITTER_ACTIONS.TOGGLE_ASSIGNMENT,
   payload: { itemId, personId },

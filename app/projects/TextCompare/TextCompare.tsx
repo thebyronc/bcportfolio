@@ -26,7 +26,7 @@ export function TextCompare() {
             <textarea
               className="h-64 w-full rounded-lg border border-gray-300 bg-white p-3 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
               value={text1}
-              onChange={(e) => setText1(e.target.value)}
+              onChange={e => setText1(e.target.value)}
               placeholder="Enter the original text here..."
             />
           </div>
@@ -38,7 +38,7 @@ export function TextCompare() {
             <textarea
               className="h-64 w-full rounded-lg border border-gray-300 bg-white p-3 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
               value={text2}
-              onChange={(e) => setText2(e.target.value)}
+              onChange={e => setText2(e.target.value)}
               placeholder="Enter the modified text here..."
             />
           </div>

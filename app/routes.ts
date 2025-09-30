@@ -10,6 +10,6 @@ export default [
   route("image-to-base64", "routes/imageToBase64.tsx"),
   route(
     ".well-known/appspecific/com.chrome.devtools.json",
-    "routes/devtools.tsx",
+    "routes/devtools.tsx"
   ),
 ] satisfies RouteConfig;

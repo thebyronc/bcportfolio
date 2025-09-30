@@ -1,4 +1,4 @@
-import {Response} from "express";
+import { Response } from "express";
 
 /**
  * Set CORS headers for the response

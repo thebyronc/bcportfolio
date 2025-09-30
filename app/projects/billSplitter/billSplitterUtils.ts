@@ -14,19 +14,21 @@ const COLORS = [
 const STORAGE_KEY = "billSplitterData";
 
 // Smart rounding utility to handle cent distribution
-export const calculatePersonShares = (item: LineItem): { [personId: string]: number } => {
+export const calculatePersonShares = (
+  item: LineItem
+): { [personId: string]: number } => {
   const totalAmount = item.amount;
   const shareCount = item.assignedTo.length;
-  
+
   if (shareCount === 0) return {};
   if (shareCount === 1) return { [item.assignedTo[0]]: totalAmount };
-  
+
   const baseShare = totalAmount / shareCount;
-  
+
   // Calculate base shares (rounded down to 2 decimal places)
   const shares: { [personId: string]: number } = {};
   let totalRounded = 0;
-  
+
   item.assignedTo.forEach((personId, index) => {
     if (index === 0) {
       // First person gets the base share
@@ -37,25 +39,26 @@ export const calculatePersonShares = (item: LineItem): { [personId: string]: num
     }
     totalRounded += shares[personId];
   });
-  
+
   // Calculate the difference (rounding error)
   const difference = Math.round((totalAmount - totalRounded) * 100) / 100;
-  
+
   // Add the difference to the first person
   if (difference !== 0 && item.assignedTo.length > 0) {
-    shares[item.assignedTo[0]] = Math.round((shares[item.assignedTo[0]] + difference) * 100) / 100;
+    shares[item.assignedTo[0]] =
+      Math.round((shares[item.assignedTo[0]] + difference) * 100) / 100;
   }
-  
+
   return shares;
 };
 
 // Calculation functions
 export const calculatePersonTotal = (
   lineItems: LineItem[],
-  personId: string,
+  personId: string
 ): number => {
   return lineItems
-    .filter((item) => item.assignedTo.includes(personId))
+    .filter(item => item.assignedTo.includes(personId))
     .reduce((total, item) => {
       const shares = calculatePersonShares(item);
       return total + (shares[personId] || 0);
@@ -70,7 +73,7 @@ export const calculateTotalTip = (
   lineItems: LineItem[],
   tipPercentage: number,
   tipAmount?: number,
-  isTipAmountMode?: boolean,
+  isTipAmountMode?: boolean
 ): number => {
   if (isTipAmountMode && tipAmount !== undefined) {
     return tipAmount;
@@ -83,7 +86,7 @@ export const calculatePersonTip = (
   tipPercentage: number,
   personId: string,
   tipAmount?: number,
-  isTipAmountMode?: boolean,
+  isTipAmountMode?: boolean
 ): number => {
   const personTotal = calculatePersonTotal(lineItems, personId);
   const totalBill = calculateTotal(lineItems);
@@ -91,7 +94,12 @@ export const calculatePersonTip = (
 
   // Calculate tip proportionally based on person's share of the bill
   const personShare = personTotal / totalBill;
-  const totalTip = calculateTotalTip(lineItems, tipPercentage, tipAmount, isTipAmountMode);
+  const totalTip = calculateTotalTip(
+    lineItems,
+    tipPercentage,
+    tipAmount,
+    isTipAmountMode
+  );
   return personShare * totalTip;
 };
 
@@ -100,11 +108,17 @@ export const calculatePersonTotalWithTip = (
   tipPercentage: number,
   personId: string,
   tipAmount?: number,
-  isTipAmountMode?: boolean,
+  isTipAmountMode?: boolean
 ): number => {
   return (
     calculatePersonTotal(lineItems, personId) +
-    calculatePersonTip(lineItems, tipPercentage, personId, tipAmount, isTipAmountMode)
+    calculatePersonTip(
+      lineItems,
+      tipPercentage,
+      personId,
+      tipAmount,
+      isTipAmountMode
+    )
   );
 };
 
@@ -112,7 +126,7 @@ export const calculateTotalTax = (
   lineItems: LineItem[],
   taxPercentage: number,
   taxAmount?: number,
-  isTaxAmountMode?: boolean,
+  isTaxAmountMode?: boolean
 ): number => {
   if (isTaxAmountMode && taxAmount !== undefined) {
     return taxAmount;
@@ -125,7 +139,7 @@ export const calculatePersonTax = (
   taxPercentage: number,
   personId: string,
   taxAmount?: number,
-  isTaxAmountMode?: boolean,
+  isTaxAmountMode?: boolean
 ): number => {
   const personTotal = calculatePersonTotal(lineItems, personId);
   const totalBill = calculateTotal(lineItems);
@@ -133,7 +147,12 @@ export const calculatePersonTax = (
 
   // Calculate tax proportionally based on person's share of the bill
   const personShare = personTotal / totalBill;
-  const totalTax = calculateTotalTax(lineItems, taxPercentage, taxAmount, isTaxAmountMode);
+  const totalTax = calculateTotalTax(
+    lineItems,
+    taxPercentage,
+    taxAmount,
+    isTaxAmountMode
+  );
   return personShare * totalTax;
 };
 
@@ -142,11 +161,17 @@ export const calculatePersonTotalWithTax = (
   taxPercentage: number,
   personId: string,
   taxAmount?: number,
-  isTaxAmountMode?: boolean,
+  isTaxAmountMode?: boolean
 ): number => {
   return (
     calculatePersonTotal(lineItems, personId) +
-    calculatePersonTax(lineItems, taxPercentage, personId, taxAmount, isTaxAmountMode)
+    calculatePersonTax(
+      lineItems,
+      taxPercentage,
+      personId,
+      taxAmount,
+      isTaxAmountMode
+    )
   );
 };
 
@@ -157,10 +182,10 @@ export const calculateGrandTotal = (
   isTipAmountMode?: boolean,
   taxPercentage?: number,
   taxAmount?: number,
-  isTaxAmountMode?: boolean,
+  isTaxAmountMode?: boolean
 ): number => {
   return (
-    calculateTotal(lineItems) + 
+    calculateTotal(lineItems) +
     calculateTotalTip(lineItems, tipPercentage, tipAmount, isTipAmountMode) +
     calculateTotalTax(lineItems, taxPercentage || 0, taxAmount, isTaxAmountMode)
   );
@@ -169,17 +194,17 @@ export const calculateGrandTotal = (
 // Count items assigned to a person
 export const countItemsAssignedToPerson = (
   lineItems: LineItem[],
-  personId: string,
+  personId: string
 ): number => {
-  return lineItems.filter((item) => item.assignedTo.includes(personId)).length;
+  return lineItems.filter(item => item.assignedTo.includes(personId)).length;
 };
 
 // Utility functions
 export const getPersonById = (
   people: Person[],
-  id: string,
+  id: string
 ): Person | undefined => {
-  return people.find((p) => p.id === id);
+  return people.find(p => p.id === id);
 };
 
 export const getNextColor = (peopleCount: number): string => {
@@ -211,12 +236,12 @@ export const loadFromStorage = () => {
 export const saveToStorage = (
   people: Person[],
   lineItems: LineItem[],
-  tipPercentage: number,
+  tipPercentage: number
 ): void => {
   try {
     localStorage.setItem(
       STORAGE_KEY,
-      JSON.stringify({ people, lineItems, tipPercentage }),
+      JSON.stringify({ people, lineItems, tipPercentage })
     );
   } catch (error) {
     console.warn("Failed to save data to localStorage:", error);

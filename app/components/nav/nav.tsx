@@ -43,12 +43,12 @@ export function Nav() {
 
     document.addEventListener(
       "mousedown",
-      handleClickOutside as unknown as EventListener,
+      handleClickOutside as unknown as EventListener
     );
     return () => {
       document.removeEventListener(
         "mousedown",
-        handleClickOutside as unknown as EventListener,
+        handleClickOutside as unknown as EventListener
       );
     };
   }, []);
@@ -57,22 +57,22 @@ export function Nav() {
   const HamburgerIcon = () => (
     <button
       onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-      className="md:hidden flex flex-col justify-center items-center w-8 h-8 space-y-1"
+      className="flex h-8 w-8 flex-col items-center justify-center space-y-1 md:hidden"
       aria-label="Toggle mobile menu"
     >
       <span
-        className={`block w-6 h-0.5 bg-white transition-all duration-300 ${
-          isMobileMenuOpen ? "rotate-45 translate-y-1.5" : ""
+        className={`block h-0.5 w-6 bg-white transition-all duration-300 ${
+          isMobileMenuOpen ? "translate-y-1.5 rotate-45" : ""
         }`}
       />
       <span
-        className={`block w-6 h-0.5 bg-white transition-all duration-300 ${
+        className={`block h-0.5 w-6 bg-white transition-all duration-300 ${
           isMobileMenuOpen ? "opacity-0" : ""
         }`}
       />
       <span
-        className={`block w-6 h-0.5 bg-white transition-all duration-300 ${
-          isMobileMenuOpen ? "-rotate-45 -translate-y-1.5" : ""
+        className={`block h-0.5 w-6 bg-white transition-all duration-300 ${
+          isMobileMenuOpen ? "-translate-y-1.5 -rotate-45" : ""
         }`}
       />
     </button>
@@ -82,17 +82,17 @@ export function Nav() {
     <nav className="absolute z-10 w-full p-2">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <img 
-            src={logo} 
-            alt="BYRON Logo" 
-            className="mr-4 h-8 w-auto object-contain" 
-            style={{ minWidth: 'auto', maxWidth: 'none' }}
+          <img
+            src={logo}
+            alt="BYRON Logo"
+            className="mr-4 h-8 w-auto object-contain"
+            style={{ minWidth: "auto", maxWidth: "none" }}
           />
         </div>
-        
+
         {/* Desktop Navigation */}
-        <ul className="hidden md:flex justify-start gap-2">
-          {links.map((link) => (
+        <ul className="hidden justify-start gap-2 md:flex">
+          {links.map(link => (
             <li key={link.href} className="relative">
               {link.children ? (
                 <div ref={dropdownRef}>
@@ -110,7 +110,7 @@ export function Nav() {
                     <div className="ring-opacity-5 absolute left-0 mt-2 w-48 rounded-md bg-white shadow-lg ring-1 ring-black dark:bg-neutral-800">
                       <div className="py-1" role="menu">
                         <ul>
-                          {link.children.map((childLink) => (
+                          {link.children.map(childLink => (
                             <NavLink
                               key={childLink.href}
                               href={childLink.href}
@@ -130,35 +130,37 @@ export function Nav() {
             </li>
           ))}
         </ul>
-        
+
         {/* Mobile Menu Button */}
         <HamburgerIcon />
       </div>
-      
+
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div 
+        <div
           ref={mobileMenuRef}
-          className="md:hidden absolute top-full left-0 right-0 bg-white dark:bg-neutral-800 shadow-lg border-t border-b border-neutral-200 dark:border-neutral-700"
+          className="absolute top-full right-0 left-0 border-t border-b border-neutral-200 bg-white shadow-lg md:hidden dark:border-neutral-700 dark:bg-neutral-800"
         >
-          <div className="px-4 py-2 space-y-1">
-            {links.map((link) => (
+          <div className="space-y-1 px-4 py-2">
+            {links.map(link => (
               <div key={link.href}>
                 {link.children ? (
                   <div>
                     <button
-                      onClick={() => setIsMobileDropdownOpen(!isMobileDropdownOpen)}
-                      className="w-full text-left px-4 py-3 text-lg font-semibold text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-md transition-colors"
+                      onClick={() =>
+                        setIsMobileDropdownOpen(!isMobileDropdownOpen)
+                      }
+                      className="w-full rounded-md px-4 py-3 text-left text-lg font-semibold text-neutral-700 transition-colors hover:bg-neutral-100 dark:text-neutral-200 dark:hover:bg-neutral-700"
                     >
                       {link.label}
                     </button>
                     {isMobileDropdownOpen && (
                       <div className="ml-4 space-y-1">
-                        {link.children.map((childLink) => (
+                        {link.children.map(childLink => (
                           <NavLink
                             key={childLink.href}
                             href={childLink.href}
-                            className="block px-4 py-2 text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-md transition-colors"
+                            className="block rounded-md px-4 py-2 text-neutral-600 transition-colors hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-700"
                             onClick={() => setIsMobileMenuOpen(false)}
                           >
                             {childLink.label}
@@ -170,7 +172,7 @@ export function Nav() {
                 ) : (
                   <NavLink
                     href={link.href}
-                    className="block px-4 py-3 text-lg font-semibold text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-md transition-colors"
+                    className="block rounded-md px-4 py-3 text-lg font-semibold text-neutral-700 transition-colors hover:bg-neutral-100 dark:text-neutral-200 dark:hover:bg-neutral-700"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {link.label}

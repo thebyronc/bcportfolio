@@ -18,7 +18,7 @@ export function LineItemsSection() {
     if (newItemDescription.trim() && newItemAmount) {
       const amount = parseFloat(newItemAmount);
       const quantity = parseInt(newItemQuantity) || 1;
-      
+
       if (!isNaN(amount) && amount > 0 && quantity > 0) {
         // Create multiple items based on quantity
         for (let i = 0; i < quantity; i++) {
@@ -30,7 +30,7 @@ export function LineItemsSection() {
           };
           dispatch(addLineItemAction(newItem));
         }
-        
+
         setNewItemDescription("");
         setNewItemAmount("");
         setNewItemQuantity("1");
@@ -71,31 +71,31 @@ export function LineItemsSection() {
         <input
           type="text"
           value={newItemDescription}
-          onChange={(e) => setNewItemDescription(e.target.value)}
+          onChange={e => setNewItemDescription(e.target.value)}
           placeholder="Description"
           className="focus:ring-volt-400 flex-1 rounded-md border border-zinc-600 bg-zinc-700 px-3 py-2 text-white placeholder-zinc-400 focus:ring-2 focus:outline-none"
         />
-        <div className="flex flex-col sm:flex-row gap-2 sm:items-center">
-          <div className="flex gap-2 w-full sm:w-auto">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+          <div className="flex w-full gap-2 sm:w-auto">
             <input
               type="number"
               value={newItemAmount}
-              onChange={(e) => setNewItemAmount(e.target.value)}
+              onChange={e => setNewItemAmount(e.target.value)}
               placeholder="Amount"
               step="0.01"
               min="0"
               className="focus:ring-volt-400 w-32 rounded-md border border-zinc-600 bg-zinc-700 px-3 py-2 text-white placeholder-zinc-400 focus:ring-2 focus:outline-none"
-              onKeyPress={(e) => e.key === "Enter" && addLineItem()}
+              onKeyPress={e => e.key === "Enter" && addLineItem()}
             />
             <input
               type="number"
               value={newItemQuantity}
-              onChange={(e) => setNewItemQuantity(e.target.value)}
+              onChange={e => setNewItemQuantity(e.target.value)}
               placeholder="Qty"
               min="1"
               max="99"
               className="focus:ring-volt-400 w-16 rounded-md border border-zinc-600 bg-zinc-700 px-3 py-2 text-white placeholder-zinc-400 focus:ring-2 focus:outline-none"
-              onKeyPress={(e) => e.key === "Enter" && addLineItem()}
+              onKeyPress={e => e.key === "Enter" && addLineItem()}
             />
           </div>
           <button
@@ -108,11 +108,11 @@ export function LineItemsSection() {
       </div>
 
       <div className="space-y-3">
-        {state.lineItems.map((item) => (
+        {state.lineItems.map(item => (
           <div key={item.id} className="relative rounded-md bg-zinc-700 p-4">
             <button
               onClick={() => removeLineItem(item.id)}
-              className="absolute top-2 right-2 text-zinc-300 transition-colors hover:text-white p-1 rounded-full"
+              className="absolute top-2 right-2 rounded-full p-1 text-zinc-300 transition-colors hover:text-white"
               aria-label="Remove line item"
             >
               <CloseIcon size={20} color="currentColor" />
@@ -124,8 +124,8 @@ export function LineItemsSection() {
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-2 mt-3">
-              {state.people.map((person) => (
+            <div className="mt-3 flex flex-wrap gap-2">
+              {state.people.map(person => (
                 <button
                   key={person.id}
                   onClick={() => toggleAssignment(item.id, person.id)}

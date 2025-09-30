@@ -1,7 +1,6 @@
 export default function Welcome() {
   return (
     <main className="flex items-center justify-center pt-16 pb-4">
-      
       <div className="flex min-h-0 flex-1 flex-col items-center gap-16">
         <header className="flex flex-col items-center gap-9">
           <div className="w-[500px] max-w-[100vw] p-4"></div>
@@ -30,7 +29,8 @@ export default function Welcome() {
               SOFTWARE ENGINEER
             </div>
             <div className="text-center text-sm text-gray-600 dark:text-gray-300">
-              React & TypeScript Focus | Developer Experience Advocate | Mission-Driven Builder
+              React & TypeScript Focus | Developer Experience Advocate |
+              Mission-Driven Builder
             </div>
 
             {/* Summary */}
@@ -39,7 +39,11 @@ export default function Welcome() {
                 Professional Summary
               </h2>
               <p className="text-gray-600 dark:text-gray-300">
-                Creative and impact-oriented engineer with 8+ years of experience crafting scalable web platforms and internal tools. Expert in React, TypeScript, and developer experience strategy. Passionate about developer experience, mentorship, and building polished interfaces that empower users and teams alike.
+                Creative and impact-oriented engineer with 8+ years of
+                experience crafting scalable web platforms and internal tools.
+                Expert in React, TypeScript, and developer experience strategy.
+                Passionate about developer experience, mentorship, and building
+                polished interfaces that empower users and teams alike.
               </p>
             </section>
 
@@ -58,28 +62,42 @@ export default function Welcome() {
                   </p>
                   <ul className="mt-2 list-inside list-disc space-y-1 text-gray-600 dark:text-gray-300">
                     <li>
-                      Led pixel-perfect UI development for global diagnostics platforms used across Nike's internal teams
+                      Led pixel-perfect UI development for global diagnostics
+                      platforms used across Nike's internal teams
                     </li>
                     <li>
-                      Architected scalable front-end systems using React, TypeScript, and modular UI principles, ARIA roles, improving maintainability across multiple internal platforms.
+                      Architected scalable front-end systems using React,
+                      TypeScript, and modular UI principles, ARIA roles,
+                      improving maintainability across multiple internal
+                      platforms.
                     </li>
                     <li>
-                      Developed C#/.NET backend features to efficiently shape and deliver diagnostic data, contributing to system reliability and performance.
+                      Developed C#/.NET backend features to efficiently shape
+                      and deliver diagnostic data, contributing to system
+                      reliability and performance.
                     </li>
                     <li>
-                      Deployed diagnostic services and internal tools to Azure, leveraging cloud infrastructure for scalability, security, and streamlined operations.
+                      Deployed diagnostic services and internal tools to Azure,
+                      leveraging cloud infrastructure for scalability, security,
+                      and streamlined operations.
                     </li>
                     <li>
-                      Built a Node.js diagnostic server to remotely manage system health and modernize legacy workflow
+                      Built a Node.js diagnostic server to remotely manage
+                      system health and modernize legacy workflow
                     </li>
                     <li>
-                      Collaborated cross-functionally with designers and PMs to deliver user-centric features with measurable impact on engagement and retention
+                      Collaborated cross-functionally with designers and PMs to
+                      deliver user-centric features with measurable impact on
+                      engagement and retention
                     </li>
                     <li>
-                      Spearheaded DX initiatives including GitHub Actions pipelines and OAuth integrations, reducing deployment friction and onboarding time.
+                      Spearheaded DX initiatives including GitHub Actions
+                      pipelines and OAuth integrations, reducing deployment
+                      friction and onboarding time.
                     </li>
                     <li>
-                      Drove cross-team collaboration and elevated code quality through mentoring, peer reviews, and Agile ceremonies.
+                      Drove cross-team collaboration and elevated code quality
+                      through mentoring, peer reviews, and Agile ceremonies.
                     </li>
                   </ul>
                 </div>
@@ -92,16 +110,20 @@ export default function Welcome() {
                   </p>
                   <ul className="mt-2 list-inside list-disc space-y-1 text-gray-600 dark:text-gray-300">
                     <li>
-                      Delivered multi-site front-end solutions using a shared template model and React-based architecture.
+                      Delivered multi-site front-end solutions using a shared
+                      template model and React-based architecture.
                     </li>
                     <li>
-                      Streamlined onboarding with standardized Git workflows, bash environments, and SSL configurations.
+                      Streamlined onboarding with standardized Git workflows,
+                      bash environments, and SSL configurations.
                     </li>
                     <li>
-                      Mentored interns and juniors while improving hiring assessments and documentation.
+                      Mentored interns and juniors while improving hiring
+                      assessments and documentation.
                     </li>
                     <li>
-                      Authored client-facing documentation to clarify technical processes and reduce support escalations.
+                      Authored client-facing documentation to clarify technical
+                      processes and reduce support escalations.
                     </li>
                   </ul>
                 </div>
@@ -236,4 +258,3 @@ export default function Welcome() {
     </main>
   );
 }
-

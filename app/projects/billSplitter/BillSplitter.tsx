@@ -36,7 +36,7 @@ function BillSplitterContent() {
         onCancel={handleCancel}
       />
       <div className="mx-auto max-w-6xl p-2 sm:p-4">
-        <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-volt-400 text-3xl font-bold">Bill Splitter</h1>
             {state.isDataLoaded && (

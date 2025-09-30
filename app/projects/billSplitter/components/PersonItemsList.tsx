@@ -28,13 +28,13 @@ const PersonItemsList: React.FC<PersonItemsListProps> = ({
       const shares = calculatePersonShares(item);
       return {
         ...item,
-        personShare: shares[personId] || 0
+        personShare: shares[personId] || 0,
       };
     });
 
   if (personItems.length === 0) {
     return (
-      <div className={`text-zinc-400 text-sm italic ${className}`}>
+      <div className={`text-sm text-zinc-400 italic ${className}`}>
         No items assigned to {personName}
       </div>
     );
@@ -42,17 +42,17 @@ const PersonItemsList: React.FC<PersonItemsListProps> = ({
 
   return (
     <div className={`space-y-2 ${className}`}>
-      <h4 className="text-sm font-medium text-zinc-300 mb-2">
+      <h4 className="mb-2 text-sm font-medium text-zinc-300">
         Items for {personName}:
       </h4>
       <div className="space-y-1">
-        {personItems.map((item) => (
+        {personItems.map(item => (
           <div
             key={item.id}
-            className="flex justify-between items-center py-1 px-2 bg-zinc-600 rounded text-sm"
+            className="flex items-center justify-between rounded bg-zinc-600 px-2 py-1 text-sm"
           >
-            <div className="flex-1 mr-2">
-              <span className="text-zinc-200 truncate block">
+            <div className="mr-2 flex-1">
+              <span className="block truncate text-zinc-200">
                 {item.description}
               </span>
             </div>

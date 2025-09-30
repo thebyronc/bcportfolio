@@ -95,35 +95,57 @@ export function BillSplitterProvider({
     calculatePersonTotal: (personId: string) =>
       calculatePersonTotal(state.lineItems, personId),
     calculatePersonTip: (personId: string) =>
-      calculatePersonTip(state.lineItems, state.tipPercentage, personId, state.tipAmount, state.isTipAmountMode),
+      calculatePersonTip(
+        state.lineItems,
+        state.tipPercentage,
+        personId,
+        state.tipAmount,
+        state.isTipAmountMode
+      ),
     calculatePersonTotalWithTip: (personId: string) =>
       calculatePersonTotalWithTip(
         state.lineItems,
         state.tipPercentage,
         personId,
         state.tipAmount,
-        state.isTipAmountMode,
+        state.isTipAmountMode
       ),
     calculatePersonTax: (personId: string) =>
-      calculatePersonTax(state.lineItems, state.taxPercentage, personId, state.taxAmount, state.isTaxAmountMode),
+      calculatePersonTax(
+        state.lineItems,
+        state.taxPercentage,
+        personId,
+        state.taxAmount,
+        state.isTaxAmountMode
+      ),
     calculatePersonTotalWithTax: (personId: string) =>
       calculatePersonTotalWithTax(
         state.lineItems,
         state.taxPercentage,
         personId,
         state.taxAmount,
-        state.isTaxAmountMode,
+        state.isTaxAmountMode
       ),
     calculateTotal: () => calculateTotal(state.lineItems),
     calculateTotalTip: () =>
-      calculateTotalTip(state.lineItems, state.tipPercentage, state.tipAmount, state.isTipAmountMode),
+      calculateTotalTip(
+        state.lineItems,
+        state.tipPercentage,
+        state.tipAmount,
+        state.isTipAmountMode
+      ),
     calculateTotalTax: () =>
-      calculateTotalTax(state.lineItems, state.taxPercentage, state.taxAmount, state.isTaxAmountMode),
+      calculateTotalTax(
+        state.lineItems,
+        state.taxPercentage,
+        state.taxAmount,
+        state.isTaxAmountMode
+      ),
     calculateGrandTotal: () =>
       calculateGrandTotal(
-        state.lineItems, 
-        state.tipPercentage, 
-        state.tipAmount, 
+        state.lineItems,
+        state.tipPercentage,
+        state.tipAmount,
         state.isTipAmountMode,
         state.taxPercentage,
         state.taxAmount,
@@ -147,7 +169,7 @@ export function useBillSplitter() {
   const context = useContext(BillSplitterContext);
   if (!context) {
     throw new Error(
-      "useBillSplitter must be used within a BillSplitterProvider",
+      "useBillSplitter must be used within a BillSplitterProvider"
     );
   }
   return context;

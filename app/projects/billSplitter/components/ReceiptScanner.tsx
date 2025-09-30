@@ -17,14 +17,13 @@ const fileToBase64 = (file: File): Promise<string> => {
     reader.onload = () => {
       const result = reader.result as string;
       // Remove data URL prefix if present (data:image/type;base64,)
-      const base64 = result.includes(',') ? result.split(',')[1] : result;
+      const base64 = result.includes(",") ? result.split(",")[1] : result;
       resolve(base64);
     };
-    reader.onerror = () => reject(new Error('Failed to read file'));
+    reader.onerror = () => reject(new Error("Failed to read file"));
     reader.readAsDataURL(file);
   });
 };
-
 
 export function ReceiptScanner() {
   const { dispatch } = useBillSplitter();
@@ -36,63 +35,66 @@ export function ReceiptScanner() {
   const [jsonResponse, setJsonResponse] = useState<any>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-
   const scanReceipt = async (file: File) => {
     setIsScanning(true);
     setScanProgress("Converting image to base64...");
     setExtractedItems([]);
 
     try {
-      console.log('Processing file:', file);
-      
+      console.log("Processing file:", file);
+
       // Convert file to base64 on client side
       const base64String = await fileToBase64(file);
-      
+
       setScanProgress("Analyzing receipt...");
-      
+
       // Call Firebase Function directly
-      const response = await fetch('https://us-central1-bcportfolio-9dcc7.cloudfunctions.net/ocr', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          base64Image: base64String,
-          mimeType: file.type || 'image/jpeg'
-        })
-      });
+      const response = await fetch(
+        "https://us-central1-bcportfolio-9dcc7.cloudfunctions.net/ocr",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            base64Image: base64String,
+            mimeType: file.type || "image/jpeg",
+          }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
-      
+
       if (data.error) {
         setScanProgress(`Error: ${data.error}`);
         setIsScanning(false);
       } else {
         // Ensure text is a string before setting it
-        const textValue = typeof data.text === 'string' ? data.text : String(data.text || '');
+        const textValue =
+          typeof data.text === "string" ? data.text : String(data.text || "");
         setRawText(textValue);
         setJsonResponse(data);
         setScanProgress("Processing extracted data...");
-        
+
         // Convert results to our format
         const items: ExtractedItem[] = (data.items || []).map((item: any) => ({
           description: item.description,
           amount: item.amount,
-          confidence: item.confidence
+          confidence: item.confidence,
         }));
-        
+
         setExtractedItems(items);
         setScanProgress(`Found ${items.length} line items`);
         setIsScanning(false);
       }
-
     } catch (error) {
       console.error("OCR Error:", error);
-      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error occurred";
       setScanProgress(`Error: ${errorMessage}`);
       setIsScanning(false);
     }
@@ -126,7 +128,7 @@ export function ReceiptScanner() {
   };
 
   const removeItem = (index: number) => {
-    setExtractedItems((prev) => prev.filter((_, i) => i !== index));
+    setExtractedItems(prev => prev.filter((_, i) => i !== index));
   };
 
   return (
@@ -176,7 +178,9 @@ export function ReceiptScanner() {
           </button>
           {showJsonResponse && (
             <div className="mt-2 max-h-64 overflow-y-auto rounded-md bg-zinc-700 p-3 text-xs text-zinc-300">
-              <pre className="whitespace-pre-wrap">{JSON.stringify(jsonResponse, null, 2)}</pre>
+              <pre className="whitespace-pre-wrap">
+                {JSON.stringify(jsonResponse, null, 2)}
+              </pre>
             </div>
           )}
         </div>

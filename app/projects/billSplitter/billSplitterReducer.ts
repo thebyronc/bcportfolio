@@ -33,7 +33,7 @@ export const defaultState: BillSplitterState = {
 
 export function billSplitterReducer(
   state: BillSplitterState,
-  action: BillSplitterAction,
+  action: BillSplitterAction
 ): BillSplitterState {
   switch (action.type) {
     case BILL_SPLITTER_ACTIONS.LOAD_DATA:
@@ -53,10 +53,10 @@ export function billSplitterReducer(
     case BILL_SPLITTER_ACTIONS.REMOVE_PERSON:
       return {
         ...state,
-        people: state.people.filter((p) => p.id !== action.payload),
-        lineItems: state.lineItems.map((item) => ({
+        people: state.people.filter(p => p.id !== action.payload),
+        lineItems: state.lineItems.map(item => ({
           ...item,
-          assignedTo: item.assignedTo.filter((id) => id !== action.payload),
+          assignedTo: item.assignedTo.filter(id => id !== action.payload),
         })),
       };
 
@@ -69,7 +69,7 @@ export function billSplitterReducer(
     case BILL_SPLITTER_ACTIONS.REMOVE_LINE_ITEM:
       return {
         ...state,
-        lineItems: state.lineItems.filter((item) => item.id !== action.payload),
+        lineItems: state.lineItems.filter(item => item.id !== action.payload),
       };
 
     case BILL_SPLITTER_ACTIONS.CLEAR_LINE_ITEMS:
@@ -82,7 +82,7 @@ export function billSplitterReducer(
       return {
         ...state,
         people: [],
-        lineItems: state.lineItems.map((item) => ({
+        lineItems: state.lineItems.map(item => ({
           ...item,
           assignedTo: [],
         })),
@@ -91,15 +91,15 @@ export function billSplitterReducer(
     case BILL_SPLITTER_ACTIONS.TOGGLE_ASSIGNMENT:
       return {
         ...state,
-        lineItems: state.lineItems.map((item) => {
+        lineItems: state.lineItems.map(item => {
           if (item.id === action.payload.itemId) {
             const isAssigned = item.assignedTo.includes(
-              action.payload.personId,
+              action.payload.personId
             );
             return {
               ...item,
               assignedTo: isAssigned
-                ? item.assignedTo.filter((id) => id !== action.payload.personId)
+                ? item.assignedTo.filter(id => id !== action.payload.personId)
                 : [...item.assignedTo, action.payload.personId],
             };
           }

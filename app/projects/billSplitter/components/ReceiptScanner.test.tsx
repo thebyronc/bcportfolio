@@ -17,7 +17,7 @@ THANK YOU!
 `;
 
 function parseReceiptText(text: string) {
-  const lines = text.split("\n").filter((line) => line.trim());
+  const lines = text.split("\n").filter(line => line.trim());
   const items: Array<{ description: string; amount: number }> = [];
 
   const patterns = [

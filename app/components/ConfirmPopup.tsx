@@ -8,12 +8,20 @@ interface ConfirmPopupProps {
   onCancel: () => void;
 }
 
-const ConfirmPopup: React.FC<ConfirmPopupProps> = ({ open, title, message, onConfirm, onCancel }) => {
+const ConfirmPopup: React.FC<ConfirmPopupProps> = ({
+  open,
+  title,
+  message,
+  onConfirm,
+  onCancel,
+}) => {
   if (!open) return null;
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-      <div className="rounded-lg bg-zinc-800 p-6 shadow-lg w-full max-w-sm">
-        {title && <h3 className="mb-2 text-lg font-semibold text-white">{title}</h3>}
+    <div className="bg-opacity-40 fixed inset-0 z-50 flex items-center justify-center bg-black">
+      <div className="w-full max-w-sm rounded-lg bg-zinc-800 p-6 shadow-lg">
+        {title && (
+          <h3 className="mb-2 text-lg font-semibold text-white">{title}</h3>
+        )}
         <p className="mb-6 text-zinc-300">{message}</p>
         <div className="flex justify-end gap-2">
           <button

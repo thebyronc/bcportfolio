@@ -32,13 +32,13 @@ export function PeopleSection() {
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-volt-400 text-xl font-semibold">People</h2>
         {state.people.length > 0 && (
-            <button
-              onClick={() => dispatch(clearPeopleAction())}
-              className="rounded-md bg-zinc-600 px-3 py-1 text-sm font-semibold text-white transition-colors hover:bg-red-700"
-              title="Clear all people"
-            >
-              Clear All
-            </button>
+          <button
+            onClick={() => dispatch(clearPeopleAction())}
+            className="rounded-md bg-zinc-600 px-3 py-1 text-sm font-semibold text-white transition-colors hover:bg-red-700"
+            title="Clear all people"
+          >
+            Clear All
+          </button>
         )}
       </div>
 
@@ -46,10 +46,10 @@ export function PeopleSection() {
         <input
           type="text"
           value={newPersonName}
-          onChange={(e) => setNewPersonName(e.target.value)}
+          onChange={e => setNewPersonName(e.target.value)}
           placeholder="Enter name"
           className="focus:ring-volt-400 flex-1 rounded-md border border-zinc-600 bg-zinc-700 px-3 py-2 text-white placeholder-zinc-400 focus:ring-2 focus:outline-none"
-          onKeyPress={(e) => e.key === "Enter" && addPerson()}
+          onKeyPress={e => e.key === "Enter" && addPerson()}
         />
         <button
           onClick={addPerson}
@@ -60,7 +60,7 @@ export function PeopleSection() {
       </div>
 
       <div className="space-y-2">
-        {state.people.map((person) => (
+        {state.people.map(person => (
           <div
             key={person.id}
             className="flex items-center justify-between rounded-md bg-zinc-700 p-3"
@@ -71,7 +71,7 @@ export function PeopleSection() {
             </div>
             <button
               onClick={() => removePerson(person.id)}
-              className="text-zinc-300 transition-colors hover:text-white p-1 rounded-full"
+              className="rounded-full p-1 text-zinc-300 transition-colors hover:text-white"
               aria-label="Remove person"
             >
               <CloseIcon size={18} color="currentColor" />
