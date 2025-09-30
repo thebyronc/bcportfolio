@@ -6,25 +6,21 @@ export function Projects() {
       title: "Random Question Generator",
       description: "Generate random questions for icebreakers, interviews, or fun conversations",
       link: "/random-question",
-      icon: "❓"
     },
     {
       title: "Text Compare Tool",
       description: "Compare two text documents and highlight differences",
       link: "/text-compare",
-      icon: "📝"
     },
     {
       title: "Bill Splitter",
       description: "Split bills and calculate tips with receipt scanning capabilities",
       link: "/bill-splitter",
-      icon: "🧾"
     },
     {
       title: "Image to Base64",
       description: "Convert images to base64 format for easy embedding in web applications",
       link: "/image-to-base64",
-      icon: "🖼️"
     }
   ];
 
@@ -46,7 +42,6 @@ export function Projects() {
                 className="block bg-zinc-800 hover:bg-zinc-700 p-6 rounded-lg transition-colors group"
               >
                 <div className="flex items-start gap-4">
-                  <div className="text-4xl">{project.icon}</div>
                   <div className="flex-1">
                     <h3 className="text-xl font-semibold text-white group-hover:text-blue-400 transition-colors mb-2">
                       {project.title}

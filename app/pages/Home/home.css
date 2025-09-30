@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+.grid-background {
+    background-image:  linear-gradient(oklch(21% 0.034 264.665) 1px, transparent 1px), linear-gradient(to right, oklch(21% 0.034 264.665) 1px, oklch(13% 0.028 261.692) 1px);
+    background-size: 20px 20px;
+    background-position: 0 0;
+    background-attachment: fixed;
+}
