@@ -3,42 +3,54 @@ import ListHoverBox from "../../components/ListHoverBox/ListHoverBox";
 import LinkedInIcon from "../../assets/LinkedInIcon";
 import GitHubIcon from "../../assets/GitHubIcon";
 import GmailIcon from "../../assets/GmailIcon";
+import SocialLink from "../../components/SocialLink";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            setMousePosition({ x: e.clientX, y: e.clientY });
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+        return () => window.removeEventListener('mousemove', handleMouseMove);
+    }, []);
     return (
-        <div className="px-6 py-12 font-sans md:px-12 md:py-16 lg:py-24 flex justify-center">
+        <div className="relative">
+            {/* Spotlight background */}
+            <div 
+                className="spotlight-bg fixed inset-0 pointer-events-none z-0"
+                style={{
+                    background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(120, 119, 198, 0.15), transparent 40%)`
+                }}
+            />
+            {/* Content */}
+            <div className="relative z-1 px-6 py-24 font-sans md:py-24 lg:py-32 flex justify-center">
             <div className="max-w-screen-xl w-full grid grid-cols-1 lg:grid-cols-8 gap-12">
                 <div className="px-4 lg:col-span-3 xl:col-span-3">
-                    <header className="sticky md:top-16 lg:top-24 lg:max-h-screen">
+                    <header className="sticky md:top-24 lg:top-32 lg:max-h-screen">
                         <h1 className="text-4xl font-bold text-zinc-200 mb-2">Byron Chang</h1>
                         <h2 className="text-lg font-medium text-zinc-300 mb-4">Front End Engineer</h2>
                         <p className="text-zinc-400 mb-4">I am a software engineer with a passion for building user-friendly and efficient web applications.</p>
                         <div className="flex gap-4">
-                            <a 
-                                href="https://www.linkedin.com/in/byronchang" 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                className="p-2 rounded-lg bg-zinc-800/50 hover:bg-zinc-700/50 text-zinc-300 hover:text-zinc-100 transition-all duration-200 border border-transparent hover:border-zinc-600"
-                                aria-label="LinkedIn Profile"
-                            >
-                                <LinkedInIcon className="w-5 h-5" />
-                            </a>
-                            <a 
-                                href="https://github.com/thebyronc" 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                className="p-2 rounded-lg bg-zinc-800/50 hover:bg-zinc-700/50 text-zinc-300 hover:text-zinc-100 transition-all duration-200 border border-transparent hover:border-zinc-600"
-                                aria-label="GitHub Profile"
-                            >
-                                <GitHubIcon className="w-5 h-5" />
-                            </a>
-                            <a 
-                                href="mailto:thebyronc@gmail.com" 
-                                className="p-2 rounded-lg bg-zinc-800/50 hover:bg-zinc-700/50 text-zinc-300 hover:text-zinc-100 transition-all duration-200 border border-transparent hover:border-zinc-600"
-                                aria-label="Email thebyronc@gmail.com"
-                            >
-                                <GmailIcon className="w-5 h-5" />
-                            </a>
+                            <SocialLink
+                                href="https://www.linkedin.com/in/byronchang"
+                                label="LinkedIn Profile"
+                                icon={LinkedInIcon}
+                            />
+                            <SocialLink
+                                href="https://github.com/thebyronc"
+                                label="GitHub Profile"
+                                icon={GitHubIcon}
+                            />
+                            <SocialLink
+                                href="mailto:thebyronc@gmail.com"
+                                label="Email thebyronc@gmail.com"
+                                icon={GmailIcon}
+                                newTab={false}
+                            />
                         </div>
                     </header>
                 </div>
@@ -75,7 +87,7 @@ export default function Home() {
                 </main>
             
             </div>
-           
+            </div>
         </div>
     )
 }

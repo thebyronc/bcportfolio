@@ -1,7 +1,7 @@
 import { NavLink } from "./components/NavLink";
 import { useState, useEffect, useRef } from "react";
 import type { MouseEvent } from "react";
-import logo from "../assets/logo.png";
+import byron from "../assets/BYRON.png";
 
 const links = [
   { href: "/", label: "Home" },
@@ -14,8 +14,7 @@ const links = [
       { href: "/bill-splitter", label: "Bill Splitter" },
       { href: "/image-to-base64", label: "Image to Base64" },
     ],
-  },
-  { href: "/contact", label: "Contact" },
+  }
 ];
 
 export function Nav() {
@@ -83,7 +82,7 @@ export function Nav() {
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <img 
-            src={logo} 
+            src={byron} 
             alt="BYRON Logo" 
             className="mr-4 h-8 w-auto object-contain" 
             style={{ minWidth: 'auto', maxWidth: 'none' }}
@@ -107,7 +106,7 @@ export function Nav() {
                     {link.label}
                   </button>
                   {isDropdownOpen && (
-                    <div className="ring-opacity-5 absolute left-0 mt-2 w-48 rounded-md bg-white shadow-lg ring-1 ring-black dark:bg-neutral-800">
+                    <div className="ring-opacity-5 absolute right-0 mt-2 w-48 rounded-md bg-white shadow-lg ring-1 ring-zinc-600 dark:bg-neutral-800">
                       <div className="py-1" role="menu">
                         <ul>
                           {link.children.map((childLink) => (
@@ -115,6 +114,7 @@ export function Nav() {
                               key={childLink.href}
                               href={childLink.href}
                               className="block px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100 dark:text-neutral-200 dark:hover:bg-neutral-700"
+                              onClick={() => setIsDropdownOpen(false)}
                             >
                               {childLink.label}
                             </NavLink>
@@ -159,7 +159,10 @@ export function Nav() {
                             key={childLink.href}
                             href={childLink.href}
                             className="block px-4 py-2 text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-md transition-colors"
-                            onClick={() => setIsMobileMenuOpen(false)}
+                            onClick={() => {
+                              setIsMobileMenuOpen(false);
+                              setIsMobileDropdownOpen(false);
+                            }}
                           >
                             {childLink.label}
                           </NavLink>
