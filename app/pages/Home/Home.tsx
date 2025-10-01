@@ -3,6 +3,7 @@ import ListHoverBox from "../../components/ListHoverBox/ListHoverBox";
 import LinkedInIcon from "../../assets/LinkedInIcon";
 import GitHubIcon from "../../assets/GitHubIcon";
 import GmailIcon from "../../assets/GmailIcon";
+import SocialLink from "../../components/SocialLink";
 
 export default function Home() {
     return (
@@ -14,31 +15,22 @@ export default function Home() {
                         <h2 className="text-lg font-medium text-zinc-300 mb-4">Front End Engineer</h2>
                         <p className="text-zinc-400 mb-4">I am a software engineer with a passion for building user-friendly and efficient web applications.</p>
                         <div className="flex gap-4">
-                            <a 
-                                href="https://www.linkedin.com/in/byronchang" 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                className="p-2 rounded-lg bg-zinc-800/50 hover:bg-zinc-700/50 text-zinc-300 hover:text-zinc-100 transition-all duration-200 border border-transparent hover:border-zinc-600"
-                                aria-label="LinkedIn Profile"
-                            >
-                                <LinkedInIcon className="w-5 h-5" />
-                            </a>
-                            <a 
-                                href="https://github.com/thebyronc" 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                className="p-2 rounded-lg bg-zinc-800/50 hover:bg-zinc-700/50 text-zinc-300 hover:text-zinc-100 transition-all duration-200 border border-transparent hover:border-zinc-600"
-                                aria-label="GitHub Profile"
-                            >
-                                <GitHubIcon className="w-5 h-5" />
-                            </a>
-                            <a 
-                                href="mailto:thebyronc@gmail.com" 
-                                className="p-2 rounded-lg bg-zinc-800/50 hover:bg-zinc-700/50 text-zinc-300 hover:text-zinc-100 transition-all duration-200 border border-transparent hover:border-zinc-600"
-                                aria-label="Email thebyronc@gmail.com"
-                            >
-                                <GmailIcon className="w-5 h-5" />
-                            </a>
+                            <SocialLink
+                                href="https://www.linkedin.com/in/byronchang"
+                                label="LinkedIn Profile"
+                                icon={LinkedInIcon}
+                            />
+                            <SocialLink
+                                href="https://github.com/thebyronc"
+                                label="GitHub Profile"
+                                icon={GitHubIcon}
+                            />
+                            <SocialLink
+                                href="mailto:thebyronc@gmail.com"
+                                label="Email thebyronc@gmail.com"
+                                icon={GmailIcon}
+                                newTab={false}
+                            />
                         </div>
                     </header>
                 </div>
