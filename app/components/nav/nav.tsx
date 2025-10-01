@@ -1,7 +1,7 @@
 import { NavLink } from "./components/NavLink";
 import { useState, useEffect, useRef } from "react";
 import type { MouseEvent } from "react";
-import logo from "../assets/logo.png";
+import byron from "../assets/BYRON.png";
 
 const links = [
   { href: "/", label: "Home" },
@@ -83,7 +83,7 @@ export function Nav() {
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <img 
-            src={logo} 
+            src={byron} 
             alt="BYRON Logo" 
             className="mr-4 h-8 w-auto object-contain" 
             style={{ minWidth: 'auto', maxWidth: 'none' }}
