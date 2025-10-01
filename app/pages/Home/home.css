@@ -6,3 +6,23 @@
     background-position: 0 0;
     background-attachment: fixed;
 }
+
+.spotlight-bg {
+    transition: background 0.1s ease-out;
+    will-change: background;
+}
+
+/* ListHoverBox sibling hover effect */
+.list-hover-box {
+    transition: opacity 0.2s ease-out, background-color 0.2s ease-out, border-color 0.2s ease-out;
+}
+
+/* Target li elements that contain ListHoverBox components */
+li:hover ~ li .list-hover-box {
+    opacity: 0.7;
+}
+
+/* Also handle the case where a later sibling li is hovered */
+li:has(~ li:hover) .list-hover-box {
+    opacity: 0.7;
+}

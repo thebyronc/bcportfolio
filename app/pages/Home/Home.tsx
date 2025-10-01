@@ -4,10 +4,30 @@ import LinkedInIcon from "../../assets/LinkedInIcon";
 import GitHubIcon from "../../assets/GitHubIcon";
 import GmailIcon from "../../assets/GmailIcon";
 import SocialLink from "../../components/SocialLink";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            setMousePosition({ x: e.clientX, y: e.clientY });
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+        return () => window.removeEventListener('mousemove', handleMouseMove);
+    }, []);
     return (
-        <div className="px-6 py-12 font-sans md:px-12 md:py-16 lg:py-24 flex justify-center">
+        <div className="relative">
+            {/* Spotlight background */}
+            <div 
+                className="spotlight-bg fixed inset-0 pointer-events-none z-0"
+                style={{
+                    background: `radial-gradient(800px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(120, 119, 198, 0.15), transparent 40%)`
+                }}
+            />
+            {/* Content */}
+            <div className="relative z-10 px-6 py-12 font-sans md:px-12 md:py-16 lg:py-24 flex justify-center">
             <div className="max-w-screen-xl w-full grid grid-cols-1 lg:grid-cols-8 gap-12">
                 <div className="px-4 lg:col-span-3 xl:col-span-3">
                     <header className="sticky md:top-16 lg:top-24 lg:max-h-screen">
@@ -67,7 +87,7 @@ export default function Home() {
                 </main>
             
             </div>
-           
+            </div>
         </div>
     )
 }

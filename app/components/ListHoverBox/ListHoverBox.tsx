@@ -9,7 +9,7 @@ interface ListHoverBoxProps {
 
 export default function ListHoverBox({ title, date, subtitle, items,skills,  children }: ListHoverBoxProps) {
     return (
-        <div className="border-1 border-transparent mb-4 hover:border-zinc-600 hover:bg-zinc-400/10 rounded-md p-4 mx-[-16px] group relative grid transition-all sm:grid-cols-8 sm:gap-8 md:gap-4">
+        <div className="list-hover-box transition-all border border-transparent bg-zinc-400/0 duration-200 mb-4 hover:border-zinc-600 hover:bg-zinc-400/10 rounded-md p-4 mx-[-16px] group relative grid sm:grid-cols-8 sm:gap-8 md:gap-4">
             <div className="text-md text-zinc-300 font-semibold uppercase sm:col-span-2">{date}</div>
             <div className="gap-4 sm:col-span-6">
                 
