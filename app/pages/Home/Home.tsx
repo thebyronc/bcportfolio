@@ -21,7 +21,7 @@ export default function Home() {
             <div 
                 className="spotlight-bg fixed inset-0 pointer-events-none z-0"
                 style={{
-                    background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(120, 119, 198, 0.15), transparent 40%)`
+                    background: `radial-gradient(800px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(120, 119, 198, 0.15), transparent 40%)`
                 }}
             />
             {/* Content */}

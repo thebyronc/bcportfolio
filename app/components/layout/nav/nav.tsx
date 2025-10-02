@@ -84,8 +84,8 @@ export function Nav({ className }: NavProps = {}) {
 
   return (
     <nav className="absolute z-10 w-full p-2">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center">
+      <div className="flex flex-start justify-between">
+        <div className="flex flex-start">
           <img 
             src={logo} 
             alt="Byron Logo" 

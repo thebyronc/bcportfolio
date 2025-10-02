@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { PhotoIcon } from '~/assets';
 
 export function ImageToBase64() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -119,7 +120,7 @@ export function ImageToBase64() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-6">
+    <div className="max-w-4xl mx-auto pt-32 p-6 space-y-6">
       <div className="text-center">
         <h1 className="text-3xl font-bold text-white mb-2">Image to Base64 Converter</h1>
         <p className="text-gray-400">Convert your images to base64 format for easy embedding</p>
@@ -140,7 +141,9 @@ export function ImageToBase64() {
           className="hidden"
         />
         <div className="space-y-4">
-          <div className="text-6xl text-gray-400">📷</div>
+          <div className="flex justify-center">
+            <PhotoIcon className="w-16 h-16 text-gray-400" />
+          </div>
           <div>
             <p className="text-lg text-white mb-2">Drop an image here or click to browse</p>
             <p className="text-sm text-gray-400">Supports JPG, PNG, GIF, WebP and other image formats</p>
