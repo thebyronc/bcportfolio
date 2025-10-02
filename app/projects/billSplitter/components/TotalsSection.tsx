@@ -1,7 +1,7 @@
 import { useBillSplitter } from "../BillSplitterContext";
 import Accordion from "~/projects/billSplitter/components/Accordian";
 import PersonItemsList from "~/projects/billSplitter/components/PersonItemsList";
-import ContentCopyIcon from "~/assets/ContentCopyIcon";
+import { ContentCopyIcon } from "~/assets";
 import { calculatePersonShares } from "../billSplitterUtils";
 import { useState } from "react";
 

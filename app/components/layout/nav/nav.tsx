@@ -1,7 +1,7 @@
 import { NavLink } from "./components/NavLink";
 import { useState, useEffect, useRef } from "react";
 import type { MouseEvent } from "react";
-import logo from "../../../assets/logo.png";
+import logo from "../../../assets/images/logos/logo.png";
 import type { NavItemProps } from "../../../types";
 
 interface NavProps {

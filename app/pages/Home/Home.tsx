@@ -1,8 +1,6 @@
 import "./home.css";
 import ListHoverBox from "../../components/ListHoverBox/ListHoverBox";
-import LinkedInIcon from "../../assets/LinkedInIcon";
-import GitHubIcon from "../../assets/GitHubIcon";
-import GmailIcon from "../../assets/GmailIcon";
+import { LinkedInIcon, GitHubIcon, GmailIcon } from "../../assets";
 import SocialLink from "../../components/SocialLink";
 import { useEffect, useState } from "react";
 

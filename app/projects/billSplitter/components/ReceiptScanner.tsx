@@ -1,8 +1,7 @@
 import { useState, useRef } from "react";
 import { useBillSplitter } from "../BillSplitterContext";
 import { addLineItem as addLineItemAction } from "../billSplitterActions";
-import PhotoIcon from "~/assets/PhotoIcon";
-import CloseIcon from "~/assets/CloseIcon";
+import { PhotoIcon, CloseIcon } from "~/assets";
 
 interface ExtractedItem {
   description: string;

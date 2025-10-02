@@ -1,5 +1,5 @@
 import { useState } from "react";
-import CloseIcon from "../../../assets/CloseIcon";
+import { CloseIcon } from "../../../assets";
 import { useBillSplitter } from "../BillSplitterContext";
 import {
   addLineItem as addLineItemAction,
