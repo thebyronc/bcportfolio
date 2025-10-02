@@ -10,7 +10,7 @@ import {
   TotalsSection,
   ReceiptScanner,
 } from "./components";
-import ConfirmPopup from "../../components/ConfirmPopup";
+import { ConfirmPopup } from "../../components/layout";
 
 import { useState } from "react";
 

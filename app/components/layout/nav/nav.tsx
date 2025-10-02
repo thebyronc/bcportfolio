@@ -1,9 +1,14 @@
 import { NavLink } from "./components/NavLink";
 import { useState, useEffect, useRef } from "react";
 import type { MouseEvent } from "react";
-import byron from "../assets/BYRON.png";
+import logo from "../../../assets/logo.png";
+import type { NavItemProps } from "../../../types";
 
-const links = [
+interface NavProps {
+  className?: string;
+}
+
+const links: NavItemProps[] = [
   { href: "/", label: "Home" },
   {
     href: "/projects",
@@ -17,7 +22,7 @@ const links = [
   }
 ];
 
-export function Nav() {
+export function Nav({ className }: NavProps = {}) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
@@ -82,8 +87,8 @@ export function Nav() {
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <img 
-            src={byron} 
-            alt="BYRON Logo" 
+            src={logo} 
+            alt="Byron Logo" 
             className="mr-4 h-8 w-auto object-contain" 
             style={{ minWidth: 'auto', maxWidth: 'none' }}
           />

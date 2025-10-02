@@ -1,17 +1,13 @@
 import React from "react";
+import type { BaseComponentProps, IconProps, Size } from "../types";
 
-type IconComponentProps = {
-	className?: string;
-};
-
-type SocialLinkProps = {
+interface SocialLinkProps extends BaseComponentProps {
 	href: string;
 	label: string;
-	icon: React.ComponentType<IconComponentProps>;
-	size?: "sm" | "md" | "lg";
-	className?: string;
+	icon: React.ComponentType<IconProps>;
+	size?: Size;
 	newTab?: boolean;
-};
+}
 
 const SocialLink: React.FC<SocialLinkProps> = ({
 	href,

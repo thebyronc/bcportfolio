@@ -1,13 +1,14 @@
-interface ListHoverBoxProps {
+import type { BaseComponentProps } from "../../types";
+
+interface ListHoverBoxProps extends BaseComponentProps {
     title?: string;
     date?: string;
     subtitle?: string;
     items?: string[];
     skills?: string[];
-    children?: React.ReactNode;
 }
 
-export default function ListHoverBox({ title, date, subtitle, items,skills,  children }: ListHoverBoxProps) {
+export default function ListHoverBox({ title, date, subtitle, items, skills, children }: ListHoverBoxProps) {
     return (
         <div className="list-hover-box transition-all border border-transparent bg-zinc-400/0 duration-200 mb-4 hover:border-zinc-400/10 hover:bg-zinc-400/10 rounded-md p-4 mx-[-16px] group relative grid sm:grid-cols-8 sm:gap-8 md:gap-4">
             <div className="text-base text-zinc-300 font-semibold uppercase sm:col-span-2">{date}</div>
