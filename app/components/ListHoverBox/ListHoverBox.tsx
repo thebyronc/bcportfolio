@@ -1,16 +1,17 @@
-interface ListHoverBoxProps {
+import type { BaseComponentProps } from "../../types";
+
+interface ListHoverBoxProps extends BaseComponentProps {
     title?: string;
     date?: string;
     subtitle?: string;
     items?: string[];
     skills?: string[];
-    children?: React.ReactNode;
 }
 
-export default function ListHoverBox({ title, date, subtitle, items,skills,  children }: ListHoverBoxProps) {
+export default function ListHoverBox({ title, date, subtitle, items, skills, children }: ListHoverBoxProps) {
     return (
-        <div className="list-hover-box transition-all border border-transparent bg-zinc-400/0 duration-200 mb-4 hover:border-zinc-600 hover:bg-zinc-400/10 rounded-md p-4 mx-[-16px] group relative grid sm:grid-cols-8 sm:gap-8 md:gap-4">
-            <div className="text-md text-zinc-300 font-semibold uppercase sm:col-span-2">{date}</div>
+        <div className="list-hover-box transition-all border border-transparent bg-zinc-400/0 duration-200 mb-4 hover:border-zinc-400/10 hover:bg-zinc-400/10 rounded-md p-4 mx-[-16px] group relative grid sm:grid-cols-8 sm:gap-8 md:gap-4">
+            <div className="text-base text-zinc-300 font-semibold uppercase sm:col-span-2">{date}</div>
             <div className="gap-4 sm:col-span-6">
                 
                 <h2 className="text-zinc-100 font-semibold text-lg ">{title}</h2>
@@ -22,7 +23,7 @@ export default function ListHoverBox({ title, date, subtitle, items,skills,  chi
                 </ul>
                 <div className="flex flex-wrap gap-2 mt-4">
                     {skills?.map((skill, index) => (
-                        <span className="px-3 py-1 bg-volt-600/20 text-volt-200 text-sm rounded-full font-medium" key={index}>
+                        <span className="px-3 py-1 bg-volt-600/10 text-volt-200 text-sm rounded-full font-medium" key={index}>
                             {skill}
                         </span>
                     ))}

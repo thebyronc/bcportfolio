@@ -1,5 +1,7 @@
 # README
-Hosted [bcportfolio-9dcc7.web.app](https://bcportfolio-9dcc7.web.app/)
+Hosted on [https://byronchang.com/](https://byronchang.com/)
+
+Hello! This is my space to test out new ideas and showcase some of the things I've worked on.
 
 ## Getting Started
 
@@ -31,44 +33,32 @@ npm run build
 
 ## Deployment
 
-### Docker Deployment
+### Client Deployment
 
-To build and run using Docker:
+Merge changes in `main`
 
+### Functions Deployment
 ```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
+    firebase deploy --only functions
 ```
 
-The containerized application can be deployed to any platform that supports Docker, including:
+## Technology Stack
 
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
+### Frontend
+- **React 19.1.0** - UI framework
+- **TypeScript 5.8.3** - Type safety and development experience
+- **React Router 7.5.3** - Client-side routing and SSR
+- **Tailwind CSS 4.1.4** - Utility-first CSS framework
+- **Vite 6.3.3** - Build tool and development server
+- **Anime.js 4.0.2** - Animation library
 
-### DIY Deployment
+### Backend & Cloud
+- **Firebase Functions 6.0.1** - Serverless backend functions
+- **Firebase Hosting** - Static site hosting
+- **Firebase Admin 12.6.0** - Firebase server SDK
+- **Node.js 22** - Runtime environment
 
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
+### AI & Machine Learning
+- **Google Generative AI 0.24.1** - AI/ML capabilities
+- **Tesseract.js 6.0.1** - OCR (Optical Character Recognition) for receipt scanning
 
-Make sure to deploy the output of `npm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
-
----
-
-Built with ❤️ using React Router.

@@ -1,16 +1,17 @@
 import { Link, useLocation } from "react-router";
+import type { BaseComponentProps } from "../../../../types";
+
+interface NavLinkProps extends BaseComponentProps {
+  href: string;
+  onClick?: () => void;
+}
 
 export function NavLink({
   href,
   children,
   className,
   onClick,
-}: {
-  href: string;
-  children: React.ReactNode;
-  className?: string;
-  onClick?: () => void;
-}) {
+}: NavLinkProps) {
   const location = useLocation();
   const isActive = location.pathname === href;
 

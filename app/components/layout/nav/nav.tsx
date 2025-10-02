@@ -1,9 +1,14 @@
 import { NavLink } from "./components/NavLink";
 import { useState, useEffect, useRef } from "react";
 import type { MouseEvent } from "react";
-import byron from "../assets/BYRON.png";
+import logo from "../../../assets/images/logos/logo.png";
+import type { NavItemProps } from "../../../types";
 
-const links = [
+interface NavProps {
+  className?: string;
+}
+
+const links: NavItemProps[] = [
   { href: "/", label: "Home" },
   {
     href: "/projects",
@@ -17,7 +22,7 @@ const links = [
   }
 ];
 
-export function Nav() {
+export function Nav({ className }: NavProps = {}) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
@@ -79,11 +84,11 @@ export function Nav() {
 
   return (
     <nav className="absolute z-10 w-full p-2">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center">
+      <div className="flex flex-start justify-between">
+        <div className="flex flex-start">
           <img 
-            src={byron} 
-            alt="BYRON Logo" 
+            src={logo} 
+            alt="Byron Logo" 
             className="mr-4 h-8 w-auto object-contain" 
             style={{ minWidth: 'auto', maxWidth: 'none' }}
           />
@@ -106,7 +111,7 @@ export function Nav() {
                     {link.label}
                   </button>
                   {isDropdownOpen && (
-                    <div className="ring-opacity-5 absolute right-0 mt-2 w-48 rounded-md bg-white shadow-lg ring-1 ring-zinc-600 dark:bg-neutral-800">
+                    <div className="ring-opacity-5 absolute right-0 mt-2 w-48 rounded-md bg-white shadow-lg ring-1 ring-zinc-600 dark:bg-zinc-800">
                       <div className="py-1" role="menu">
                         <ul>
                           {link.children.map((childLink) => (

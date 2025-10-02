@@ -1,6 +1,7 @@
 import React from "react";
+import type { BaseComponentProps } from "../../types";
 
-interface ConfirmPopupProps {
+interface ConfirmPopupProps extends BaseComponentProps {
   open: boolean;
   title?: string;
   message: string;

@@ -1,8 +1,6 @@
 import "./home.css";
 import ListHoverBox from "../../components/ListHoverBox/ListHoverBox";
-import LinkedInIcon from "../../assets/LinkedInIcon";
-import GitHubIcon from "../../assets/GitHubIcon";
-import GmailIcon from "../../assets/GmailIcon";
+import { LinkedInIcon, GitHubIcon, GmailIcon } from "../../assets";
 import SocialLink from "../../components/SocialLink";
 import { useEffect, useState } from "react";
 
@@ -23,7 +21,7 @@ export default function Home() {
             <div 
                 className="spotlight-bg fixed inset-0 pointer-events-none z-0"
                 style={{
-                    background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(120, 119, 198, 0.15), transparent 40%)`
+                    background: `radial-gradient(800px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(120, 119, 198, 0.15), transparent 40%)`
                 }}
             />
             {/* Content */}
@@ -32,7 +30,7 @@ export default function Home() {
                 <div className="px-4 lg:col-span-3 xl:col-span-3">
                     <header className="sticky md:top-24 lg:top-32 lg:max-h-screen">
                         <h1 className="text-4xl font-bold text-zinc-200 mb-2">Byron Chang</h1>
-                        <h2 className="text-lg font-medium text-zinc-300 mb-4">Front End Engineer</h2>
+                        <h2 className="text-lg font-medium text-zinc-400 mb-4">Front End Engineer</h2>
                         <p className="text-zinc-400 mb-4">I am a software engineer with a passion for building user-friendly and efficient web applications.</p>
                         <div className="flex gap-4">
                             <SocialLink
