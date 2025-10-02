@@ -32,7 +32,7 @@ export default function Home() {
                 <div className="px-4 lg:col-span-3 xl:col-span-3">
                     <header className="sticky md:top-24 lg:top-32 lg:max-h-screen">
                         <h1 className="text-4xl font-bold text-zinc-200 mb-2">Byron Chang</h1>
-                        <h2 className="text-lg font-medium text-zinc-300 mb-4">Front End Engineer</h2>
+                        <h2 className="text-lg font-medium text-zinc-400 mb-4">Front End Engineer</h2>
                         <p className="text-zinc-400 mb-4">I am a software engineer with a passion for building user-friendly and efficient web applications.</p>
                         <div className="flex gap-4">
                             <SocialLink

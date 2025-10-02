@@ -106,7 +106,7 @@ export function Nav() {
                     {link.label}
                   </button>
                   {isDropdownOpen && (
-                    <div className="ring-opacity-5 absolute right-0 mt-2 w-48 rounded-md bg-white shadow-lg ring-1 ring-zinc-600 dark:bg-neutral-800">
+                    <div className="ring-opacity-5 absolute right-0 mt-2 w-48 rounded-md bg-white shadow-lg ring-1 ring-zinc-600 dark:bg-zinc-800">
                       <div className="py-1" role="menu">
                         <ul>
                           {link.children.map((childLink) => (
