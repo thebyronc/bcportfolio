@@ -10,13 +10,13 @@ interface ListHoverBoxProps extends BaseComponentProps {
 
 export default function ListHoverBox({ title, date, subtitle, items, skills, children }: ListHoverBoxProps) {
     return (
-        <div className="list-hover-box transition-all border border-transparent bg-zinc-400/0 duration-200 mb-4 hover:border-zinc-400/10 hover:bg-zinc-400/10 rounded-md p-4 mx-[-16px] group relative grid sm:grid-cols-8 sm:gap-8 md:gap-4">
-            <div className="text-base text-zinc-300 font-semibold uppercase sm:col-span-2">{date}</div>
+        <div className="list-hover-box transition-all border border-transparent bg-gray-200/0 dark:bg-zinc-400/0 duration-200 mb-4 hover:border-gray-300/20 dark:hover:border-zinc-400/10 hover:bg-gray-100/50 dark:hover:bg-zinc-400/10 rounded-md p-4 mx-[-16px] group relative grid sm:grid-cols-8 sm:gap-8 md:gap-4">
+            <div className="text-base text-gray-600 dark:text-zinc-300 font-semibold uppercase sm:col-span-2">{date}</div>
             <div className="gap-4 sm:col-span-6">
                 
-                <h2 className="text-zinc-100 font-semibold text-lg ">{title}</h2>
-                {subtitle && <h3 className="text-zinc-400 font-medium mb-2">{subtitle}</h3>}
-                <ul className="text-zinc-300">
+                <h2 className="text-gray-900 dark:text-zinc-100 font-semibold text-lg ">{title}</h2>
+                {subtitle && <h3 className="text-gray-600 dark:text-zinc-400 font-medium mb-2">{subtitle}</h3>}
+                <ul className="text-gray-700 dark:text-zinc-300">
                     {items?.map((item, index) => (
                         <li className="mb-2" key={index}>{item}</li>
                     ))}
@@ -28,7 +28,7 @@ export default function ListHoverBox({ title, date, subtitle, items, skills, chi
                         </span>
                     ))}
                 </div>
-                <p className="text-zinc-300"></p>
+                <p className="text-gray-700 dark:text-zinc-300"></p>
                 {children && <div>{children}</div>}
             </div>
         </div>
