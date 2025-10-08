@@ -1,191 +1,21 @@
-import { useState, useRef } from "react";
-import { useBillSplitter } from "../BillSplitterContext";
-import { addLineItem as addLineItemAction } from "../billSplitterActions";
-import { PhotoIcon, CloseIcon } from "~/assets";
-
-interface ExtractedItem {
-  description: string;
-  amount: number;
-  confidence: number;
-}
-
-// Helper function to convert file to base64
-const fileToBase64 = (file: File): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      const result = reader.result as string;
-      // Remove data URL prefix if present (data:image/type;base64,)
-      const base64 = result.includes(',') ? result.split(',')[1] : result;
-      resolve(base64);
-    };
-    reader.onerror = () => reject(new Error('Failed to read file'));
-    reader.readAsDataURL(file);
-  });
-};
-
-
-type InputMode = 'image' | 'text';
+import { useReceiptProcessing } from './hooks/useReceiptProcessing';
+import { InputModeToggle } from './InputModeToggle';
+import { ImageUploadSection } from './ImageUploadSection';
+import { TextInputSection } from './TextInputSection';
+import { ExtractedItemsList } from './ExtractedItemsList';
+import { JsonResponseDisplay } from './JsonResponseDisplay';
 
 export function ReceiptScanner() {
-  const { dispatch } = useBillSplitter();
-  const [isScanning, setIsScanning] = useState(false);
-  const [extractedItems, setExtractedItems] = useState<ExtractedItem[]>([]);
-  const [scanProgress, setScanProgress] = useState("");
-  const [rawText, setRawText] = useState("");
-  const [showJsonResponse, setShowJsonResponse] = useState(false);
-  const [jsonResponse, setJsonResponse] = useState<any>(null);
-  const [inputMode, setInputMode] = useState<InputMode>('image');
-  const [manualText, setManualText] = useState("");
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-
-  const scanReceipt = async (file: File) => {
-    setIsScanning(true);
-    setScanProgress("Converting image to base64...");
-    setExtractedItems([]);
-
-    try {
-      console.log('Processing file:', file);
-      
-      // Convert file to base64 on client side
-      const base64String = await fileToBase64(file);
-      
-      setScanProgress("Analyzing receipt...");
-      
-      // Call Firebase Function directly
-      const response = await fetch(`${import.meta.env.VITE_FUNCTIONS_URL}/ocr`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          base64Image: base64String,
-          mimeType: file.type || 'image/jpeg'
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      
-      if (data.error) {
-        setScanProgress(`Error: ${data.error}`);
-        setIsScanning(false);
-      } else {
-        // Ensure text is a string before setting it
-        const textValue = typeof data.text === 'string' ? data.text : String(data.text || '');
-        setRawText(textValue);
-        setJsonResponse(data);
-        setScanProgress("Processing extracted data...");
-        
-        // Convert results to our format
-        const items: ExtractedItem[] = (data.items || []).map((item: any) => ({
-          description: item.description,
-          amount: item.amount,
-          confidence: item.confidence
-        }));
-        
-        setExtractedItems(items);
-        setScanProgress(`Found ${items.length} line items`);
-        setIsScanning(false);
-      }
-
-    } catch (error) {
-      console.error("OCR Error:", error);
-      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
-      setScanProgress(`Error: ${errorMessage}`);
-      setIsScanning(false);
-    }
-  };
-
-  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file && file.type.startsWith("image/")) {
-      scanReceipt(file);
-    }
-  };
-
-  const addExtractedItem = (item: ExtractedItem, customId?: string) => {
-    const newItem = {
-      id: customId || Date.now().toString(),
-      description: item.description,
-      amount: item.amount,
-      assignedTo: [],
-    };
-    dispatch(addLineItemAction(newItem));
-  };
-
-  const addAllItems = () => {
-    const baseTime = Date.now();
-    extractedItems.forEach((item, index) => {
-      // Generate unique ID by adding index to base time
-      const uniqueId = (baseTime + index).toString();
-      addExtractedItem(item, uniqueId);
-    });
-    setExtractedItems([]);
-  };
-
-  const removeItem = (index: number) => {
-    setExtractedItems((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const processManualText = async () => {
-    if (!manualText.trim()) return;
-    
-    setIsScanning(true);
-    setScanProgress("Processing text input...");
-    setExtractedItems([]);
-    
-    try {
-      // Call Firebase Function for text processing
-      const response = await fetch(`${import.meta.env.VITE_FUNCTIONS_URL}/textProcessor`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          text: manualText
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      
-      if (data.error) {
-        setScanProgress(`Error: ${data.error}`);
-        setIsScanning(false);
-      } else {
-        // Ensure text is a string before setting it
-        const textValue = typeof data.text === 'string' ? data.text : String(data.text || '');
-        setRawText(textValue);
-        setJsonResponse(data);
-        setScanProgress("Processing extracted data...");
-        
-        // Convert results to our format
-        const items: ExtractedItem[] = (data.items || []).map((item: any) => ({
-          description: item.description,
-          amount: item.amount,
-          confidence: item.confidence
-        }));
-        
-        setExtractedItems(items);
-        setScanProgress(`Found ${items.length} line items`);
-        setIsScanning(false);
-      }
-
-    } catch (error) {
-      console.error("Text Processing Error:", error);
-      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
-      setScanProgress(`Error: ${errorMessage}`);
-      setIsScanning(false);
-    }
-  };
+  const {
+    state,
+    actions,
+    fileInputRef,
+    handleFileSelect,
+    processManualText,
+    addExtractedItem,
+    addAllItems,
+    removeItem,
+  } = useReceiptProcessing();
 
   return (
     <div className="rounded-lg bg-zinc-800 p-4 sm:p-6">
@@ -193,150 +23,44 @@ export function ReceiptScanner() {
         Receipt Scanner
       </h2>
 
-      {/* Input Mode Toggle */}
-      <div className="mb-4">
-        <div className="flex rounded-lg bg-zinc-700 p-1">
-          <button
-            onClick={() => setInputMode('image')}
-            className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
-              inputMode === 'image'
-                ? 'bg-volt-400 text-zinc-950'
-                : 'text-zinc-300 hover:text-white'
-            }`}
-          >
-            Image Upload
-          </button>
-          <button
-            onClick={() => setInputMode('text')}
-            className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
-              inputMode === 'text'
-                ? 'bg-volt-400 text-zinc-950'
-                : 'text-zinc-300 hover:text-white'
-            }`}
-          >
-            Manual Text
-          </button>
-        </div>
-      </div>
+      <InputModeToggle 
+        inputMode={state.inputMode} 
+        onModeChange={actions.setInputMode} 
+      />
 
       <div className="mb-4 space-y-3">
-        {inputMode === 'image' ? (
-          <>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleFileSelect}
-              className="hidden"
-            />
-            <button
-              onClick={() => fileInputRef.current?.click()}
-              disabled={isScanning}
-              className="bg-volt-400 hover:bg-volt-300 flex w-full items-center justify-center gap-2 rounded-md px-4 py-2 font-semibold text-zinc-950 transition-colors disabled:cursor-not-allowed disabled:bg-zinc-600"
-            >
-              {isScanning ? (
-                <>
-                  <div className="h-4 w-4 animate-spin rounded-full border-b-2 border-zinc-950"></div>
-                  Scanning...
-                </>
-              ) : (
-                <>
-                  <PhotoIcon />
-                  Upload Receipt Image
-                </>
-              )}
-            </button>
-          </>
+        {state.inputMode === 'image' ? (
+          <ImageUploadSection
+            isScanning={state.isScanning}
+            onFileSelect={handleFileSelect}
+            fileInputRef={fileInputRef}
+          />
         ) : (
-          <div className="space-y-3">
-            <textarea
-              value={manualText}
-              onChange={(e) => setManualText(e.target.value)}
-              placeholder="Paste receipt text here...&#10;Example:&#10;Coffee $3.50&#10;Sandwich $8.99&#10;Tax $1.00"
-              className="w-full rounded-md bg-zinc-700 px-3 py-2 text-white placeholder-zinc-400 focus:border-volt-400 focus:outline-none focus:ring-1 focus:ring-volt-400"
-              rows={6}
-            />
-            <button
-              onClick={processManualText}
-              disabled={!manualText.trim() || isScanning}
-              className="bg-volt-400 hover:bg-volt-300 flex w-full items-center justify-center gap-2 rounded-md px-4 py-2 font-semibold text-zinc-950 transition-colors disabled:cursor-not-allowed disabled:bg-zinc-600"
-            >
-              {isScanning ? (
-                <>
-                  <div className="h-4 w-4 animate-spin rounded-full border-b-2 border-zinc-950"></div>
-                  Processing...
-                </>
-              ) : (
-                "Extract Items from Text"
-              )}
-            </button>
-          </div>
+          <TextInputSection
+            manualText={state.manualText}
+            isScanning={state.isScanning}
+            onTextChange={actions.setManualText}
+            onProcessText={processManualText}
+          />
         )}
       </div>
 
-      {scanProgress && (
-        <div className="mb-4 text-sm text-zinc-400">{scanProgress}</div>
+      {state.scanProgress && (
+        <div className="mb-4 text-sm text-zinc-400">{state.scanProgress}</div>
       )}
 
-      {jsonResponse && (
-        <div className="mb-4">
-          <button
-            onClick={() => setShowJsonResponse(!showJsonResponse)}
-            className="text-volt-400 hover:text-volt-300 text-sm underline"
-          >
-            {showJsonResponse ? "Hide" : "Show"} JSON Response
-          </button>
-          {showJsonResponse && (
-            <div className="mt-2 max-h-64 overflow-y-auto rounded-md bg-zinc-700 p-3 text-xs text-zinc-300">
-              <pre className="whitespace-pre-wrap">{JSON.stringify(jsonResponse, null, 2)}</pre>
-            </div>
-          )}
-        </div>
-      )}
+      <JsonResponseDisplay
+        jsonResponse={state.jsonResponse}
+        showJsonResponse={state.showJsonResponse}
+        onToggleJsonResponse={() => actions.setShowJsonResponse(!state.showJsonResponse)}
+      />
 
-      {extractedItems.length > 0 && (
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-medium">Extracted Items</h3>
-            <button
-              onClick={addAllItems}
-              className="rounded-md bg-green-600 px-3 py-1 text-sm font-semibold text-white transition-colors hover:bg-green-700"
-            >
-              Add All
-            </button>
-          </div>
-
-          <div className="max-h-64 space-y-2 overflow-y-auto">
-            {extractedItems.map((item, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between rounded-md bg-zinc-700 p-3"
-              >
-                <div className="flex-1">
-                  <p className="font-medium">{item.description}</p>
-                  <p className="text-volt-400 font-semibold">
-                    ${item.amount.toFixed(2)}
-                  </p>
-                </div>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => addExtractedItem(item)}
-                    className="bg-volt-400 hover:bg-volt-300 rounded-md px-3 py-1 text-sm font-semibold text-zinc-950 transition-colors"
-                  >
-                    Add
-                  </button>
-                  <button
-                    onClick={() => removeItem(index)}
-                    className="text-zinc-300 transition-colors hover:text-white"
-                  >
-                    <CloseIcon size={16} color="currentColor" />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+      <ExtractedItemsList
+        extractedItems={state.extractedItems}
+        onAddItem={addExtractedItem}
+        onAddAllItems={addAllItems}
+        onRemoveItem={removeItem}
+      />
 
       <div className="mt-4 text-xs text-zinc-500">
         <p>Supported formats: JPEG, PNG, GIF, BMP</p>
