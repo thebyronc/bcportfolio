@@ -25,6 +25,8 @@ const fileToBase64 = (file: File): Promise<string> => {
 };
 
 
+type InputMode = 'image' | 'text';
+
 export function ReceiptScanner() {
   const { dispatch } = useBillSplitter();
   const [isScanning, setIsScanning] = useState(false);
@@ -33,6 +35,8 @@ export function ReceiptScanner() {
   const [rawText, setRawText] = useState("");
   const [showJsonResponse, setShowJsonResponse] = useState(false);
   const [jsonResponse, setJsonResponse] = useState<any>(null);
+  const [inputMode, setInputMode] = useState<InputMode>('image');
+  const [manualText, setManualText] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
 
@@ -50,7 +54,7 @@ export function ReceiptScanner() {
       setScanProgress("Analyzing receipt...");
       
       // Call Firebase Function directly
-      const response = await fetch('https://us-central1-bcportfolio-9dcc7.cloudfunctions.net/ocr', {
+      const response = await fetch(`${import.meta.env.VITE_FUNCTIONS_URL}/ocr`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -128,37 +132,146 @@ export function ReceiptScanner() {
     setExtractedItems((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const processManualText = async () => {
+    if (!manualText.trim()) return;
+    
+    setIsScanning(true);
+    setScanProgress("Processing text input...");
+    setExtractedItems([]);
+    
+    try {
+      // Call Firebase Function for text processing
+      const response = await fetch(`${import.meta.env.VITE_FUNCTIONS_URL}/textProcessor`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          text: manualText
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      if (data.error) {
+        setScanProgress(`Error: ${data.error}`);
+        setIsScanning(false);
+      } else {
+        // Ensure text is a string before setting it
+        const textValue = typeof data.text === 'string' ? data.text : String(data.text || '');
+        setRawText(textValue);
+        setJsonResponse(data);
+        setScanProgress("Processing extracted data...");
+        
+        // Convert results to our format
+        const items: ExtractedItem[] = (data.items || []).map((item: any) => ({
+          description: item.description,
+          amount: item.amount,
+          confidence: item.confidence
+        }));
+        
+        setExtractedItems(items);
+        setScanProgress(`Found ${items.length} line items`);
+        setIsScanning(false);
+      }
+
+    } catch (error) {
+      console.error("Text Processing Error:", error);
+      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+      setScanProgress(`Error: ${errorMessage}`);
+      setIsScanning(false);
+    }
+  };
+
   return (
     <div className="rounded-lg bg-zinc-800 p-4 sm:p-6">
       <h2 className="text-volt-400 mb-4 text-xl font-semibold">
         Receipt Scanner
       </h2>
 
+      {/* Input Mode Toggle */}
+      <div className="mb-4">
+        <div className="flex rounded-lg bg-zinc-700 p-1">
+          <button
+            onClick={() => setInputMode('image')}
+            className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+              inputMode === 'image'
+                ? 'bg-volt-400 text-zinc-950'
+                : 'text-zinc-300 hover:text-white'
+            }`}
+          >
+            Image Upload
+          </button>
+          <button
+            onClick={() => setInputMode('text')}
+            className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+              inputMode === 'text'
+                ? 'bg-volt-400 text-zinc-950'
+                : 'text-zinc-300 hover:text-white'
+            }`}
+          >
+            Manual Text
+          </button>
+        </div>
+      </div>
+
       <div className="mb-4 space-y-3">
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/*"
-          onChange={handleFileSelect}
-          className="hidden"
-        />
-        <button
-          onClick={() => fileInputRef.current?.click()}
-          disabled={isScanning}
-          className="bg-volt-400 hover:bg-volt-300 flex w-full items-center justify-center gap-2 rounded-md px-4 py-2 font-semibold text-zinc-950 transition-colors disabled:cursor-not-allowed disabled:bg-zinc-600"
-        >
-          {isScanning ? (
-            <>
-              <div className="h-4 w-4 animate-spin rounded-full border-b-2 border-zinc-950"></div>
-              Scanning...
-            </>
-          ) : (
-            <>
-              <PhotoIcon />
-              Upload Receipt Image
-            </>
-          )}
-        </button>
+        {inputMode === 'image' ? (
+          <>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleFileSelect}
+              className="hidden"
+            />
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isScanning}
+              className="bg-volt-400 hover:bg-volt-300 flex w-full items-center justify-center gap-2 rounded-md px-4 py-2 font-semibold text-zinc-950 transition-colors disabled:cursor-not-allowed disabled:bg-zinc-600"
+            >
+              {isScanning ? (
+                <>
+                  <div className="h-4 w-4 animate-spin rounded-full border-b-2 border-zinc-950"></div>
+                  Scanning...
+                </>
+              ) : (
+                <>
+                  <PhotoIcon />
+                  Upload Receipt Image
+                </>
+              )}
+            </button>
+          </>
+        ) : (
+          <div className="space-y-3">
+            <textarea
+              value={manualText}
+              onChange={(e) => setManualText(e.target.value)}
+              placeholder="Paste receipt text here...&#10;Example:&#10;Coffee $3.50&#10;Sandwich $8.99&#10;Tax $1.00"
+              className="w-full rounded-md bg-zinc-700 px-3 py-2 text-white placeholder-zinc-400 focus:border-volt-400 focus:outline-none focus:ring-1 focus:ring-volt-400"
+              rows={6}
+            />
+            <button
+              onClick={processManualText}
+              disabled={!manualText.trim() || isScanning}
+              className="bg-volt-400 hover:bg-volt-300 flex w-full items-center justify-center gap-2 rounded-md px-4 py-2 font-semibold text-zinc-950 transition-colors disabled:cursor-not-allowed disabled:bg-zinc-600"
+            >
+              {isScanning ? (
+                <>
+                  <div className="h-4 w-4 animate-spin rounded-full border-b-2 border-zinc-950"></div>
+                  Processing...
+                </>
+              ) : (
+                "Extract Items from Text"
+              )}
+            </button>
+          </div>
+        )}
       </div>
 
       {scanProgress && (

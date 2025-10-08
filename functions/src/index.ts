@@ -12,6 +12,7 @@ import {setGlobalOptions} from "firebase-functions";
 import * as logger from "firebase-functions/logger";
 import {onRequest} from "firebase-functions/https";
 import {processOcr} from "./api/ocr";
+import {processText} from "./api/textProcessor";
 import {defineSecret} from "firebase-functions/params";
 
 // Start writing functions
@@ -39,3 +40,7 @@ export const helloWorld = onRequest((request, response) => {
 export const ocr = onRequest({
   secrets: [googleApiKey],
 }, processOcr);
+
+export const textProcessor = onRequest({
+  secrets: [googleApiKey],
+}, processText);
