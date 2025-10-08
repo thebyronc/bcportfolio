@@ -1,10 +1,15 @@
 import type { Route } from "./+types/home";
+import { LoadingSpinner } from "../components/layout";
 
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "Chrome DevTools Configuration" },
     { name: "description", content: "Chrome DevTools Configuration" },
   ];
+}
+
+export function hydrateFallback() {
+  return <LoadingSpinner message="Loading DevTools..." />;
 }
 
 export default function DevToolsConfig() {
