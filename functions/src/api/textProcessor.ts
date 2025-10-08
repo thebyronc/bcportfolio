@@ -131,29 +131,29 @@ export async function processText(request: Request, response: Response) {
  * @return {Array} Array of extracted items
  */
 function extractItemsFromText(text: string): Array<{description: string, amount: number, confidence: number}> {
-  const lines = text.split('\n').filter(line => line.trim());
+  const lines = text.split("\n").filter((line) => line.trim());
   const items: Array<{description: string, amount: number, confidence: number}> = [];
-  
+
   lines.forEach((line, index) => {
     // Look for price patterns like $X.XX or X.XX
     const priceMatch = line.match(/\$?(\d+\.?\d*)/g);
     if (priceMatch && priceMatch.length > 0) {
       const lastPrice = priceMatch[priceMatch.length - 1];
-      const amount = parseFloat(lastPrice.replace('$', ''));
-      
+      const amount = parseFloat(lastPrice.replace("$", ""));
+
       if (!isNaN(amount) && amount > 0) {
         // Remove the price from the description
-        const description = line.replace(/\$?\d+\.?\d*/, '').trim();
+        const description = line.replace(/\$?\d+\.?\d*/, "").trim();
         if (description) {
           items.push({
             description: description || `Item ${index + 1}`,
             amount: amount,
-            confidence: 0.6 // Lower confidence for fallback parsing
+            confidence: 0.6, // Lower confidence for fallback parsing
           });
         }
       }
     }
   });
-  
+
   return items;
 }
