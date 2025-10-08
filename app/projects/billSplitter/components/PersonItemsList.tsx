@@ -49,14 +49,14 @@ const PersonItemsList: React.FC<PersonItemsListProps> = ({
         {personItems.map((item) => (
           <div
             key={item.id}
-            className="flex justify-between items-center py-1 px-2 bg-zinc-600 rounded text-sm"
+            className="flex items-center rounded text-sm border-b-1 border-zinc-600 gap-2"
           >
-            <div className="flex-1 mr-2">
+            <div className="flex-1 min-w-0">
               <span className="text-zinc-200 truncate block">
                 {item.description}
               </span>
             </div>
-            <span className="text-volt-400 font-medium whitespace-nowrap">
+            <span className="text-volt-400 font-medium whitespace-nowrap flex-shrink-0">
               ${item.personShare.toFixed(2)}
             </span>
           </div>
