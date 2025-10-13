@@ -3,6 +3,25 @@ import ListHoverBox from "../../components/ListHoverBox/ListHoverBox";
 import { LinkedInIcon, GitHubIcon, GmailIcon } from "../../assets";
 import SocialLink from "../../components/SocialLink";
 import { useEffect, useState } from "react";
+import { Showcase } from "../../components/Showcase/Showcase";
+import Rnd0 from "../../assets/images/projects/rnd_0.png";
+import Rnd1 from "../../assets/images/projects/rnd_1.png";
+import Bsplit0 from "../../assets/images/projects/bsplit_0.png";
+const projects = [
+    {
+        title: "Random Question Generator",
+        description: "Generate random questions for icebreakers, interviews, or fun conversations",
+        image: <img src={Rnd0} alt="Random Question Generator" />,
+        hoverImage: <img src={Rnd1} alt="Random Question Generator" />,
+    },
+    {
+        title: "Bill Splitter",
+        description: "Split bills and calculate tips with receipt scanning capabilities",
+        image: <img src={Bsplit0} alt="Bill Splitter" />,
+        hoverImage: <img src={Bsplit0} alt="Bill Splitter" />,
+    },
+
+];
 
 export default function Home() {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -88,6 +107,10 @@ export default function Home() {
                             <ListHoverBox title="Software Engineer - Ansira" subtitle="Portland, Oregon" date="2018 - 2020" skills={["Vue.js", "Angular.js", "Java/Kotlin", "PHP", "React.js"]} items={["Delivered multi-site front-end solutions using a shared template model and React-based architecture", "Streamlined onboarding with standardized Git workflows, bash environments, and SSL configurations", "Mentored interns and juniors while improving hiring assessments and documentation", "Authored client-facing documentation to clarify technical processes and reduce support escalations."]} />
                             </li>
                         </ul>
+                    </section>
+
+                    <section className="">
+                        <Showcase items={projects} title="Project Showcase" subtitle="A collection of useful web tools and utilities" />
                     </section>
 
                 </main>

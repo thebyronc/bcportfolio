@@ -1,0 +1,23 @@
+.showcase-container {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+}
+
+.showcase-text {
+    position: relative;
+    z-index: 10;
+    grid-row-start: 1;
+    grid-column-start: 1;
+    grid-row-end: -1;
+    grid-column-end: 6;
+}
+
+.showcase-image {
+    position: relative;
+    z-index: 1;
+    grid-row-start: 1;
+    grid-column-start: 3;
+    grid-row-end: -1;
+    grid-column-end: -1;
+}

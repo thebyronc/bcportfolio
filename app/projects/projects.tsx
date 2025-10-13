@@ -1,4 +1,7 @@
-import { Link } from "react-router";
+import { Showcase } from "../components/Showcase";
+import Rnd0 from "../assets/images/projects/rnd_0.png";
+import Rnd1 from "../assets/images/projects/rnd_1.png";
+
 
 export function Projects() {
   const projects = [
@@ -6,21 +9,29 @@ export function Projects() {
       title: "Random Question Generator",
       description: "Generate random questions for icebreakers, interviews, or fun conversations",
       link: "/random-question",
+      image: <img src={Rnd0} className="w-full h-full" alt="Random Question Generator" />,
+      hoverImage: <img src={Rnd1} className="w-full h-full" alt="Random Question Generator" />,
     },
     {
       title: "Text Compare Tool",
       description: "Compare two text documents and highlight differences",
       link: "/text-compare",
+      image: "/favicon.svg",
+      hoverImage: "/favicon.svg",
     },
     {
       title: "Bill Splitter",
       description: "Split bills and calculate tips with receipt scanning capabilities",
       link: "/bill-splitter",
+      image: "/favicon.svg",
+      hoverImage: "/favicon.svg",
     },
     {
       title: "Image to Base64",
       description: "Convert images to base64 format for easy embedding in web applications",
       link: "/image-to-base64",
+      image: "/favicon.svg",
+      hoverImage: "/favicon.svg",
     }
   ];
 
@@ -34,26 +45,7 @@ export function Projects() {
           </div>
         </header>
         <div className="w-full max-w-4xl px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {projects.map((project, index) => (
-              <Link
-                key={index}
-                to={project.link}
-                className="block bg-zinc-800 hover:bg-zinc-700 p-6 rounded-lg transition-colors group"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="flex-1">
-                    <h3 className="text-xl font-semibold text-white group-hover:text-blue-400 transition-colors mb-2">
-                      {project.title}
-                    </h3>
-                    <p className="text-gray-400 text-sm">
-                      {project.description}
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
+          <Showcase items={projects} />
         </div>
       </div>
     </main>

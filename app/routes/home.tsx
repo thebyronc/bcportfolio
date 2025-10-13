@@ -1,5 +1,4 @@
 import type { Route } from "./+types/home";
-import Welcome from "../pages/Welcome";
 import HomePage from "../pages/Home";
 import { LoadingSpinner } from "../components/layout";
 
