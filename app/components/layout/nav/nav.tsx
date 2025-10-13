@@ -9,7 +9,7 @@ interface NavProps {
 }
 
 const links: NavItemProps[] = [
-  { href: "/", label: "Home" },
+  { href: "/", label: "About Me" },
   {
     href: "/projects",
     label: "Projects",
