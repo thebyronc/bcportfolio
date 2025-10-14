@@ -9,18 +9,23 @@ import Rnd1 from "../../assets/images/projects/rnd_1.png";
 import Bsplit0 from "../../assets/images/projects/bsplit_0.png";
 const projects = [
     {
-        title: "Random Question Generator",
-        description: "Generate random questions for icebreakers, interviews, or fun conversations",
-        image: <img src={Rnd0} alt="Random Question Generator" />,
-        hoverImage: <img src={Rnd1} alt="Random Question Generator" />,
-    },
-    {
         title: "Bill Splitter",
-        description: "Split bills and calculate tips with receipt scanning capabilities",
+        description: "Split bills and calculate tips with receipt scanning capabilities that leverages the Gemini API for OCR and image processing.",
         image: <img src={Bsplit0} alt="Bill Splitter" />,
         hoverImage: <img src={Bsplit0} alt="Bill Splitter" />,
+        link: "/bill-splitter",
+        external: false,
+        techStack: ["React", "Node.js", "Google Functions", "Gemini API"],
     },
-
+    {
+        title: "Random Question Generator",
+        description: "Generate random questions for icebreakers, interviews, or fun conversations using the Anime.js library for smooth animations and the Tailwind CSS framework for styling.",
+        image: <img src={Rnd0} alt="Random Question Generator" />,
+        hoverImage: <img src={Rnd1} alt="Random Question Generator" />,
+        link: "/random-question",
+        external: false,
+        techStack: ["React", "Anime.js", "Tailwind CSS"],
+    },
 ];
 
 export default function Home() {

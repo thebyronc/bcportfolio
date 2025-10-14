@@ -10,6 +10,7 @@ export interface ShowcaseItem {
   image?: string | ReactNode;
   hoverImage?: string | ReactNode;
   imageAlt?: string;
+  techStack?: string[];
 }
 
 export interface ShowcaseProps extends BaseComponentProps {

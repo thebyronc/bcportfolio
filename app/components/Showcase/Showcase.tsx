@@ -8,18 +8,52 @@ export function Showcase({ items, title, subtitle, className, children }: Showca
     const content = (
       <div className="items-start gap-4 showcase-container mx-[-16px] px-4">
         
-        <div className="showcase-text bg-gray-900 p-4 rounded-md mt-4">
-            <h3 className="text-medium text-volt-400">Project Showcase</h3>
-            <h3 className="text-xl font-semibold text-white group-hover:text-volt-400 transition-colors mb-2">
-                {item.title}
+        <div className="showcase-text bg-gray-900 p-4 rounded-md mt-4 shadow-xl ">
+            <h3 className="font-mono text-medium text-volt-400">Project Showcase</h3>
+            <h3 className="text-xl font-bold text-white group-hover:text-volt-400 transition-colors mb-2">
+                {item.link ? (
+                  item.external ? (
+                    <a 
+                      href={item.link} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="hover:text-volt-400 transition-colors"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {item.title}
+                    </a>
+                  ) : (
+                    <Link 
+                      to={item.link}
+                      className="hover:text-volt-400 transition-colors"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {item.title}
+                    </Link>
+                  )
+                ) : (
+                  item.title
+                )}
             </h3>
             <p className="text-gray-600 dark:text-zinc-400 text-sm">
                 {item.description}
             </p>
+             {item.techStack && item.techStack.length > 0 && (
+                 <div className="flex flex-wrap gap-4 mt-4">
+                     {item.techStack.map((tech, techIndex) => (
+                         <span 
+                             key={techIndex}
+                             className="text-gray-400 text-sm font-mono font-medium"
+                         >
+                             {tech}
+                         </span>
+                     ))}
+                 </div>
+             )}
         </div>
 
         {item.image && (
-          <div className="showcase-image w-120 aspect-[4/3] relative overflow-hidden rounded-md border-1 border-volt-800">
+           <div className="showcase-image w-120 aspect-[4/3] relative overflow-hidden rounded-md border-1 border-zinc-700 group-hover:border-volt-800 transition-all duration-300">
             {typeof item.image === 'string' ? (
               <img
                 src={item.image}
