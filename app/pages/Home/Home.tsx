@@ -1,9 +1,10 @@
 import "./home.css";
 import ListHoverBox from "../../components/ListHoverBox/ListHoverBox";
-import { LinkedInIcon, GitHubIcon, GmailIcon } from "../../assets";
+import { LinkedInIcon, GitHubIcon, GmailIcon, CaretRightIcon } from "../../assets";
 import SocialLink from "../../components/SocialLink";
 import { useEffect, useState } from "react";
 import { Showcase } from "../../components/Showcase/Showcase";
+import { useActiveSection } from "../../hooks/useActiveSection";
 import Rnd0 from "../../assets/images/projects/rnd_0.png";
 import Rnd1 from "../../assets/images/projects/rnd_1.png";
 import Bsplit0 from "../../assets/images/projects/bsplit_0.png";
@@ -42,6 +43,8 @@ const projects = [
 
 export default function Home() {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const sectionIds = ['about', 'experience', 'projects'];
+    const activeSection = useActiveSection(sectionIds);
 
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
@@ -94,10 +97,46 @@ export default function Home() {
                                 newTab={false}
                             />
                         </div>
+                        {/* anchor links */}
+                        <div className="flex gap-4 flex-col mt-16">
+                            <a 
+                                href="#about" 
+                                className={`transition-colors text-lg flex items-center gap-2 ${
+                                    activeSection === 'about' 
+                                        ? 'text-volt-400  font-semibold' 
+                                        : 'text-gray-600 dark:text-zinc-400 hover:text-volt-400'
+                                }`}
+                            >
+                                <CaretRightIcon className="w-5 h-5" />
+                                About Me
+                            </a>
+                            <a 
+                                href="#experience" 
+                                className={`transition-colors text-lg flex items-center gap-2 ${
+                                    activeSection === 'experience' 
+                                        ? 'text-volt-400 font-semibold' 
+                                        : 'text-gray-600 dark:text-zinc-400 hover:text-volt-400'
+                                }`}
+                            >
+                                <CaretRightIcon className="w-5 h-5" />
+                                Experience
+                            </a>
+                            <a 
+                                href="#projects" 
+                                className={`transition-colors text-lg flex items-center gap-2 ${
+                                    activeSection === 'projects' 
+                                        ? 'text-volt-400 font-semibold' 
+                                        : 'text-gray-600 dark:text-zinc-400 hover:text-volt-400'
+                                }`}
+                            >
+                                <CaretRightIcon className="w-5 h-5" />
+                                Projects
+                            </a>
+                        </div>
                     </header>
                 </div>
                 <main className="px-4 lg:col-span-5 xl:col-span-5">
-                    <section className="mb-16">
+                    <section className="mb-8" id="about">
                         <h2 className="text-2xl font-bold text-gray-700 dark:text-zinc-400 mb-2">About Me</h2>
                         <p className="text-gray-700 dark:text-zinc-300 mb-2">
                         Senior Front-End Engineer with 8+ years of experience building scalable React and Node.js applications across enterprise platforms.
@@ -114,7 +153,7 @@ export default function Home() {
                         </p>
                     </section>
                     
-                    <section className="">
+                    <section className="my-16" id="experience">
                         <ul>
                             <li>
                             <ListHoverBox title="Software Engineer - Nike Inc. (Contractor)" subtitle="Beaverton, Oregon" date="2020 - 2025" skills={["React.js", "TypeScript", "Redux", "C#/.Net", "Azure", "CI/CD", "PowerShell", "Figma"]} items={["Led pixel-perfect UI development for global diagnostics platforms used across Nike's internal teams", "Architected scalable front-end systems using React, TypeScript, and modular UI principles, ARIA roles, improving maintainability across multiple internal platforms.", "Developed C#/.NET backend features to efficiently shape and deliver diagnostic data, contributing to system reliability and performance.", "Deployed diagnostic services and internal tools to Azure, leveraging cloud infrastructure for scalability, security, and streamlined operations.", "Built a Node.js diagnostic server to remotely manage system health and modernize legacy workflow", "Collaborated cross-functionally with designers and PMs to deliver user-centric features with measurable impact on engagement and retention", "Spearheaded DX initiatives including GitHub Actions pipelines and OAuth integrations, reducing deployment friction and onboarding time."]} />
@@ -126,7 +165,7 @@ export default function Home() {
                         </ul>
                     </section>
 
-                    <section className="">
+                    <section className="my-16" id="projects">
                         <Showcase items={projects} title="Project Showcase" subtitle="A collection of useful web tools and utilities" />
                     </section>
 

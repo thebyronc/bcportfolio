@@ -14,9 +14,9 @@ const links: NavItemProps[] = [
     href: "/projects",
     label: "Projects",
     children: [
+      { href: "/bill-splitter", label: "Bill Splitter" },
       { href: "/random-question", label: "Random Question" },
       { href: "/text-compare", label: "Text Compare" },
-      { href: "/bill-splitter", label: "Bill Splitter" },
       { href: "/image-to-base64", label: "Image to Base64" },
     ],
   }
