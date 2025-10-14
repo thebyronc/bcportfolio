@@ -7,6 +7,9 @@ import { Showcase } from "../../components/Showcase/Showcase";
 import Rnd0 from "../../assets/images/projects/rnd_0.png";
 import Rnd1 from "../../assets/images/projects/rnd_1.png";
 import Bsplit0 from "../../assets/images/projects/bsplit_0.png";
+import Tcompare0 from "../../assets/images/projects/txt_0.png";
+import Tcompare1 from "../../assets/images/projects/txt_1.png";
+
 const projects = [
     {
         title: "Bill Splitter",
@@ -19,13 +22,22 @@ const projects = [
     },
     {
         title: "Random Question Generator",
-        description: "Generate random questions for icebreakers, interviews, or fun conversations using the Anime.js library for smooth animations and the Tailwind CSS framework for styling.",
+        description: "Generate random questions for icebreakers, interviews, or fun conversations using Anime.js for animations.",
         image: <img src={Rnd0} alt="Random Question Generator" />,
         hoverImage: <img src={Rnd1} alt="Random Question Generator" />,
         link: "/random-question",
         external: false,
         techStack: ["React", "Anime.js", "Tailwind CSS"],
     },
+    {
+        title: "Text Compare Tool",
+        description: "Compare two text documents and highlight differences using diff.js.",
+        image: <img src={Tcompare0} alt="Text Compare Tool" />,
+        hoverImage: <img src={Tcompare1} alt="Text Compare Tool" />,
+        link: "/text-compare",
+        external: false,
+        techStack: ["React", "diff.js", "Tailwind CSS"],
+    }
 ];
 
 export default function Home() {

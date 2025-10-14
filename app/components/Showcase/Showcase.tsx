@@ -53,7 +53,7 @@ export function Showcase({ items, title, subtitle, className, children }: Showca
         </div>
 
         {item.image && (
-           <div className="showcase-image w-120 aspect-[4/3] relative overflow-hidden rounded-md border-1 border-zinc-700 group-hover:border-volt-800 transition-all duration-300">
+           <div className="showcase-image aspect-[4/3] relative overflow-hidden rounded-md border-1 border-zinc-700 group-hover:border-volt-800 transition-all duration-300">
             {typeof item.image === 'string' ? (
               <img
                 src={item.image}
