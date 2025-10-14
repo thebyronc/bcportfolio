@@ -1,4 +1,5 @@
 // Icon Components
+export { default as CaretRightIcon } from './CaretRightIcon';
 export { default as CloseIcon } from './CloseIcon';
 export { default as ContentCopyIcon } from './ContentCopyIcon';
 export { default as GitHubIcon } from './GitHubIcon';
