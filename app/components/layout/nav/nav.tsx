@@ -111,14 +111,14 @@ export function Nav({ className }: NavProps = {}) {
                     {link.label}
                   </button>
                   {isDropdownOpen && (
-                    <div className="ring-opacity-5 absolute right-0 mt-2 w-48 rounded-md bg-white shadow-lg ring-1 ring-zinc-600 dark:bg-zinc-800">
+                    <div className="ring-opacity-5 absolute right-0 mt-2 w-48 rounded-md bg-zinc-800 shadow-lg ring-1 ring-zinc-600">
                       <div className="py-1" role="menu">
                         <ul>
                           {link.children.map((childLink) => (
                             <NavLink
                               key={childLink.href}
                               href={childLink.href}
-                              className="block px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100 dark:text-neutral-200 dark:hover:bg-neutral-700"
+                              className="block px-4 py-2 text-sm text-neutral-200 hover:bg-neutral-700"
                               onClick={() => setIsDropdownOpen(false)}
                             >
                               {childLink.label}
@@ -144,7 +144,7 @@ export function Nav({ className }: NavProps = {}) {
       {isMobileMenuOpen && (
         <div 
           ref={mobileMenuRef}
-          className="md:hidden absolute top-full left-0 right-0 bg-white dark:bg-neutral-800 shadow-lg border-t border-b border-neutral-200 dark:border-neutral-700"
+          className="md:hidden absolute top-full left-0 right-0 bg-neutral-800 shadow-lg border-t border-b border-neutral-700"
         >
           <div className="px-4 py-2 space-y-1">
             {links.map((link) => (
@@ -153,7 +153,7 @@ export function Nav({ className }: NavProps = {}) {
                   <div>
                     <button
                       onClick={() => setIsMobileDropdownOpen(!isMobileDropdownOpen)}
-                      className="w-full text-left px-4 py-3 text-lg font-semibold text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-md transition-colors"
+                      className="w-full text-left px-4 py-3 text-lg font-semibold text-neutral-200 hover:bg-neutral-700 rounded-md transition-colors"
                     >
                       {link.label}
                     </button>
@@ -163,7 +163,7 @@ export function Nav({ className }: NavProps = {}) {
                           <NavLink
                             key={childLink.href}
                             href={childLink.href}
-                            className="block px-4 py-2 text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-md transition-colors"
+                            className="block px-4 py-2 text-neutral-300 hover:bg-neutral-700 rounded-md transition-colors"
                             onClick={() => {
                               setIsMobileMenuOpen(false);
                               setIsMobileDropdownOpen(false);
@@ -178,7 +178,7 @@ export function Nav({ className }: NavProps = {}) {
                 ) : (
                   <NavLink
                     href={link.href}
-                    className="block px-4 py-3 text-lg font-semibold text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-md transition-colors"
+                    className="block px-4 py-3 text-lg font-semibold text-neutral-200 hover:bg-neutral-700 rounded-md transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {link.label}

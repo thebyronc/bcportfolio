@@ -7,18 +7,18 @@ export default function Welcome() {
           <div className="w-[500px] max-w-[100vw] p-4"></div>
         </header>
         <div className="w-full max-w-[800px] space-y-6 px-4">
-          <nav className="space-y-4 rounded-3xl border border-gray-200 p-6 dark:border-gray-700">
-            <p className="text-center text-2xl leading-6 font-bold text-gray-700 dark:text-gray-200">
+          <nav className="space-y-4 rounded-3xl border border-zinc-700 p-6">
+            <p className="text-center text-2xl leading-6 font-bold text-zinc-200">
               BYRON CHANG
             </p>
 
             {/* Contact Information */}
-            <div className="text-center text-gray-600 dark:text-gray-300">
+            <div className="text-center text-zinc-300">
               <p>
                 971-777-0013 | thebyronc@gmail.com |{" "}
                 <a
                   href="http://www.linkedin.com/in/byronchang"
-                  className="text-blue-600 hover:underline dark:text-blue-400"
+                  className="text-blue-400 hover:underline"
                 >
                   LinkedIn
                 </a>
@@ -26,37 +26,37 @@ export default function Welcome() {
             </div>
 
             {/* Title */}
-            <div className="text-center font-semibold text-gray-700 dark:text-gray-200">
+            <div className="text-center font-semibold text-zinc-200">
               SOFTWARE ENGINEER
             </div>
-            <div className="text-center text-sm text-gray-600 dark:text-gray-300">
+            <div className="text-center text-sm text-zinc-300">
               React & TypeScript Focus | Developer Experience Advocate | Mission-Driven Builder
             </div>
 
             {/* Summary */}
             <section className="mt-8">
-              <h2 className="mb-2 text-xl font-semibold text-gray-800 dark:text-gray-100">
+              <h2 className="mb-2 text-xl font-semibold text-zinc-100">
                 Professional Summary
               </h2>
-              <p className="text-gray-600 dark:text-gray-300">
+              <p className="text-zinc-300">
                 Creative and impact-oriented engineer with 8+ years of experience crafting scalable web platforms and internal tools. Expert in React, TypeScript, and developer experience strategy. Passionate about developer experience, mentorship, and building polished interfaces that empower users and teams alike.
               </p>
             </section>
 
             {/* Experience */}
             <section className="mt-8">
-              <h2 className="mb-2 text-xl font-semibold text-gray-800 dark:text-gray-100">
+              <h2 className="mb-2 text-xl font-semibold text-zinc-100">
                 Work Experience
               </h2>
               <div className="space-y-6">
                 <div>
-                  <h3 className="font-medium text-gray-700 dark:text-gray-200">
+                  <h3 className="font-medium text-zinc-200">
                     Software Engineer III (Contractor)
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-300">
+                  <p className="text-zinc-300">
                     Nike, Inc. • Portland, Oregon • March 2020 – June 2025
                   </p>
-                  <ul className="mt-2 list-inside list-disc space-y-1 text-gray-600 dark:text-gray-300">
+                  <ul className="mt-2 list-inside list-disc space-y-1 text-zinc-300">
                     <li>
                       Led pixel-perfect UI development for global diagnostics platforms used across Nike's internal teams
                     </li>
@@ -84,13 +84,13 @@ export default function Welcome() {
                   </ul>
                 </div>
                 <div>
-                  <h3 className="font-medium text-gray-700 dark:text-gray-200">
+                  <h3 className="font-medium text-zinc-200">
                     Software Engineer
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-300">
+                  <p className="text-zinc-300">
                     Ansira • Portland, Oregon • August 2018 – March 2020
                   </p>
-                  <ul className="mt-2 list-inside list-disc space-y-1 text-gray-600 dark:text-gray-300">
+                  <ul className="mt-2 list-inside list-disc space-y-1 text-zinc-300">
                     <li>
                       Delivered multi-site front-end solutions using a shared template model and React-based architecture.
                     </li>
@@ -110,15 +110,15 @@ export default function Welcome() {
 
             {/* Education */}
             <section className="mt-8">
-              <h2 className="mb-2 text-xl font-semibold text-gray-800 dark:text-gray-100">
+              <h2 className="mb-2 text-xl font-semibold text-zinc-100">
                 Education
               </h2>
               <div className="space-y-4">
                 <div>
-                  <h3 className="font-medium text-gray-700 dark:text-gray-200">
+                  <h3 className="font-medium text-zinc-200">
                     Bachelor of Science in Arts
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-300">
+                  <p className="text-zinc-300">
                     University of Oregon (Multimedia & Technical Design)
                   </p>
                 </div>
@@ -127,103 +127,103 @@ export default function Welcome() {
 
             {/* Skills */}
             <section className="mt-8">
-              <h2 className="mb-2 text-xl font-semibold text-gray-800 dark:text-gray-100">
+              <h2 className="mb-2 text-xl font-semibold text-zinc-100">
                 Technical Skills
               </h2>
               <div className="space-y-4">
                 <div>
-                  <h3 className="mb-2 font-medium text-gray-700 dark:text-gray-200">
+                  <h3 className="mb-2 font-medium text-zinc-200">
                     Frontend
                   </h3>
                   <div className="flex flex-wrap gap-2">
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                    <span className="rounded-full bg-zinc-700 px-3 py-1 text-zinc-200">
                       React
                     </span>
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                    <span className="rounded-full bg-zinc-700 px-3 py-1 text-zinc-200">
                       TypeScript
                     </span>
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                    <span className="rounded-full bg-zinc-700 px-3 py-1 text-zinc-200">
                       HTML5
                     </span>
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                    <span className="rounded-full bg-zinc-700 px-3 py-1 text-zinc-200">
                       CSS3
                     </span>
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                    <span className="rounded-full bg-zinc-700 px-3 py-1 text-zinc-200">
                       Redux
                     </span>
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                    <span className="rounded-full bg-zinc-700 px-3 py-1 text-zinc-200">
                       Figma
                     </span>
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                    <span className="rounded-full bg-zinc-700 px-3 py-1 text-zinc-200">
                       AngularJS
                     </span>
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                    <span className="rounded-full bg-zinc-700 px-3 py-1 text-zinc-200">
                       Jest
                     </span>
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                    <span className="rounded-full bg-zinc-700 px-3 py-1 text-zinc-200">
                       TailwindCSS
                     </span>
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                    <span className="rounded-full bg-zinc-700 px-3 py-1 text-zinc-200">
                       Next.js
                     </span>
                   </div>
                 </div>
                 <div>
-                  <h3 className="mb-2 font-medium text-gray-700 dark:text-gray-200">
+                  <h3 className="mb-2 font-medium text-zinc-200">
                     Backend & Scripting
                   </h3>
                   <div className="flex flex-wrap gap-2">
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                    <span className="rounded-full bg-zinc-700 px-3 py-1 text-zinc-200">
                       Node.js
                     </span>
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                    <span className="rounded-full bg-zinc-700 px-3 py-1 text-zinc-200">
                       C#
                     </span>
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                    <span className="rounded-full bg-zinc-700 px-3 py-1 text-zinc-200">
                       .NET
                     </span>
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                    <span className="rounded-full bg-zinc-700 px-3 py-1 text-zinc-200">
                       Bash
                     </span>
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                    <span className="rounded-full bg-zinc-700 px-3 py-1 text-zinc-200">
                       PowerShell
                     </span>
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                    <span className="rounded-full bg-zinc-700 px-3 py-1 text-zinc-200">
                       SQL/NoSQL
                     </span>
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                    <span className="rounded-full bg-zinc-700 px-3 py-1 text-zinc-200">
                       Azure
                     </span>
                   </div>
                 </div>
                 <div>
-                  <h3 className="mb-2 font-medium text-gray-700 dark:text-gray-200">
+                  <h3 className="mb-2 font-medium text-zinc-200">
                     Dev Practices
                   </h3>
                   <div className="flex flex-wrap gap-2">
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                    <span className="rounded-full bg-zinc-700 px-3 py-1 text-zinc-200">
                       CI/CD
                     </span>
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                    <span className="rounded-full bg-zinc-700 px-3 py-1 text-zinc-200">
                       GitHub Actions
                     </span>
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                    <span className="rounded-full bg-zinc-700 px-3 py-1 text-zinc-200">
                       SOLID
                     </span>
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                    <span className="rounded-full bg-zinc-700 px-3 py-1 text-zinc-200">
                       Agile/Scrum
                     </span>
                   </div>
                 </div>
                 <div>
-                  <h3 className="mb-2 font-medium text-gray-700 dark:text-gray-200">
+                  <h3 className="mb-2 font-medium text-zinc-200">
                     Monitoring & Optimization
                   </h3>
                   <div className="flex flex-wrap gap-2">
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                    <span className="rounded-full bg-zinc-700 px-3 py-1 text-zinc-200">
                       System diagnostics tooling
                     </span>
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                    <span className="rounded-full bg-zinc-700 px-3 py-1 text-zinc-200">
                       Performance troubleshooting
                     </span>
                   </div>

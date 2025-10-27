@@ -6,9 +6,9 @@ import "./showcase.css";
 export function Showcase({ items, title, subtitle, className, children }: ShowcaseProps) {
   const renderItem = (item: ShowcaseItem, index: number) => {
     const content = (
-      <div className="items-start gap-4 showcase-container mx-[-16px] px-4">
+      <div className="items-start gap-4 showcase-container mx-[-16px] px-4 ">
         
-        <div className="showcase-text bg-gray-900 p-4 rounded-md mt-4 shadow-xl ">
+        <div className="showcase-text bg-gray-800 p-4 rounded-md mt-4 shadow-xl shadow-gray-400/10">
             <h3 className="font-mono text-medium text-volt-400">Project Showcase</h3>
             <h3 className="text-xl font-bold text-white group-hover:text-volt-400 transition-colors mb-2">
                 {item.link ? (
@@ -35,7 +35,7 @@ export function Showcase({ items, title, subtitle, className, children }: Showca
                   item.title
                 )}
             </h3>
-            <p className="text-gray-600 dark:text-zinc-400 text-sm">
+            <p className="text-zinc-400 text-sm">
                 {item.description}
             </p>
              {item.techStack && item.techStack.length > 0 && (
@@ -136,12 +136,12 @@ export function Showcase({ items, title, subtitle, className, children }: Showca
       {(title || subtitle) && (
         <header className="mb-8">
           {title && (
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-zinc-100 mb-2">
+            <h2 className="text-2xl font-bold text-zinc-100 mb-2">
               {title}
             </h2>
           )}
           {subtitle && (
-            <p className="text-gray-600 dark:text-zinc-400">
+            <p className="text-zinc-400">
               {subtitle}
             </p>
           )}
