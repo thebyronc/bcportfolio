@@ -35,7 +35,7 @@ export function Showcase({ items, title, subtitle, className, children }: Showca
                   item.title
                 )}
             </h3>
-            <p className="text-gray-600 dark:text-zinc-400 text-sm">
+            <p className="text-zinc-400 text-sm">
                 {item.description}
             </p>
              {item.techStack && item.techStack.length > 0 && (
@@ -136,12 +136,12 @@ export function Showcase({ items, title, subtitle, className, children }: Showca
       {(title || subtitle) && (
         <header className="mb-8">
           {title && (
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-zinc-100 mb-2">
+            <h2 className="text-2xl font-bold text-zinc-100 mb-2">
               {title}
             </h2>
           )}
           {subtitle && (
-            <p className="text-gray-600 dark:text-zinc-400">
+            <p className="text-zinc-400">
               {subtitle}
             </p>
           )}

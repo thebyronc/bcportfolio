@@ -59,14 +59,14 @@ export default function Home() {
             {/* Spotlight background */}
             {/* Dark mode spotlight */}
             <div 
-                className="spotlight-bg fixed inset-0 pointer-events-none z-0 dark:block hidden"
+                className="spotlight-bg fixed inset-0 pointer-events-none z-0 block"
                 style={{
                     background: `radial-gradient(1200px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(120, 119, 198, 0.15), transparent 40%)`
                 }}
             />
             {/* Light mode spotlight */}
             <div 
-                className="spotlight-bg fixed inset-0 pointer-events-none z-0 block dark:hidden"
+                className="spotlight-bg fixed inset-0 pointer-events-none z-0 hidden"
                 style={{
                     background: `radial-gradient(1200px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(59, 130, 246, 0.08), transparent 40%)`
                 }}
@@ -76,9 +76,9 @@ export default function Home() {
             <div className="max-w-screen-xl w-full grid grid-cols-1 lg:grid-cols-8 gap-12">
                 <div className="px-4 lg:col-span-3 xl:col-span-3">
                     <header className="sticky md:top-24 lg:top-32 lg:max-h-screen">
-                        <h1 className="text-4xl font-bold text-gray-900 dark:text-zinc-200 mb-2">Byron Chang</h1>
-                        <h2 className="text-lg font-medium text-gray-600 dark:text-zinc-400 mb-4">Front End Engineer</h2>
-                        <p className="text-gray-600 dark:text-zinc-400 mb-4">I am a software engineer with a passion for building user-friendly and efficient web applications.</p>
+                        <h1 className="text-4xl font-bold text-zinc-200 mb-2">Byron Chang</h1>
+                        <h2 className="text-lg font-medium text-zinc-400 mb-4">Front End Engineer</h2>
+                        <p className="text-zinc-400 mb-4">I am a software engineer with a passion for building user-friendly and efficient web applications.</p>
                         <div className="flex gap-4">
                             <SocialLink
                                 href="https://www.linkedin.com/in/byronchang"
@@ -104,7 +104,7 @@ export default function Home() {
                                 className={`transition-colors text-lg flex items-center gap-2 ${
                                     activeSection === 'about' 
                                         ? 'text-volt-400  font-semibold' 
-                                        : 'text-gray-600 dark:text-zinc-400 hover:text-volt-400'
+                                        : 'text-zinc-400 hover:text-volt-400'
                                 }`}
                             >
                                 <CaretRightIcon className="w-5 h-5" />
@@ -115,7 +115,7 @@ export default function Home() {
                                 className={`transition-colors text-lg flex items-center gap-2 ${
                                     activeSection === 'experience' 
                                         ? 'text-volt-400 font-semibold' 
-                                        : 'text-gray-600 dark:text-zinc-400 hover:text-volt-400'
+                                        : 'text-zinc-400 hover:text-volt-400'
                                 }`}
                             >
                                 <CaretRightIcon className="w-5 h-5" />
@@ -126,7 +126,7 @@ export default function Home() {
                                 className={`transition-colors text-lg flex items-center gap-2 ${
                                     activeSection === 'projects' 
                                         ? 'text-volt-400 font-semibold' 
-                                        : 'text-gray-600 dark:text-zinc-400 hover:text-volt-400'
+                                        : 'text-zinc-400 hover:text-volt-400'
                                 }`}
                             >
                                 <CaretRightIcon className="w-5 h-5" />
@@ -137,18 +137,18 @@ export default function Home() {
                 </div>
                 <main className="px-4 lg:col-span-5 xl:col-span-5">
                     <section className="mb-8" id="about">
-                        <h2 className="text-2xl font-bold text-gray-700 dark:text-zinc-400 mb-2">About Me</h2>
-                        <p className="text-gray-700 dark:text-zinc-300 mb-2">
+                        <h2 className="text-2xl font-bold text-zinc-400 mb-2">About Me</h2>
+                        <p className="text-zinc-300 mb-2">
                         Senior Front-End Engineer with 8+ years of experience building scalable React and Node.js applications across enterprise platforms.
                             
                         </p>
-                        <p className="text-gray-700 dark:text-zinc-300 mb-2">
+                        <p className="text-zinc-300 mb-2">
                         I'm committed to crafting interfaces that empower users through accessible design and robust engineering.  
                         </p>
-                        <p className="text-gray-700 dark:text-zinc-300 mb-2">
+                        <p className="text-zinc-300 mb-2">
                             Expert in TypeScript, semantic HTML/CSS, using automation tools to streamline workflows.
                         </p>
-                        <p className="text-gray-700 dark:text-zinc-300 mb-2">
+                        <p className="text-zinc-300 mb-2">
                         Led UI development at Nike for global diagnostics platforms, architecting modular systems and deploying to Azure. Passionate about developer experience, testing rigor, and secure, maintainable code. Skilled in CI/CD pipelines, OAuth, and cross-functional collaboration.  
                         </p>
                     </section>
