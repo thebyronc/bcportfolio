@@ -8,7 +8,7 @@ export function Showcase({ items, title, subtitle, className, children }: Showca
     const content = (
       <div className="items-start gap-4 showcase-container mx-[-16px] px-4 ">
         
-        <div className="showcase-text bg-gray-900 p-4 rounded-md mt-4 shadow-xl shadow-gray-300/10">
+        <div className="showcase-text bg-gray-800 p-4 rounded-md mt-4 shadow-xl shadow-gray-400/10">
             <h3 className="font-mono text-medium text-volt-400">Project Showcase</h3>
             <h3 className="text-xl font-bold text-white group-hover:text-volt-400 transition-colors mb-2">
                 {item.link ? (
