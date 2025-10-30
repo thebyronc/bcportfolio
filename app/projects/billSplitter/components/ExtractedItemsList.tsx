@@ -1,4 +1,5 @@
 import { CloseIcon } from "~/assets";
+import { useState } from "react";
 import type { ExtractedItem } from './types/receiptScanner';
 
 interface ExtractedItemsListProps {
@@ -14,6 +15,10 @@ export function ExtractedItemsList({
   onAddAllItems, 
   onRemoveItem 
 }: ExtractedItemsListProps) {
+  const [addedItemKeys, setAddedItemKeys] = useState<Set<string>>(new Set());
+
+  const getItemKey = (item: ExtractedItem) => `${item.description}|${item.amount}`;
+
   if (extractedItems.length === 0) return null;
 
   return (
@@ -29,7 +34,10 @@ export function ExtractedItemsList({
       </div>
 
       <div className="max-h-64 space-y-2 overflow-y-auto">
-        {extractedItems.map((item, index) => (
+        {extractedItems.map((item, index) => {
+          const keyStr = getItemKey(item);
+          const isAdded = addedItemKeys.has(keyStr);
+          return (
           <div
             key={index}
             className="flex items-center justify-between rounded-md bg-zinc-700 p-3"
@@ -42,10 +50,27 @@ export function ExtractedItemsList({
             </div>
             <div className="flex gap-2">
               <button
-                onClick={() => onAddItem(item)}
-                className="bg-volt-400 hover:bg-volt-300 rounded-md px-3 py-1 text-sm font-semibold text-zinc-950 transition-colors"
+                onClick={() => {
+                  if (isAdded) {
+                    onRemoveItem(index);
+                    setAddedItemKeys(prev => {
+                      const next = new Set(prev);
+                      next.delete(keyStr);
+                      return next;
+                    });
+                  } else {
+                    onAddItem(item);
+                    setAddedItemKeys(prev => new Set(prev).add(keyStr));
+                  }
+                }}
+                className={
+                  (isAdded
+                    ? "bg-red-600 hover:bg-red-700 text-white"
+                    : "bg-volt-400 hover:bg-volt-300 text-zinc-950") +
+                  " rounded-md px-3 py-1 text-sm font-semibold transition-colors"
+                }
               >
-                Add
+                {isAdded ? "Remove" : "Add"}
               </button>
               <button
                 onClick={() => onRemoveItem(index)}
@@ -55,7 +80,7 @@ export function ExtractedItemsList({
               </button>
             </div>
           </div>
-        ))}
+        );})}
       </div>
     </div>
   );

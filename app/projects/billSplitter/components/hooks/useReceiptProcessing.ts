@@ -1,7 +1,8 @@
 import { useState, useRef } from 'react';
 import { useBillSplitter } from '../../BillSplitterContext';
 import { addLineItem as addLineItemAction } from '../../billSplitterActions';
-import { fileToBase64, extractItemsFromText, generateItemId } from '../utils/receiptUtils';
+import { fileToBase64, extractItemsFromText, generateItemId, extractTipAndTaxFromText } from '../utils/receiptUtils';
+import { setTipAmount as setTipAmountAction, setTaxAmount as setTaxAmountAction } from '../../billSplitterActions';
 import type { ExtractedItem, ReceiptProcessingState, ReceiptProcessingActions } from '../types/receiptScanner';
 
 export function useReceiptProcessing() {
@@ -44,6 +45,7 @@ export function useReceiptProcessing() {
       actions.setScanProgress("Analyzing receipt...");
       
       // Call Firebase Function directly
+      
       const response = await fetch(`${import.meta.env.VITE_FUNCTIONS_URL}/ocr`, {
         method: 'POST',
         headers: {
@@ -79,6 +81,14 @@ export function useReceiptProcessing() {
         }));
         
         actions.setExtractedItems(items);
+        // Auto-detect tip and tax from the raw text when present
+        const { tipAmount, taxAmount } = extractTipAndTaxFromText(textValue);
+        if (typeof tipAmount === 'number' && tipAmount > 0) {
+          dispatch(setTipAmountAction(tipAmount));
+        }
+        if (typeof taxAmount === 'number' && taxAmount > 0) {
+          dispatch(setTaxAmountAction(taxAmount));
+        }
         actions.setScanProgress(`Found ${items.length} line items`);
         actions.setIsScanning(false);
       }
@@ -134,6 +144,14 @@ export function useReceiptProcessing() {
         }));
         
         actions.setExtractedItems(items);
+        // Auto-detect tip and tax from the raw text when present
+        const { tipAmount, taxAmount } = extractTipAndTaxFromText(textValue);
+        if (typeof tipAmount === 'number' && tipAmount > 0) {
+          dispatch(setTipAmountAction(tipAmount));
+        }
+        if (typeof taxAmount === 'number' && taxAmount > 0) {
+          dispatch(setTaxAmountAction(taxAmount));
+        }
         actions.setScanProgress(`Found ${items.length} line items`);
         actions.setIsScanning(false);
       }
