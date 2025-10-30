@@ -54,3 +54,52 @@ export const extractItemsFromText = (text: string): ExtractedItem[] => {
 export const generateItemId = (baseTime: number, index: number): string => {
   return (baseTime + index).toString();
 };
+
+/**
+ * Extract tip and tax amounts from receipt text when present
+ */
+export const extractTipAndTaxFromText = (
+  text: string,
+): { tipAmount?: number; taxAmount?: number } => {
+  const result: { tipAmount?: number; taxAmount?: number } = {};
+  if (!text) return result;
+
+  const normalized = text.replace(/[,]/g, "");
+  const lines = normalized.split(/\r?\n/);
+
+  const moneyRegex = /\$?\s*(\d{1,4}(?:\.\d{1,2})?)/;
+
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+    if (!line) continue;
+
+    const lower = line.toLowerCase();
+    const match = line.match(moneyRegex);
+    if (!match) continue;
+
+    const amount = parseFloat(match[1]);
+    if (isNaN(amount) || amount <= 0) continue;
+
+    // Detect tip synonyms
+    if (
+      lower.includes("tip") ||
+      lower.includes("gratuity") ||
+      lower.includes("service charge")
+    ) {
+      if (result.tipAmount === undefined) {
+        result.tipAmount = amount;
+      }
+      continue;
+    }
+
+    // Detect tax
+    if (lower.includes("tax")) {
+      if (result.taxAmount === undefined) {
+        result.taxAmount = amount;
+      }
+      continue;
+    }
+  }
+
+  return result;
+};

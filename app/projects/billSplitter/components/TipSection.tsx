@@ -150,15 +150,18 @@ export function TipSection() {
         </div>
         <div className="text-volt-400 flex justify-between">
           <span>
-            Tip {state.isTipAmountMode 
-              ? `($${state.tipAmount.toFixed(2)})` 
-              : `(${state.tipPercentage}%)`
-            }:
+            {(() => {
+              const subtotal = calculations.calculateTotal();
+              const pct = state.isTipAmountMode
+                ? (subtotal > 0 ? (state.tipAmount / subtotal) * 100 : 0)
+                : state.tipPercentage;
+              return `Tip (${pct.toFixed(1)}%):`;
+            })()}
           </span>
           <span>${calculations.calculateTotalTip().toFixed(2)}</span>
         </div>
         <div className="flex justify-between border-t border-zinc-600 pt-2 font-semibold">
-          <span>Grand Total:</span>
+          <span>SubTotal + Tip:</span>
           <span className="text-volt-400">
             ${calculations.calculateGrandTotal().toFixed(2)}
           </span>
